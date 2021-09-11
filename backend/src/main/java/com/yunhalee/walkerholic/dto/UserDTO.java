@@ -40,4 +40,5 @@ public class UserDTO {
         this.level = user.getLevel().name();
         this.description = user.getDescription();
     }
+
 }

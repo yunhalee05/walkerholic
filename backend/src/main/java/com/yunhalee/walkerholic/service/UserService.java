@@ -9,7 +9,6 @@ import com.yunhalee.walkerholic.entity.User;
 import com.yunhalee.walkerholic.exception.UserEmailAlreadyExistException;
 import com.yunhalee.walkerholic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -44,6 +43,26 @@ public class UserService {
         }catch (IOException ex){
             new IOException("Could not save file : " + multipartFile.getOriginalFilename());
         }
+
+    }
+
+    private boolean isEmailUnique(Integer id, String email){
+        User existingUser = userRepository.findByEmail(email);
+
+        //존재하지 않는 이메일 선택시 true
+        if(existingUser==null){
+            return true;
+        }
+        boolean isCreatingNew = (id==null);
+
+        //이미 존재하는 이메일의 경우 회원의 신입 여부에 따라서 경우를 나눠준다.
+        if(isCreatingNew){        //새로운 가입하려는 경우
+            if(existingUser != null) return false;
+        }else{                    //기존회원의 이메일변경 확인하는 경우
+            if(existingUser.getId() != id) return false;
+        }
+
+        return true;
 
     }
 
@@ -100,24 +119,11 @@ public class UserService {
         }
     }
 
+    public UserDTO getUser(Integer id){
+        User user = userRepository.findByUserId(id);
 
-    public boolean isEmailUnique(Integer id, String email){
-        User existingUser = userRepository.findByEmail(email);
-
-        //존재하지 않는 이메일 선택시 true
-        if(existingUser==null){
-            return true;
-        }
-        boolean isCreatingNew = (id==null);
-
-        //이미 존재하는 이메일의 경우 회원의 신입 여부에 따라서 경우를 나눠준다.
-        if(isCreatingNew){        //새로운 가입하려는 경우
-            if(existingUser != null) return false;
-        }else{                    //기존회원의 이메일변경 확인하는 경우
-            if(existingUser.getId() != id) return false;
-        }
-
-        return true;
-
+        return new UserDTO(user);
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.yunhalee.walkerholic.entity;
 
 import jdk.jfr.Timestamp;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,7 +13,8 @@ import java.util.*;
 @Table(name = "orders")
 @Getter
 @Setter
-public class Order {
+@NoArgsConstructor
+public class Order extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,6 +57,6 @@ public class Order {
     private User user;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems = new ArrayList<>();
+    private Set<OrderItem> orderItems = new HashSet<>();
 
 }

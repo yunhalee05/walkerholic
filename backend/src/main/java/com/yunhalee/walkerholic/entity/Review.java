@@ -1,6 +1,7 @@
 package com.yunhalee.walkerholic.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,7 +10,8 @@ import javax.persistence.*;
 @Table(name = "review")
 @Getter
 @Setter
-public class Review {
+@NoArgsConstructor
+public class Review extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,17 +1,21 @@
 package com.yunhalee.walkerholic.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
 @Getter
 @Setter
-public class Product {
+@NoArgsConstructor
+public class Product extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +46,13 @@ public class Product {
     private User user;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<Review> reviews = new ArrayList<>();
+    private Set<Review> reviews = new HashSet<>();
+
+//    @Transient
+//    public List<String> getProductImageUrl(){
+//        List<String> productImageUrl= new ArrayList<>();
+//        this.productImages.forEach(productImage -> productImageUrl.add(productImage.getFilePath()));
+//        return productImageUrl;
+//    }
 
 }

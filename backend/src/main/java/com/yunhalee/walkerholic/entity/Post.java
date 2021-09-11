@@ -2,6 +2,7 @@ package com.yunhalee.walkerholic.entity;
 
 import jdk.jfr.Timestamp;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,7 +18,8 @@ import java.util.Set;
 @Table(name = "post")
 @Getter
 @Setter
-public class Post {
+@NoArgsConstructor
+public class Post extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,18 +31,18 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostImage> postImages = new ArrayList<>();
 
-    @CreationTimestamp
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @UpdateTimestamp
-    private LocalDateTime updatedAt = LocalDateTime.now();
+//    @CreationTimestamp
+//    private LocalDateTime createdAt = LocalDateTime.now();
+//
+//    @UpdateTimestamp
+//    private LocalDateTime updatedAt = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "post")
-    private List<LikePost> likePosts = new ArrayList<>();
+    private Set<LikePost> likePosts = new HashSet<>();
 
 
 }

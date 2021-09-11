@@ -7,9 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -36,9 +34,15 @@ public class UserController {
         return new ResponseEntity<UserDTO>(userService.saveUser(userRegisterDTO,multipartFile), HttpStatus.OK);
     }
 
-
-    @PostMapping("/user/check_email")
-    public boolean checkDuplicateEmail(@Param("id")Integer id, @Param("email")String email){
-        return userService.isEmailUnique(id, email);
+    @GetMapping("/user/{id}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable("id")String id){
+        Integer userId = Integer.parseInt(id);
+        return new ResponseEntity<UserDTO>(userService.getUser(userId), HttpStatus.OK);
     }
+
+
+//    @PostMapping("/user/check_email")
+//    public boolean checkDuplicateEmail(@Param("id")Integer id, @Param("email")String email){
+//        return userService.isEmailUnique(id, email);
+//    }
 }

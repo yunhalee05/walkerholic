@@ -1,6 +1,7 @@
 package com.yunhalee.walkerholic.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.Set;
 @Table(name = "activity")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Activity {
 
     @Id
@@ -32,9 +34,6 @@ public class Activity {
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserActivity> userActivities = new HashSet<>();
-
-    public Activity() {
-    }
 
     public Activity(String name, Integer score, String description) {
         this.name = name;

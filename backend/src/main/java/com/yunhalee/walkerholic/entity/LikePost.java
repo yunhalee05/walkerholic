@@ -2,6 +2,7 @@ package com.yunhalee.walkerholic.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,7 +11,8 @@ import javax.persistence.*;
 @Table(name = "like_post")
 @Getter
 @Setter
-public class LikePost {
+@NoArgsConstructor
+public class LikePost extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

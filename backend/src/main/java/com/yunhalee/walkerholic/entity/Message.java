@@ -2,6 +2,7 @@ package com.yunhalee.walkerholic.entity;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -14,7 +15,8 @@ import java.util.Set;
 @Table(name = "message")
 @Getter
 @Setter
-public class Message {
+@NoArgsConstructor
+public class Message extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

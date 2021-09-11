@@ -2,12 +2,14 @@ package com.yunhalee.walkerholic;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.NoSuchElementException;
 
 public class FileUploadUtils {
 
@@ -44,6 +46,18 @@ public class FileUploadUtils {
             });
         }catch(IOException ex2){
             System.out.println("Could not list directory : " + dirPath);
+        }
+    }
+
+    //폴더 삭제하기
+    public static void deleteDir(String dir){
+        Path dirPath = Paths.get(dir);
+        if(Files.exists(dirPath)){
+            try{
+                Files.delete(dirPath);
+            }catch (IOException e){
+                System.out.println("Could not delete directory : " + dir);
+            }
         }
     }
 }
