@@ -4,6 +4,8 @@ package com.yunhalee.walkerholic.security;
 
 import com.yunhalee.walkerholic.entity.User;
 import com.yunhalee.walkerholic.repository.UserRepository;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,10 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
+@RequiredArgsConstructor
 public class JwtUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepo;
+    private final UserRepository userRepo;
 
     @Override
     @Transactional
@@ -28,4 +30,6 @@ public class JwtUserDetailsService implements UserDetailsService {
 
         throw new UsernameNotFoundException("Could not find user with email : " + username);
     }
+
+
 }

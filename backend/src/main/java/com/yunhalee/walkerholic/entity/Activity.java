@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "activity")
@@ -16,31 +18,27 @@ public class Activity {
     @Column(name = "activity_id")
     private Integer id;
 
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private ActivityStatus status;
+    @Column(nullable = false)
+    private String name;
 
-    @Embedded
-    private Address from;
+    @Column(nullable = false)
+    private Integer score;
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride( name = "name" , column = @Column(name = "to_name")),
-            @AttributeOverride( name = "country", column = @Column(name = "to_country")),
-            @AttributeOverride( name = "city", column = @Column(name = "to_city")),
-            @AttributeOverride( name = "zipcode", column = @Column(name = "to_zipcode")),
-            @AttributeOverride( name = "address", column = @Column(name = "to_address")),
-            @AttributeOverride( name = "latitude", column = @Column(name = "to_latitude")),
-            @AttributeOverride( name = "longitude", column = @Column(name = "to_longitude"))
-    })
-    private Address to;
+    @Column(nullable = false)
+    private String description;
 
-    private Integer weight;
+    @Column(name = "image_url")
+    private String imageUrl;
 
-    private Integer distance;
+    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UserActivity> userActivities = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    public Activity() {
+    }
 
+    public Activity(String name, Integer score, String description) {
+        this.name = name;
+        this.score = score;
+        this.description = description;
+    }
 }

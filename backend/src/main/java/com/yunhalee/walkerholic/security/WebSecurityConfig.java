@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -60,28 +61,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors()
                 .and()
                 .csrf()
-                .disable()
+                    .disable()
                 .authorizeRequests()
-                .antMatchers("/authenticate", "/user/login","/user/check_email","/user/register","/company/companylist","/team/teamlist","/user/userlist" ,"/company/check_name","/company/save","/team/check_name","/team/save","/user/addTeam","/user/deleteTeam","/team/delete")
-                .permitAll()
-                .antMatchers( ).hasAuthority("Admin")
-                .antMatchers("/user/{id}", "/user/save").hasAnyAuthority("Member", "Leader", "Admin","CEO")
+                    .antMatchers("/authenticate", "/signin","/signup","/user/check_email","/user/register","/company/companylist","/team/teamlist","/user/userlist" ,"/company/check_name","/company/save","/team/check_name","/team/save","/user/addTeam","/user/deleteTeam","/team/delete")
+                    .permitAll()
                 .anyRequest()
-                .authenticated()
+                    .authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .formLogin()
-                .disable();
+                    .formLogin()
+                    .disable();
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/images/**", "/js/**","/webjars/**");
-//    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/profileUploads/**","/messageUploads/**", "/js/**","/webjars/**");
+    }
 }
