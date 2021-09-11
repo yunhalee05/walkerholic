@@ -1,8 +1,7 @@
 package com.yunhalee.walkerholic;
 
-import com.yunhalee.walkerholic.entity.Product;
-import com.yunhalee.walkerholic.repository.ProductRepository;
-import com.yunhalee.walkerholic.repository.UserRepository;
+import com.yunhalee.walkerholic.entity.Post;
+import com.yunhalee.walkerholic.repository.PostRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,23 +13,20 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-
 @Rollback(false)
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @Transactional
-public class ProductRepositoryTests {
+public class PostRepositoryTests {
 
     @Autowired
-    private ProductRepository productRepository;
-
+    private PostRepository postRepository;
 
     @Test
-    public void testGetProductById(){
+    public void testGetPostById(){
         Integer id = 1;
-        Product product = productRepository.findByProductId(id);
-
-        assertThat(product.getUser().getFirstname(), is(equalTo("lee")));
+        Post post = postRepository.findByPostId(id);
+        assertThat(post.getContent(), is(equalTo("first post")));
 
     }
 }

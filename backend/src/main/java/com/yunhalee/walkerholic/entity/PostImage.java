@@ -1,6 +1,7 @@
 package com.yunhalee.walkerholic.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "post_image")
 @Getter
 @Setter
+@NoArgsConstructor
 public class PostImage {
 
     @Id
