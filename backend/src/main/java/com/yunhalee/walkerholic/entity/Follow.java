@@ -2,6 +2,7 @@ package com.yunhalee.walkerholic.entity;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @Table(name = "follow")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Follow {
 
     @Id
@@ -24,4 +26,14 @@ public class Follow {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "to_user_id")
     private User toUser;
+
+    //비지니스 로직
+    public static Follow follow(User fromUser, User toUser){
+        Follow follow = new Follow();
+        follow.setFromUser(fromUser);
+        follow.setToUser(toUser);
+        return follow;
+    }
+
+
 }

@@ -81,4 +81,6 @@ public class User {
     public String getFullname(){
         return this.firstname+this.lastname;
     }
+
+
 }

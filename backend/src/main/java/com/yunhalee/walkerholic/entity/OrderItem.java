@@ -1,6 +1,7 @@
 package com.yunhalee.walkerholic.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "order_item")
 @Getter
 @Setter
+@NoArgsConstructor
 public class OrderItem {
 
     @Id
@@ -29,6 +31,22 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
+
+    public static OrderItem createOrderItem(Product product,Integer qty, Integer price){
+        OrderItem orderItem = new OrderItem();
+        orderItem.setProduct(product);
+        orderItem.setQty(qty);
+        orderItem.setPrice(price);
+
+        product.removeStock(qty);
+        return orderItem;
+    }
+
+    public void cancel(){
+        getProduct().addStock(qty);
+    }
+
+
 
 
 }

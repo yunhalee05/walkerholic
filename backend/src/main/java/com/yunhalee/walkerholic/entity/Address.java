@@ -1,8 +1,11 @@
 package com.yunhalee.walkerholic.entity;
 
+import lombok.Getter;
+
 import javax.persistence.Embeddable;
 
 @Embeddable
+@Getter
 public class Address {
 
     private String name;
@@ -28,6 +31,16 @@ public class Address {
         this.city = city;
         this.zipcode = zipcode;
         this.address = address;
+    }
+
+    public Address(String name, String country, String city, String zipcode, String address, Integer latitude, Integer longitude) {
+        this.name = name;
+        this.country = country;
+        this.city = city;
+        this.zipcode = zipcode;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Address(String country, String city, String zipcode, String address) {

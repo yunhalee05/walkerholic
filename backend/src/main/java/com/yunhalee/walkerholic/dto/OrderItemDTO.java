@@ -16,7 +16,22 @@ public class OrderItemDTO {
 
     private Integer price;
 
-    private Product product;
+    private Integer productId;
 
-    private Order order;
+    private Integer orderId;
+
+    public OrderItemDTO(Integer id, Integer qty, Integer price, Integer productId, Integer orderId) {
+        this.id = id;
+        this.qty = qty;
+        this.price = price;
+        this.productId = productId;
+        this.orderId = orderId;
+    }
+
+    public OrderItemDTO(Integer qty, Integer price, Integer productId, Integer orderId) {
+        this.qty = qty;
+        this.price = price;
+        this.productId = productId;
+        this.orderId = orderId;
+    }
 }

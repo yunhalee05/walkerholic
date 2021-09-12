@@ -59,4 +59,34 @@ public class Order extends BaseTimeEntity{
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderItem> orderItems = new HashSet<>();
 
+
+    //연관관계메서드
+    public void addOrderItem(OrderItem orderItem){
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    //비지니스 로직
+    public static Order createOrder(User user, Address address, List<OrderItem> orderItems,String paymentMethod){
+        Order order = new Order();
+        order.setUser(user);
+        order.setAddress(address);
+        orderItems.forEach(orderItem -> {
+            order.addOrderItem(orderItem);
+        });
+        order.setOrderStatus(OrderStatus.ORDER);
+        order.setPaymentMethod(paymentMethod);
+        return order;
+    }
+
+    public void cancel(){
+        if(isDelivered){
+            throw new IllegalStateException("Order Already Completed.");
+        }
+        this.setOrderStatus(OrderStatus.CANCEL);
+        orderItems.forEach(orderItem -> {
+            orderItem.cancel();
+        });
+    }
+
 }

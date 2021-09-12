@@ -1,5 +1,6 @@
 package com.yunhalee.walkerholic.entity;
 
+import com.yunhalee.walkerholic.exception.NotEnoughStockException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -54,5 +55,23 @@ public class Product extends BaseTimeEntity{
 //        this.productImages.forEach(productImage -> productImageUrl.add(productImage.getFilePath()));
 //        return productImageUrl;
 //    }
+
+    //비지니스 로직
+    public void addStock(Integer qty){
+        this.stock += qty;
+    }
+
+    public void removeStock(Integer qty){
+        Integer restStock = this.stock - qty;
+        if(restStock <0){
+            throw new NotEnoughStockException("Stock is not enough.");
+        }
+        this.stock = restStock;
+    }
+
+    @Transient
+    public String getMainImageUrl(){
+        return this.productImages.get(0).getFilePath();
+    }
 
 }
