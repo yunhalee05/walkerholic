@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @RestController
-@CrossOrigin
+//@CrossOrigin
 @RequiredArgsConstructor
 public class JwtAuthenticationController {
 
@@ -64,8 +64,9 @@ public class JwtAuthenticationController {
                                     @RequestParam("phoneNumber")String phoneNumber,
                                     @RequestParam("description")String description,
                                     @RequestParam("isSeller")boolean isSeller,
-                                    @RequestParam("multipartFile")MultipartFile multipartFile) throws IOException {
+                                    @RequestParam(value = "multipartFile", required = false) MultipartFile multipartFile) throws IOException {
         UserRegisterDTO userRegisterDTO = new UserRegisterDTO(firstname, lastname,email,password,phoneNumber,description,isSeller);
+        System.out.println(firstname);
         UserDTO userDTO = userService.saveUser(userRegisterDTO, multipartFile);
         final String token = jwtTokenUtil.generateToken(userDTO.getEmail());
 
@@ -76,8 +77,10 @@ public class JwtAuthenticationController {
         return ResponseEntity.ok(map);
     }
 
+
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@Param("token")String token) {
+        System.out.println(token);
         String email = jwtTokenUtil.getUsernameFromToken(token);
         User user = userRepository.findByEmail(email);
         UserDTO userDTO = new UserDTO(user);

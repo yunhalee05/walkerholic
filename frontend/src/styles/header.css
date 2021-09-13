@@ -1,0 +1,31 @@
+.header i{
+    font-weight: 800;
+    padding-left: 1px;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 2rem;
+    height: 6rem;
+}
+
+.header_search{
+    width: 19rem;
+}
+
+.header_search input{
+    width: 16rem;
+    border: none;
+    border-bottom: 1px solid gray;
+}
+
+.header_menu{
+    display: flex;
+}
+
+.header_content{
+    margin-right: 2rem;
+}

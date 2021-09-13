@@ -11,3 +11,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.main{
+  min-height: calc(100vh - 9rem)
+}
+
+body a{
+  color: black;
+}
+
+body a:hover{
+  text-decoration: none;
+  cursor: pointer;
+  color: black;
+}
+
+
+
+/* Header */
+@import url('./styles/header.css');
+
+/* Login, Register */
+@import url('./styles/auth.css');
+
+/* Footer */
+@import url('./styles/footer.css');
