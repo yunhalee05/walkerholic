@@ -27,7 +27,7 @@ public class UserController {
                                             @RequestParam("phoneNumber")String phoneNumber,
                                             @RequestParam("description")String description,
                                             @RequestParam("isSeller")boolean isSeller,
-                                            @RequestParam("multipartFile")MultipartFile multipartFile
+                                            @RequestParam(value = "multipartFile", required = false)MultipartFile multipartFile
                                                     ) throws IOException {
         UserRegisterDTO userRegisterDTO = new UserRegisterDTO(id, firstname, lastname,email,password,phoneNumber,description,isSeller);
         return new ResponseEntity<UserDTO>(userService.saveUser(userRegisterDTO,multipartFile), HttpStatus.OK);

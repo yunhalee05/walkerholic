@@ -27,6 +27,8 @@ public class UserDTO {
 
     private String description;
 
+    private boolean isSeller;
+
     public UserDTO(User user) {
         this.id = user.getId();
         this.firstname = user.getFirstname();
@@ -37,6 +39,7 @@ public class UserDTO {
         this.phoneNumber = user.getPhoneNumber();
         this.level = user.getLevel().name();
         this.description = user.getDescription();
+        this.isSeller = user.isSeller();
     }
 
 }

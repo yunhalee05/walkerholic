@@ -24,6 +24,14 @@ function Header() {
             </div>
 
             <div className="header_menu">
+                {
+                    auth.user &&
+                    <div className="header_content">
+                        <Link to={`/posts/${auth.user.id}`}>Posts</Link>
+                    </div>
+
+                }
+
                 <div className="header_content">
                     <Link to="/posts">Discover</Link>
                 </div>

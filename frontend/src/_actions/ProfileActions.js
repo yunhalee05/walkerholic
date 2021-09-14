@@ -1,5 +1,5 @@
 import axios from "axios"
-import { GET_PROFILE_FAIL, GET_PROFILE_REQUEST, GET_PROFILE_SUCCESS } from "../_constants/ProfileConstants"
+import { EDIT_PROFILE_FAIL, EDIT_PROFILE_REQUEST, EDIT_PROFILE_SUCCESS, GET_PROFILE_FAIL, GET_PROFILE_REQUEST, GET_PROFILE_SUCCESS } from "../_constants/ProfileConstants"
 
 export const getProfile = (id) =>async(dispatch, getState)=>{
 
@@ -28,6 +28,32 @@ export const getProfile = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_PROFILE_FAIL,
+            payload:error.response.data
+            
+        })
+    }
+}
+
+
+export const editProfile = (bodyFormData) =>async(dispatch, getState)=>{
+
+    dispatch({
+        type:EDIT_PROFILE_REQUEST
+    })
+
+    try{
+        const res = await axios.post(`/user/save`,bodyFormData)
+
+        dispatch({
+            type:EDIT_PROFILE_SUCCESS,
+            payload:res.data
+        })
+
+        return res.data.id
+
+    }catch(error){
+        dispatch({
+            type:EDIT_PROFILE_FAIL,
             payload:error.response.data
             
         })

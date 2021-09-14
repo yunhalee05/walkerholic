@@ -47,6 +47,13 @@ public class PostController {
         return new ResponseEntity<HashMap<String, Object>>(postService.getPostsByRandom(pageNumber, userId), HttpStatus.OK);
     }
 
+    @GetMapping("/posts/follow/{page}/{id}")
+    public ResponseEntity<?> getPostsByFollowings(@PathVariable("page")String page,@PathVariable("id")String id){
+        Integer pageNumber = Integer.parseInt(page);
+        Integer userId = Integer.parseInt(id);
+        return new ResponseEntity<HashMap<String, Object>>(postService.getPostsByFollowings(pageNumber, userId), HttpStatus.OK);
+    }
+
     @DeleteMapping("/post/{id}")
     public String deletePost(@PathVariable("id")String id){
         Integer postId = Integer.parseInt(id);

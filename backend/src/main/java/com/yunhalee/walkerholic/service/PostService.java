@@ -4,9 +4,11 @@ import com.yunhalee.walkerholic.FileUploadUtils;
 import com.yunhalee.walkerholic.dto.PostCreateDTO;
 import com.yunhalee.walkerholic.dto.PostDTO;
 import com.yunhalee.walkerholic.dto.UserPostDTO;
+import com.yunhalee.walkerholic.entity.Follow;
 import com.yunhalee.walkerholic.entity.Post;
 import com.yunhalee.walkerholic.entity.PostImage;
 import com.yunhalee.walkerholic.entity.User;
+import com.yunhalee.walkerholic.repository.FollowRepository;
 import com.yunhalee.walkerholic.repository.PostImageRepository;
 import com.yunhalee.walkerholic.repository.PostRepository;
 import com.yunhalee.walkerholic.repository.UserRepository;
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +35,8 @@ public class PostService {
     private final UserRepository userRepository;
 
     private final PostImageRepository postImageRepository;
+
+    private final FollowRepository followRepository;
 
     public static final int POST_PER_PAGE = 9;
 
@@ -110,6 +115,25 @@ public class PostService {
         randomPosts.put("totalElement", pagePost.getTotalElements());
         randomPosts.put("totalPage", pagePost.getTotalPages());
         return randomPosts;
+    }
+
+    public HashMap<String, Object> getPostsByFollowings(Integer page, Integer userId){
+        List<Follow> follows = followRepository.findAllByFromUserId(userId);
+        List<Integer> followings = new ArrayList<>();
+        follows.forEach(follow -> followings.add(follow.getId()));
+
+        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE, Sort.by("createdAt"));
+
+        Page<Post> pagePost = postRepository.findByFollowings(pageable, followings);
+        List<Post> posts = pagePost.getContent();
+        List<PostDTO> postDTOS = new ArrayList<>();
+        posts.forEach(post -> postDTOS.add(new PostDTO(post)));
+
+        HashMap<String, Object> followingPosts = new HashMap<>();
+        followingPosts.put("posts", postDTOS);
+        followingPosts.put("totalElement", pagePost.getTotalElements());
+        followingPosts.put("totalPage", pagePost.getTotalPages());
+        return followingPosts;
     }
 
     public String deletePost(Integer id){

@@ -13,6 +13,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -56,5 +57,16 @@ public class PostRepositoryTests {
     public void testDeletePostById(){
         Integer id = 1;
         postRepository.deleteById(id);
+    }
+
+    @Test
+    public void testGetPostByFollowings(){
+        List<Integer> followings = new ArrayList<>();
+        followings.add(14);
+        Pageable pageable = PageRequest.of(0, 9);
+
+        Page<Post> pagePost = postRepository.findByFollowings(pageable, followings);
+        List<Post> posts = pagePost.getContent();
+        System.out.println(posts);
     }
 }
