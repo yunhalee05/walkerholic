@@ -20,12 +20,12 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/post/save")
-    public String savePost(@RequestParam(value = "id", required = false)Integer id,
+    public ResponseEntity<?> savePost(@RequestParam(value = "id", required = false)Integer id,
                            @RequestParam("content")String content,
                            @RequestParam("userId")Integer userId,
-                           @RequestParam(value = "multipartFile", required = false)List<MultipartFile> multipartFiles){
+                           @RequestParam("multipartFile")List<MultipartFile> multipartFiles){
         PostCreateDTO postCreateDTO = new PostCreateDTO(id, content, userId);
-        return postService.savePost(postCreateDTO,multipartFiles);
+        return new ResponseEntity<PostDTO>(postService.savePost(postCreateDTO,multipartFiles),HttpStatus.OK);
     }
 
     @GetMapping("/post/{id}")

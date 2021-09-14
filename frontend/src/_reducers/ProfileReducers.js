@@ -16,6 +16,8 @@ export const profileReducer = (state={}, action)=>{
         case EDIT_PROFILE_FAIL:
             return {...state, loading:false, error:action.payload}
 
+
+
         default:
             return state;
     }

@@ -42,6 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
         uploadFolder("profileUploads", registry);
         uploadFolder("messageUploads", registry);
         uploadFolder("productUploads", registry);
+        uploadFolder("postUploads", registry);
     }
 
     private void uploadFolder(String dirName, ResourceHandlerRegistry registry){

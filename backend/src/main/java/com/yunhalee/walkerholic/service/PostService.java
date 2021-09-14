@@ -60,7 +60,7 @@ public class PostService {
         });
     }
 
-    public String savePost(PostCreateDTO postCreateDTO, List<MultipartFile> multipartFiles){
+    public PostDTO savePost(PostCreateDTO postCreateDTO, List<MultipartFile> multipartFiles){
         if(postCreateDTO.getId()!=null){
             Post existingPost = postRepository.findById(postCreateDTO.getId()).get();
             existingPost.setContent(postCreateDTO.getContent());
@@ -68,6 +68,7 @@ public class PostService {
                 savePostImage(existingPost, multipartFiles);
             }
             postRepository.save(existingPost);
+            return new PostDTO(existingPost);
         }else{
             Post post = new Post();
             User user = userRepository.findById(postCreateDTO.getUserId()).get();
@@ -78,9 +79,10 @@ public class PostService {
                 savePostImage(post,multipartFiles);
             }
             postRepository.save(post);
+            return new PostDTO(post);
+
         }
 
-        return "Post Saved Successfully.";
     }
 
     public PostDTO getPost(Integer id){
@@ -121,6 +123,7 @@ public class PostService {
         List<Follow> follows = followRepository.findAllByFromUserId(userId);
         List<Integer> followings = new ArrayList<>();
         follows.forEach(follow -> followings.add(follow.getId()));
+        followings.add(userId);
 
         Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE, Sort.by("createdAt"));
 

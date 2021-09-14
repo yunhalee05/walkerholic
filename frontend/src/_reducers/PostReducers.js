@@ -1,4 +1,4 @@
-import { GET_DISCOVER_POSTS_FAIL, GET_DISCOVER_POSTS_REQUEST, GET_DISCOVER_POSTS_SUCCESS, GET_FOLLOWINGS_POSTS_FAIL, GET_FOLLOWINGS_POSTS_REQUEST, GET_FOLLOWINGS_POSTS_SUCCESS } from "../_constants/PostConstants";
+import { CREATE_POST_FAIL, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, GET_DISCOVER_POSTS_FAIL, GET_DISCOVER_POSTS_REQUEST, GET_DISCOVER_POSTS_SUCCESS, GET_FOLLOWINGS_POSTS_FAIL, GET_FOLLOWINGS_POSTS_REQUEST, GET_FOLLOWINGS_POSTS_SUCCESS } from "../_constants/PostConstants";
 
 export const discoverReducer = (state={}, action)=>{
     switch(action.type){
@@ -21,6 +21,14 @@ export const followingPostsReducer = (state={}, action)=>{
             return {...state, loading:false, posts:action.payload.posts, totalElement:action.payload.totalElement, totalPage:action.payload.totalPage}
         case GET_FOLLOWINGS_POSTS_FAIL:
             return {...state, loading:false, error:action.payload}
+
+        case CREATE_POST_REQUEST:
+            return {...state, loading:true}
+        case CREATE_POST_SUCCESS:
+            return {...state, loading:false, posts:[...state.posts, action.payload]}
+        case CREATE_POST_FAIL:
+            return {...state, loading:false, error:action.payload}
+
         default:
             return state;
     }

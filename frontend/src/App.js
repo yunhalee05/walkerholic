@@ -6,7 +6,7 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { auth } from './_actions/AuthActions';
 import axios from 'axios';
 import { GET_AUTH_FOLLOWS } from './_constants/AuthConstants';
@@ -36,13 +36,12 @@ function App() {
           <Header/>
 
           <div className="main">
-          <Route exact path="/" component={HomeScreen}/>
-          <Route exact path="/signin" component={LoginScreen}/>
-          <Route exact path="/signup" component={RegisterScreen}/>
-          <Route exact path="/user/:id" component={ProfileScreen}/>
-          <Route exact path="/posts" component={DiscoverScreen}/>
-          <Route exact path="/posts/:id" component={PostScreen}/>
-          
+            <Route exact path="/" component={HomeScreen}/>
+            <Route exact path="/signin" component={LoginScreen}/>
+            <Route exact path="/signup" component={RegisterScreen}/>
+            <Route exact path="/user/:id" component={ProfileScreen}/>
+            <Route exact path="/posts" component={DiscoverScreen}/>
+            <Route exact path="/posts/:id" component={PostScreen}/>
           </div>
           <Footer/>
       </div>
