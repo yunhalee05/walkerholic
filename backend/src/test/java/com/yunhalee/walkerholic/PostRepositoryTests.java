@@ -6,9 +6,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -28,5 +34,27 @@ public class PostRepositoryTests {
         Post post = postRepository.findByPostId(id);
         assertThat(post.getContent(), is(equalTo("first post")));
 
+    }
+
+    @Test
+    public void testGetPostByUserId(){
+        Integer id = 14;
+        List<Post> posts = postRepository.findByUserId(id);
+        System.out.println(posts);
+    }
+
+    @Test
+    public void testGetPostByRandom(){
+        Integer id = 3;
+        Pageable pageable = PageRequest.of(0, 1);
+        Page<Post> pagePost  = postRepository.findByRandom(pageable, id);
+        List<Post> posts = pagePost.getContent();
+        System.out.println(posts);
+    }
+
+    @Test
+    public void testDeletePostById(){
+        Integer id = 1;
+        postRepository.deleteById(id);
     }
 }

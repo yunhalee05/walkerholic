@@ -121,6 +121,7 @@ public class UserService {
 
     public UserDTO getUser(Integer id){
         User user = userRepository.findByUserId(id);
+        UserDTO userDTO = new UserDTO(user);
 
         return new UserDTO(user);
     }

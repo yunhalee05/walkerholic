@@ -1,8 +1,10 @@
+import axios from 'axios'
 import React from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {Link} from 'react-router-dom'
 import { login } from '../_actions/AuthActions'
+import { GET_AUTH_FOLLOWS } from '../_constants/AuthConstants'
 
 function LoginScreen() {
 
@@ -13,7 +15,13 @@ function LoginScreen() {
     const handleSubmit = (e)=>{
         e.preventDefault();
 
-        dispatch(login({email, password}))
+        dispatch(login({email, password})).then(async(id)=>{
+            const res = await axios.get(`/follows/${id}`)
+            dispatch({
+              type:GET_AUTH_FOLLOWS,
+              payload:res.data
+            })
+        })
     }
     return (
         <div className="auth">

@@ -29,3 +29,35 @@
 .header_content{
     margin-right: 2rem;
 }
+
+
+
+.dropdown{
+    display: inline-block;
+    position: relative;
+}
+
+.dropdown-menu{
+    position: absolute;
+    display: none;
+    /* z-index: 1; */
+    background-color: white;
+    margin: 0;
+    border-radius: 1rem;
+    font-size: 15px;
+    text-align: center;
+    border: 1px solid black;
+    transition: all 3s ease-in-out;
+}
+
+.dropdown:hover .dropdown-menu{
+    display: block;
+}
+
+.dropdown-item:hover{
+    text-decoration: none;
+    background-color: white;
+}
+
+
+

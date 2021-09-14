@@ -9,3 +9,5 @@ export const LOGIN_FAIL = 'LOGIN_FAIL'
 export const AUTH_REQUEST = 'AUTH_REQUEST'
 export const AUTH_SUCCESS = 'AUTH_SUCCESS'
 export const AUTH_FAIL = 'AUTH_FAIL'
+
+export const GET_AUTH_FOLLOWS = 'GET_AUTH_FOLLOWS'

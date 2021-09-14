@@ -1,9 +1,6 @@
 package com.yunhalee.walkerholic.dto;
 
-import com.yunhalee.walkerholic.entity.LikePost;
-import com.yunhalee.walkerholic.entity.Post;
-import com.yunhalee.walkerholic.entity.Review;
-import com.yunhalee.walkerholic.entity.User;
+import com.yunhalee.walkerholic.entity.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,12 +20,15 @@ public class PostDTO {
 
     private List<PostLike> postLikes;
 
+    private List<PostImage> postImages;
+
 
     public PostDTO(Post post) {
         this.id = post.getId();
         this.content = post.getContent();
         this.user = new PostUser(post.getUser());
         this.postLikes = PostLike.likeList(post.getLikePosts());
+        this.postImages = PostImage.imageList(post.getPostImages());
     }
 
     @Getter
@@ -66,5 +66,22 @@ public class PostDTO {
             this.imageUrl = likePost.getUser().getImageUrl();
         }
 
+    }
+
+    @Getter
+    static class PostImage{
+        private Integer id;
+        private String imageUrl;
+
+        static List<PostImage> imageList(List<com.yunhalee.walkerholic.entity.PostImage> postImages){
+            List<PostImage> postImageList = new ArrayList<>();
+            postImages.forEach(postImage -> postImageList.add(new PostImage(postImage)));
+            return postImageList;
+        }
+
+        public PostImage(com.yunhalee.walkerholic.entity.PostImage postImage) {
+            this.id = postImage.getId();
+            this.imageUrl = postImage.getFilePath();
+        }
     }
 }

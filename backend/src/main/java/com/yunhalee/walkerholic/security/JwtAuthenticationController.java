@@ -66,7 +66,6 @@ public class JwtAuthenticationController {
                                     @RequestParam("isSeller")boolean isSeller,
                                     @RequestParam(value = "multipartFile", required = false) MultipartFile multipartFile) throws IOException {
         UserRegisterDTO userRegisterDTO = new UserRegisterDTO(firstname, lastname,email,password,phoneNumber,description,isSeller);
-        System.out.println(firstname);
         UserDTO userDTO = userService.saveUser(userRegisterDTO, multipartFile);
         final String token = jwtTokenUtil.generateToken(userDTO.getEmail());
 
@@ -80,7 +79,6 @@ public class JwtAuthenticationController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@Param("token")String token) {
-        System.out.println(token);
         String email = jwtTokenUtil.getUsernameFromToken(token);
         User user = userRepository.findByEmail(email);
         UserDTO userDTO = new UserDTO(user);

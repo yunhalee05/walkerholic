@@ -1,6 +1,8 @@
 import{combineReducers, createStore, compose, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk'
 import { authReducer } from './AuthReducers';
+import { discoverReducer } from './PostReducers';
+import { profileReducer } from './ProfileReducers';
 
 const initialState = {
 
@@ -13,6 +15,8 @@ const initialState = {
 
 const reducer = combineReducers({
     auth : authReducer,
+    profile : profileReducer,
+    discover : discoverReducer,
 
 })
 

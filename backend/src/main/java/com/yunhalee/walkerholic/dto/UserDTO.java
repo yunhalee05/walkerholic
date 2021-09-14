@@ -1,7 +1,5 @@
 package com.yunhalee.walkerholic.dto;
 
-import com.yunhalee.walkerholic.entity.Level;
-import com.yunhalee.walkerholic.entity.Role;
 import com.yunhalee.walkerholic.entity.User;
 import lombok.Getter;
 import lombok.Setter;

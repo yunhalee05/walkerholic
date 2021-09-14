@@ -1,20 +1,24 @@
 package com.yunhalee.walkerholic.dto;
 
+import com.yunhalee.walkerholic.entity.Follow;
 import com.yunhalee.walkerholic.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class FollowDTO {
+public class FollowsDTO {
 
     private Integer id;
 
-    private followUser user;
+    private followUser fromUser;
 
-    public FollowDTO(Integer id, User user) {
-        this.id = id;
-        this.user = new followUser(user);
+    private followUser toUser;
+
+    public FollowsDTO(Follow follow) {
+        this.id = follow.getId();
+        this.fromUser = new followUser(follow.getFromUser());
+        this.toUser = new followUser(follow.getToUser());
     }
 
     @Getter
@@ -29,5 +33,4 @@ public class FollowDTO {
             this.imageUrl = user.getImageUrl();
         }
     }
-
 }

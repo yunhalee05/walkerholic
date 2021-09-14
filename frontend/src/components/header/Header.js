@@ -1,17 +1,20 @@
 import React from 'react'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
 
 function Header() {
 
     const [keyword, setKeyword] = useState('')
 
+    const auth = useSelector(state => state.auth)
+
     return (
         <div className="header">
             <div className="header_logo">
                 <i class="fas fa-walking"></i>
                 <i class="fas fa-male"></i>
-                walkerholic
+                <Link to='/'>walkerholic</Link>
             </div>
 
             <div className="header_search">
@@ -22,16 +25,32 @@ function Header() {
 
             <div className="header_menu">
                 <div className="header_content">
-                    Discover
+                    <Link to="/posts">Discover</Link>
                 </div>
 
-                <div className="header_content">
-                    <Link to='/signin'>Login</Link>
-                </div>
 
-                <div className="header_content">
-                    <Link to='/user/1'>UserName</Link>
-                </div>
+
+                {
+                    auth.user 
+                    ?<div className="header_content">
+                        {/* <Link to='/user/1'>{auth.user.firstname}</Link> */}
+
+                        <div className="dropdown dropdown-toggle">
+                            <span>{auth.user.firstname}</span>
+                            <div className="dropdown-menu dropdown-menu-right" >
+                                <Link className="dropdown-item" to={`/user/${auth.user.id}`}>Profile</Link>
+                                <Link className="dropdown-item" to={`/user/activity/${auth.user.id}`}>My Activities</Link>
+                                {
+                                    auth.user.role==="SELLER" &&
+                                    <Link className="dropdown-item" to={`/user/product/${auth.user.id}`} >Products</Link>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    :<div className="header_content">
+                            <Link to='/signin'>Login</Link>
+                    </div>
+                }
             </div>
         </div>
     )

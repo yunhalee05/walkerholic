@@ -17,6 +17,8 @@ export const register = (bodyFormData) =>async(dispatch, getState)=>{
 
         localStorage.setItem("walkerholic_token", JSON.stringify(res.data.token))
 
+        return res.data.user.id
+
     }catch(error){
         dispatch({
             type:REGISTER_FAIL,
@@ -39,7 +41,6 @@ export const login = ({email, password}) =>async(dispatch, getState)=>{
 
     try{
         const res = await axios.post('/signin', body)
-        console.log(res)
 
         dispatch({
             type:LOGIN_SUCCESS,
@@ -47,6 +48,8 @@ export const login = ({email, password}) =>async(dispatch, getState)=>{
         })
 
         localStorage.setItem("walkerholic_token", JSON.stringify(res.data.token))
+
+        return res.data.user.id
 
     }catch(error){
         dispatch({
@@ -63,17 +66,17 @@ export const auth = (token) =>async(dispatch, getState)=>{
     dispatch({
         type:AUTH_REQUEST
     })
-    console.log(token)
 
 
     try{
         const res = await axios.post(`/authenticate?token=${token}`,null)
-        console.log(res)
 
         dispatch({
             type:AUTH_SUCCESS,
             payload:res.data
         })
+
+        return res.data.user.id
 
 
     }catch(error){

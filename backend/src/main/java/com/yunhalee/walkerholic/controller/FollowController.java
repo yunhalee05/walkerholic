@@ -1,12 +1,14 @@
 package com.yunhalee.walkerholic.controller;
 
 import com.yunhalee.walkerholic.dto.FollowDTO;
+import com.yunhalee.walkerholic.dto.FollowsDTO;
 import com.yunhalee.walkerholic.service.FollowService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -39,5 +41,18 @@ public class FollowController {
         Integer followId = Integer.parseInt(id);
         return new ResponseEntity<List<FollowDTO>>(followService.getFollowings(followId), HttpStatus.OK);
     }
+//
+//    @GetMapping("/follows/{id}")
+//    public ResponseEntity<?> getFollows(@PathVariable("id")String id){
+//        System.out.println(id);
+//        Integer userId = Integer.parseInt(id);
+//        return new ResponseEntity<List<FollowsDTO>>(followService.getFollows(userId), HttpStatus.OK);
+//    }
 
+    @GetMapping("/follows/{id}")
+    public ResponseEntity<?> getFollows(@PathVariable("id")String id){
+        System.out.println(id);
+        Integer userId = Integer.parseInt(id);
+        return new ResponseEntity<HashMap<String, Object>>(followService.getFollows(userId), HttpStatus.OK);
+    }
 }

@@ -4,7 +4,6 @@ import com.yunhalee.walkerholic.dto.UserDTO;
 import com.yunhalee.walkerholic.dto.UserRegisterDTO;
 import com.yunhalee.walkerholic.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,8 +40,5 @@ public class UserController {
     }
 
 
-//    @PostMapping("/user/check_email")
-//    public boolean checkDuplicateEmail(@Param("id")Integer id, @Param("email")String email){
-//        return userService.isEmailUnique(id, email);
-//    }
+
 }

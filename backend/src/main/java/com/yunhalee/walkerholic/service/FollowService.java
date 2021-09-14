@@ -1,6 +1,7 @@
 package com.yunhalee.walkerholic.service;
 
 import com.yunhalee.walkerholic.dto.FollowDTO;
+import com.yunhalee.walkerholic.dto.FollowsDTO;
 import com.yunhalee.walkerholic.entity.Follow;
 import com.yunhalee.walkerholic.entity.User;
 import com.yunhalee.walkerholic.repository.FollowRepository;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -45,5 +47,27 @@ public class FollowService {
         List<FollowDTO> followDTOS = new ArrayList<>();
         follows.forEach(follow -> followDTOS.add(new FollowDTO(follow.getId(),follow.getToUser())));
         return followDTOS;
+    }
+
+//    public List<FollowsDTO> getFollows(Integer id){
+//        List<Follow> follows = followRepository.findAllByUserId(id);
+//        List<FollowsDTO> followsDTOS = new ArrayList<>();
+//        follows.forEach(follow -> followsDTOS.add(new FollowsDTO(follow)));
+//        return followsDTOS;
+//    }
+
+    public HashMap<String, Object> getFollows(Integer id){
+        List<Follow> followers = followRepository.findAllByToUserId(id);
+        List<Follow> followings = followRepository.findAllByFromUserId(id);
+        List<FollowDTO> followerDTOs = new ArrayList<>();
+        followers.forEach(follow -> followerDTOs.add(new FollowDTO(follow.getId(),follow.getFromUser())));
+        List<FollowDTO> followingDTOS = new ArrayList<>();
+        followings.forEach(follow -> followingDTOS.add(new FollowDTO(follow.getId(),follow.getToUser())));
+
+        HashMap <String, Object> map = new HashMap<>();
+        map.put("followers", followerDTOs);
+        map.put("followings",followingDTOS);
+
+        return map;
     }
 }
