@@ -100,7 +100,7 @@ function EditPost({post, setIsCreate, setIsEdit}) {
 
 
     return (
-        <div>
+        <div >
             {
                 post 
                 ? <div>Post {post.id}</div>

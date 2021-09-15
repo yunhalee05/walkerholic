@@ -20,14 +20,17 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
 
-    public String follow(Integer fromId, Integer toId){
+    public FollowDTO follow(Integer fromId, Integer toId){
         User fromUser = userRepository.findById(fromId).get();
         User toUser = userRepository.findById(toId).get();
 
         Follow follow = Follow.follow(fromUser, toUser);
 
         followRepository.save(follow);
-        return "Followed User Successfully.";
+
+        FollowDTO followDTO = new FollowDTO(follow.getId(),follow.getToUser());
+
+        return followDTO;
     }
 
     public String unfollow(Integer id){

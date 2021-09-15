@@ -55,7 +55,7 @@ public class PostRepositoryTests {
 
     @Test
     public void testDeletePostById(){
-        Integer id = 1;
+        Integer id = 3;
         postRepository.deleteById(id);
     }
 
@@ -69,4 +69,5 @@ public class PostRepositoryTests {
         List<Post> posts = pagePost.getContent();
         System.out.println(posts);
     }
+
 }

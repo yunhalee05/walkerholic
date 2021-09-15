@@ -75,13 +75,13 @@ function EditProfile({setIsEdit}) {
 
     }
     return (
-        <div>
+        <div className="edit_profile"> 
             <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="auth_message">
-                        Be with us!
+                        Edit Your Information
                 </div>
 
-                <div style={{width:"100%", height:"150px" , display:"flex", justifyContent:"center"}}>
+                <div style={{width:"100%", height:"150px" , display:"flex", justifyContent:"center", marginTop:"2rem", marginBottom:"2rem"}}>
                     <div className="form_group_image" >
                         <img id="preview" src={Earth} alt="profileImage" />
                         <span>
@@ -173,8 +173,9 @@ function EditProfile({setIsEdit}) {
                     <input type="checkbox" onClick={()=>setIsSeller(!isSeller)} />
                 </div>
 
-                <div className="form_button">
-                    <button>Save</button>
+                <div className="form_button" style={{marginTop:"1.3rem"}}>
+                    <button className="follow_button" style={{marginRight:"1rem"}} type="submit">Save</button>
+                    <button className="unfollow_button" onClick={()=>setIsEdit(false)}>Cancel</button>
                 </div>
 
             </form>

@@ -18,7 +18,7 @@ public class FollowController {
     private final FollowService followService;
 
     @PostMapping("/follow/{fromId}/{toId}")
-    public String follow(@PathVariable("fromId")String fromId, @PathVariable("toId")String toId){
+    public FollowDTO follow(@PathVariable("fromId")String fromId, @PathVariable("toId")String toId){
         Integer fromUser = Integer.parseInt(fromId);
         Integer toUser = Integer.parseInt(toId);
         return followService.follow(fromUser,toUser);

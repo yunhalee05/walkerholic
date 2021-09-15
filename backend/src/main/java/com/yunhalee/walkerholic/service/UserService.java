@@ -80,6 +80,11 @@ public class UserService {
             if(userRegisterDTO.getPassword()!=null){
                 existingUser.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
             }
+            if(userRegisterDTO.isSeller()){
+                existingUser.setRole(Role.SELLER);
+            }else{
+                existingUser.setRole(Role.USER);
+            }
             existingUser.setDescription(userRegisterDTO.getDescription());
             existingUser.setPhoneNumber(userRegisterDTO.getPhoneNumber());
 

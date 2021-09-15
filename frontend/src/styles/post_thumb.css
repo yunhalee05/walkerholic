@@ -1,0 +1,33 @@
+.post_thumb_container{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    justify-content: center;
+    grid-gap:5px;
+    overflow: hidden;
+}
+
+.post_thumb{
+    min-width: 300px;
+    height: 300px;
+    width: 100%;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.post_thumb img,
+.post_thumb video{
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition:all 0.3s ease-in-out;
+}
+
+
+.post_thumb img:hover,
+.post_thumb video:hover{
+    transform: scale(1.1);
+    opacity: 0.7;
+}
