@@ -5,7 +5,7 @@ import { imageShow, videoShow} from '../../utils/MediaShow'
 import { createPost } from '../../_actions/PostActions'
 
 
-function EditPost({post, setIsCreate, setIsEdit}) {
+function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
 
     const [content, setContent] = useState(post? post.content : '')
     const [images, setImages] = useState([])
@@ -53,19 +53,24 @@ function EditPost({post, setIsCreate, setIsEdit}) {
     }
 
     const handleCapture = () =>{
-        // const width = videoRef.current.clientWidth
-        // const height = videoRef.current.clientHeight
-        const width = 20;
-        const height = 30;
+        
+        const width = videoRef.current.clientWidth;
+        const height = videoRef.current.clientHeight;
 
-        canvasRef.current.setAttribute("width",width)
-        canvasRef.current.setAttribute("height",height)
+        canvasRef.current.setAttribute("width", width)
+        canvasRef.current.setAttribute("height", height)
 
         const ctx = canvasRef.current.getContext('2d')
         ctx.drawImage(videoRef.current, 0, 0, width, height)
         let URL = canvasRef.current.toDataURL()
-        console.log(URL)
-        setImages([...images,URL])
+
+        var blobBin = atob(URL.split(',')[1]);	// base64 데이터 디코딩
+        var array = [];
+        for (var i = 0; i < blobBin.length; i++) {
+            array.push(blobBin.charCodeAt(i));
+        }
+        var file = new Blob([new Uint8Array(array)], {type: 'image/png'});
+        setImages([...images, file])  
     }
 
     const handleStopStream = () =>{
@@ -80,7 +85,6 @@ function EditPost({post, setIsCreate, setIsEdit}) {
             return window.alert("Please add your photo.")
         }
         const bodyFormData = new FormData()
-        console.log(images)
 
 
         if(post){
@@ -100,31 +104,30 @@ function EditPost({post, setIsCreate, setIsEdit}) {
 
 
     return (
-        <div >
-            {
-                post 
-                ? <div>Post {post.id}</div>
-                : <div>Create Post</div>
-            }
+        <div className="edit_post" >
 
             <form onSubmit={handleSubmit} encType="multipart/form-data">
+                {
+                    post 
+                    ? <div className="edit_title">Post {post.id}</div>
+                    : <div className="edit_title">Create Post</div>
+                }
                 <div className="form_group">
                     <label htmlFor="content">Content</label>
-                    <input type="text" className="form_control" value={content} onChange={e=>setContent(e.target.value)} />
+                    <textarea type="text" className="form_control" value={content} onChange={e=>setContent(e.target.value)} />
                 </div>
 
                 <div className="show_images">
-                    {console.log(images)}
                     {
 
                         images && 
                         images.map((image, index)=>
                             <div key={index} id="file_img">
                                 {
-                                    // console.log(image)
-                                    image.camera
-                                    ? imageShow(image.camera)
-                                    : image.data
+                                    // image.camera
+                                    // ? imageShow(image.camera)
+                                    // : 
+                                    image.data
                                         ? <div>
                                             {
                                                 image.data.match(/video/i)
@@ -148,7 +151,7 @@ function EditPost({post, setIsCreate, setIsEdit}) {
 
                 {
                     stream &&
-                    <div className="stream">
+                    <div className="stream position-relative">
                         <video autoPlay muted ref={videoRef} width='100%' height='100%'></video>
                         <span onClick={handleStopStream}>&times;</span>
                         <canvas ref={canvasRef} style={{display:'none'}}></canvas>
@@ -158,20 +161,21 @@ function EditPost({post, setIsCreate, setIsEdit}) {
                     {
                         stream 
                         ? <i className="fas fa-camera" onClick={handleCapture}></i>
-                        : <div>
-                            <i className="fas fa-camera" onClick={handleStream}></i>
+                        : <>
+                            <div><i className="fas fa-camera" onClick={handleStream}></i></div>
                             <div className="file_upload">
                                 <i className="fas fa-image"></i>
                                 <input type="file" name="file" id="file_up" multiple accept="image/*, video/*" onChange={handleChangeImages}/>
                             </div>
-                        </div>
+                        </>
                     }
                 </div>
 
 
 
                 <div className="form_button">
-                    <button type="submit">Post</button>
+                    <button type="submit" className="follow_button" style={{marginRight:"1rem"}}>Post</button>
+                    <button onClick={()=>isCreate? setIsCreate(false):setIsEdit(false)} className="unfollow_button">Cancel</button>
                 </div>
             </form>
         </div>

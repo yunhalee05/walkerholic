@@ -2,7 +2,6 @@ package com.yunhalee.walkerholic.controller;
 
 import com.yunhalee.walkerholic.dto.PostCreateDTO;
 import com.yunhalee.walkerholic.dto.PostDTO;
-import com.yunhalee.walkerholic.dto.UserPostDTO;
 import com.yunhalee.walkerholic.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

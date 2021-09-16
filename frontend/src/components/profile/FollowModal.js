@@ -20,7 +20,7 @@ function FollowModal({follows, isFollowers, isFollowings, setIsFollowers, setIsF
                     </div>
                     {
                         follows && follows.map((follow, index)=>(
-                            <UserCard key={index} user={follow.user} isFollowers={isFollowers} isFollowings={isFollowings} isFollow={true} setIsFollowers={setIsFollowers} setIsFollowings={setIsFollowings}/> 
+                            <UserCard key={index} user={follow.user} isFollowers={isFollowers} isFollow={true} setIsFollowers={setIsFollowers} setIsFollowings={setIsFollowings}/> 
                         ))
                     }
                 </div>

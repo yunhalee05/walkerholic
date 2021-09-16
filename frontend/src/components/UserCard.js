@@ -5,7 +5,7 @@ import { follow, unfollow } from '../_actions/FollowActions'
 import { useHistory } from "react-router-dom";
 
 
-function UserCard({user,isFollow, isFollowers, isFollowings, setIsFollowers, setIsFollowings}) {
+function UserCard({user,isFollow, isFollowers, setIsFollowers, setIsFollowings}) {
     
     const auth = useSelector(state => state.auth)
 

@@ -57,8 +57,11 @@ body button:hover{
 /* PostThumb */
 @import url('./styles/post_thumb.css');
 
-/* EditPost */
-@import url('./styles/edit_post.css');
-
 /* UserCard */
 @import url('./styles/user_card.css');
+
+/* Post */
+@import url('./styles/post.css');
+
+/* PostCard */
+@import url('./styles/post_card.css');

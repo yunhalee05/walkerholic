@@ -4,6 +4,7 @@ import com.yunhalee.walkerholic.entity.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +23,8 @@ public class PostDTO {
 
     private List<PostImage> postImages;
 
+    private LocalDateTime createdAt;
+
 
     public PostDTO(Post post) {
         this.id = post.getId();
@@ -29,6 +32,7 @@ public class PostDTO {
         this.user = new PostUser(post.getUser());
         this.postLikes = PostLike.likeList(post.getLikePosts());
         this.postImages = PostImage.imageList(post.getPostImages());
+        this.createdAt = post.getCreatedAt();
     }
 
     @Getter
@@ -51,6 +55,7 @@ public class PostDTO {
     @Getter
     static class PostLike{
         private Integer id;
+        private Integer userId;
         private String fullname;
         private String imageUrl;
 
@@ -61,7 +66,8 @@ public class PostDTO {
         }
 
         public PostLike(LikePost likePost){
-            this.id = likePost.getUser().getId();
+            this.id = likePost.getId();
+            this.userId = likePost.getUser().getId();
             this.fullname = likePost.getUser().getFullname();
             this.imageUrl = likePost.getUser().getImageUrl();
         }

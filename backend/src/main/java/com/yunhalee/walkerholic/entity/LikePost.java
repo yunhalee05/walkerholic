@@ -27,4 +27,12 @@ public class LikePost extends BaseTimeEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    //    비지니스 로직
+    public static LikePost likePost(Post post, User user){
+        LikePost likePost = new LikePost();
+        likePost.setPost(post);
+        likePost.setUser(user);
+        return likePost;
+    }
 }

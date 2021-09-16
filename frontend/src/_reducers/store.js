@@ -18,6 +18,8 @@ const reducer = combineReducers({
     profile : profileReducer,
     discover : discoverReducer,
     posts : followingPostsReducer,
+    post : postReducer,
+    
 
 })
 

@@ -12,6 +12,7 @@ import axios from 'axios';
 import { GET_AUTH_FOLLOWS } from './_constants/AuthConstants';
 import DiscoverScreen from './screens/DiscoverScreen';
 import PostScreen from './screens/PostScreen';
+import PostDetailScreen from './screens/PostDetailScreen';
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
             <Route exact path="/user/:id" component={ProfileScreen}/>
             <Route exact path="/posts" component={DiscoverScreen}/>
             <Route exact path="/posts/:id" component={PostScreen}/>
+            <Route exact path="/post/:id" component={PostDetailScreen}/>
           </div>
           <Footer/>
       </div>
