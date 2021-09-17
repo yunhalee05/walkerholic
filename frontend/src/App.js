@@ -13,6 +13,9 @@ import { GET_AUTH_FOLLOWS } from './_constants/AuthConstants';
 import DiscoverScreen from './screens/DiscoverScreen';
 import PostScreen from './screens/PostScreen';
 import PostDetailScreen from './screens/PostDetailScreen';
+import ActivityScreen from './screens/ActivityScreen';
+import ActivityDetailScreen from './screens/ActivityDetailScreen';
+import PostsScreen from './screens/PostsScreen';
 
 function App() {
 
@@ -41,9 +44,12 @@ function App() {
             <Route exact path="/signin" component={LoginScreen}/>
             <Route exact path="/signup" component={RegisterScreen}/>
             <Route exact path="/user/:id" component={ProfileScreen}/>
-            <Route exact path="/posts" component={DiscoverScreen}/>
+            <Route exact path="/posts" component={PostsScreen}/>
+            <Route exact path="/posts/discover" component={DiscoverScreen}/>
             <Route exact path="/posts/:id" component={PostScreen}/>
             <Route exact path="/post/:id" component={PostDetailScreen}/>
+            <Route exact path="/activities" component={ActivityScreen}/>
+            <Route exact path="/activity/:id" component={ActivityDetailScreen}/>
           </div>
           <Footer/>
       </div>

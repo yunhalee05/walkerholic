@@ -91,3 +91,30 @@ export const checkEditProfileFormValid = (lastname, firstname, email, password, 
         errLength:Object.keys(err).length
     }
 }
+
+export const checkEditActivityFormValid = (name, score, description)=>{
+    const err={}
+
+    if(!name) {
+        err.name = "Please add name."
+    }else if(name.length>25){
+        err.name = "Name is up to 25characters long."
+    }
+
+    if(!score){
+        err.score = "Please add score."
+    }else if(score>1000){
+        err.score = "Score is up to 1000points."
+    }
+
+    if(!description){
+        err.description = "Please add description."
+    }else if(description.length<5){
+        err.description = "Description is too short."
+    }
+
+    return{
+        err,
+        errLength:Object.keys(err).length
+    }
+}

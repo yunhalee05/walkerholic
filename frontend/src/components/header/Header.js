@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import {Link} from 'react-router-dom'
+import Sidebar from './Sidebar'
 
 function Header() {
 
@@ -10,6 +11,9 @@ function Header() {
     const auth = useSelector(state => state.auth)
 
     return (
+        <>
+        {/* <Sidebar/> */}
+
         <div className="header">
             <div className="header_logo">
                 <i class="fas fa-walking"></i>
@@ -33,7 +37,7 @@ function Header() {
                 }
 
                 <div className="header_content">
-                    <Link to="/posts">Discover</Link>
+                    <Link to="/posts/discover">Discover</Link>
                 </div>
 
 
@@ -61,6 +65,8 @@ function Header() {
                 }
             </div>
         </div>
+
+        </>
     )
 }
 

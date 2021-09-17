@@ -37,7 +37,7 @@ public class UserDTO {
         this.role = user.getRole().name();
         this.imageUrl = user.getImageUrl();
         this.phoneNumber = user.getPhoneNumber();
-        this.level = user.getLevel().name();
+        this.level = user.getLevel().getName();
         this.description = user.getDescription();
         this.isSeller = user.isSeller();
     }

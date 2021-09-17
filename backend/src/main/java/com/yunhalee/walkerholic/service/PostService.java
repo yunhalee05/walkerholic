@@ -109,7 +109,6 @@ public class PostService {
         Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
         Page<Post> pagePost = postRepository.findByRandom(pageable, userId);
         List<Post> posts = pagePost.getContent();
-        System.out.println(posts.size());
         List<UserPostDTO> userPostDTOList = new ArrayList<>();
         posts.forEach(post -> userPostDTOList.add(new UserPostDTO(post)));
         HashMap<String, Object> randomPosts = new HashMap<>();
@@ -117,6 +116,15 @@ public class PostService {
         randomPosts.put("totalElement", pagePost.getTotalElements());
         randomPosts.put("totalPage", pagePost.getTotalPages());
         return randomPosts;
+    }
+
+    public List<PostDTO> getHomePosts(){
+        Pageable pageable = PageRequest.of(0, POST_PER_PAGE);
+        Page<Post> pagePost = postRepository.findByCreateAt(pageable);
+        List<Post> posts = pagePost.getContent();
+        List<PostDTO> postDTOList = new ArrayList<>();
+        posts.forEach(post -> postDTOList.add(new PostDTO(post)));
+        return postDTOList;
     }
 
     public HashMap<String, Object> getPostsByFollowings(Integer page, Integer userId){

@@ -29,3 +29,21 @@ export const levelIconShow = (level) =>{
 
     }
 }
+
+export const levelDescriptionIconShow = (level) =>{
+    switch (level) {
+        // case 'Starter' :
+        //     return <img src={Starter} alt="level" />
+        case 'Bronze' :
+            return <img className="level_description_icon" src={Bronze} alt="level" />
+        case 'Silver' :
+            return <img className="level_description_icon" src={Silver} alt="level" />
+        case 'Gold' :
+            return <img className="level_description_icon" src={Gold} alt="level" />
+        case 'Master' :
+            return <img className="level_description_icon" src={Master} alt="level" />
+        default :
+            return <img className="level_description_icon" src={Starter} alt="level" />
+
+    }
+}

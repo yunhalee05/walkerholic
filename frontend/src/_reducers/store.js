@@ -1,7 +1,8 @@
 import{combineReducers, createStore, compose, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk'
+import { activityReducer } from './ActivityReducers';
 import { authReducer } from './AuthReducers';
-import { discoverReducer, followingPostsReducer, postReducer } from './PostReducers';
+import { discoverReducer, followingPostsReducer, homeReducer, postReducer } from './PostReducers';
 import { profileReducer } from './ProfileReducers';
 
 const initialState = {
@@ -19,6 +20,8 @@ const reducer = combineReducers({
     discover : discoverReducer,
     posts : followingPostsReducer,
     post : postReducer,
+    home : homeReducer,
+    activity : activityReducer,
     
 
 })

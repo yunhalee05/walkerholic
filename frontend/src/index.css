@@ -65,3 +65,6 @@ body button:hover{
 
 /* PostCard */
 @import url('./styles/post_card.css');
+
+/* Activity */
+@import url('./styles/activity.css');

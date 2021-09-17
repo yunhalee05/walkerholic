@@ -11,6 +11,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +39,7 @@ public class ActivityService {
         }
     }
 
-    public String saveActivity(ActivityCreateDTO activityCreateDTO, MultipartFile multipartFile){
+    public ActivityCreateDTO saveActivity(ActivityCreateDTO activityCreateDTO, MultipartFile multipartFile){
 
         if(activityCreateDTO.getId()!=null){
             Activity existingActivity = activityRepository.findById(activityCreateDTO.getId()).get();
@@ -48,6 +50,8 @@ public class ActivityService {
             if(multipartFile!=null){
                 saveActivityImage(existingActivity,multipartFile,false);
             }
+            activityRepository.save(existingActivity);
+            return new ActivityCreateDTO(existingActivity);
         }else {
             Activity activity = new Activity();
             activity.setName(activityCreateDTO.getName());
@@ -58,8 +62,10 @@ public class ActivityService {
             if (multipartFile != null) {
                 saveActivityImage(activity, multipartFile, true);
             }
+            activityRepository.save(activity);
+            return new ActivityCreateDTO(activity);
         }
-        return "Activity saved Successfully.";
+
 
     }
 
@@ -68,6 +74,13 @@ public class ActivityService {
         ActivityDTO activityDTO = new ActivityDTO(activity);
 
         return activityDTO;
+    }
+
+    public List<ActivityCreateDTO> getActivities(){
+        List<Activity> activities = activityRepository.findAll();
+        List<ActivityCreateDTO> activityCreateDTOS = new ArrayList<>();
+        activities.forEach(activity -> activityCreateDTOS.add(new ActivityCreateDTO(activity)));
+        return activityCreateDTOS;
     }
 
     public String deleteActivity(Integer id){

@@ -1,5 +1,6 @@
 package com.yunhalee.walkerholic.dto;
 
+import com.yunhalee.walkerholic.entity.Activity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,8 @@ public class ActivityCreateDTO {
 
     private String description;
 
+    private String imageUrl;
+
     public ActivityCreateDTO(Integer id, String name, Integer score, String description) {
         this.id = id;
         this.name = name;
@@ -22,9 +25,20 @@ public class ActivityCreateDTO {
         this.description = description;
     }
 
+    public ActivityCreateDTO(Activity activity) {
+        this.id = activity.getId();
+        this.name = activity.getName();
+        this.score = activity.getScore();
+        this.description = activity.getDescription();
+        this.imageUrl = activity.getImageUrl();
+    }
+
     public ActivityCreateDTO(String name, Integer score, String description) {
         this.name = name;
         this.score = score;
         this.description = description;
     }
+
+
+
 }

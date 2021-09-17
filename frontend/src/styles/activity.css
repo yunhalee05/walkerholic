@@ -1,0 +1,50 @@
+.activity{
+    max-width: 70rem;
+    min-height: 30rem;
+    margin: auto;
+}
+
+.activitycard{
+    display: flex;
+    justify-content: flex-start;
+    align-items:flex-start;
+    box-shadow: 3px 3px #b0b0b0;
+    border: 1px solid #b0b0b0;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 4rem;
+}
+
+.activity_image{
+    width: 200px;
+    min-width: 200px;
+    height: 200px;
+    min-height: 200px;
+    overflow: hidden;
+}
+
+.activity_image img{
+    width: 100%;
+    height: 100%;
+}
+
+.activity_info{
+    padding-top: 2rem;
+    margin-left: 2rem;
+}
+
+.activity_name{
+    font-size: 1.4rem;
+    font-weight: 800;
+}
+
+.activity_score{
+    font-size: 1.3rem;
+}
+
+.activity_description{
+    color: #b0b0b0;
+}
+
+.activitycard button{
+}
