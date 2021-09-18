@@ -1,6 +1,7 @@
 package com.yunhalee.walkerholic.controller;
 
 import com.yunhalee.walkerholic.dto.LevelDTO;
+import com.yunhalee.walkerholic.entity.Category;
 import com.yunhalee.walkerholic.entity.Level;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,5 +29,10 @@ public class MainController {
     public List<LevelDTO> getLevels(){
         List<LevelDTO> levels = Arrays.stream(Level.values()).map(level -> new LevelDTO(level)).collect(Collectors.toList());
         return levels;
+    }
+
+    @GetMapping("/categories")
+    public List<String> getCategories(){
+        return Arrays.stream(Category.values()).map(category -> category.name()).collect(Collectors.toList());
     }
 }

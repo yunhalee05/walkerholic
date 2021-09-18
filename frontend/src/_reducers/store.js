@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import { activityReducer } from './ActivityReducers';
 import { authReducer } from './AuthReducers';
 import { discoverReducer, followingPostsReducer, homeReducer, postReducer } from './PostReducers';
+import { productsReducer } from './ProductReducers';
 import { profileReducer } from './ProfileReducers';
 
 const initialState = {
@@ -22,6 +23,7 @@ const reducer = combineReducers({
     post : postReducer,
     home : homeReducer,
     activity : activityReducer,
+    products : productsReducer
     
 
 })

@@ -16,6 +16,8 @@ import PostDetailScreen from './screens/PostDetailScreen';
 import ActivityScreen from './screens/ActivityScreen';
 import ActivityDetailScreen from './screens/ActivityDetailScreen';
 import PostsScreen from './screens/PostsScreen';
+import ProductScreen from './screens/ProductScreen'
+import ProductDetailScreen from './screens/ProductDetailScreen'
 
 function App() {
 
@@ -50,6 +52,9 @@ function App() {
             <Route exact path="/post/:id" component={PostDetailScreen}/>
             <Route exact path="/activities" component={ActivityScreen}/>
             <Route exact path="/activity/:id" component={ActivityDetailScreen}/>
+            <Route exact path="/products" component={ProductScreen}/>
+            <Route exact path="/products/:sort/:category" component={ProductScreen}/>
+            <Route exact path="/product/:id" component={ProductDetailScreen}/>
           </div>
           <Footer/>
       </div>

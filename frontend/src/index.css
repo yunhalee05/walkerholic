@@ -68,3 +68,6 @@ body button:hover{
 
 /* Activity */
 @import url('./styles/activity.css');
+
+/* Product */
+@import url('./styles/product.css');

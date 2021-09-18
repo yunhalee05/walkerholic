@@ -40,7 +40,7 @@ public class ProductDTO {
         this.name = product.getName();
         this.description = product.getDescription();
         this.brand = product.getBrand();
-        this.category = product.getCategory();
+        this.category = product.getCategory().name();
         this.stock = product.getStock();
         this.price = product.getPrice();
         this.productImages = ProductImage.imageList(product.getProductImages());

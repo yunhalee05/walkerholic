@@ -1,0 +1,8 @@
+.product_category{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.product_category span{
+    margin-right: 2rem;
+}

@@ -1,5 +1,6 @@
 package com.yunhalee.walkerholic.dto;
 
+import com.yunhalee.walkerholic.entity.Product;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -43,4 +44,5 @@ public class ProductCreateDTO {
         this.price = price;
         this.userId = userId;
     }
+
 }

@@ -31,13 +31,16 @@ public class Product extends BaseTimeEntity{
     private String brand;
 
     @Column(nullable = false)
-    private String category;
+    @Enumerated(EnumType.STRING)
+    private Category category;
 
     @Column(nullable = false)
     private Integer stock;
 
     @Column(nullable = false)
     private Integer price;
+
+    private Float average;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> productImages = new ArrayList<>();
@@ -55,6 +58,14 @@ public class Product extends BaseTimeEntity{
 //        this.productImages.forEach(productImage -> productImageUrl.add(productImage.getFilePath()));
 //        return productImageUrl;
 //    }
+
+    public void addReview(Review review){
+        reviews.add(review);
+        review.setProduct(this);
+
+        Integer sum = reviews.stream().mapToInt(reviews->reviews.getRating()).sum();
+        this.average = (float)(Math.round(sum/(long)reviews.size()*100)/100.0);
+    }
 
     //비지니스 로직
     public void addStock(Integer qty){

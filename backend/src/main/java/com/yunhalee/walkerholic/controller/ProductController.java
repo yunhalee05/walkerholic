@@ -4,11 +4,13 @@ import com.yunhalee.walkerholic.dto.ProductCreateDTO;
 import com.yunhalee.walkerholic.dto.ProductDTO;
 import com.yunhalee.walkerholic.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -35,6 +37,15 @@ public class ProductController {
     public ResponseEntity<?> getProduct(@PathVariable("id")String id){
         Integer productId = Integer.parseInt(id);
         return new ResponseEntity<ProductDTO>(productService.getProduct(productId), HttpStatus.OK);
+    }
+
+    @GetMapping("/products/{page}")
+    public ResponseEntity<?> getProducts(@PathVariable("page")String page, @RequestParam(value = "sort",required = false)String sort, @RequestParam(value = "category", required = false)String category, @RequestParam(value = "keyword",required = false)String keyword){
+        Integer pageNumber = Integer.parseInt(page);
+        System.out.println(sort);
+        System.out.println(keyword);
+        System.out.println(category);
+        return new ResponseEntity<HashMap>(productService.getProducts(pageNumber, sort, category, keyword),HttpStatus.OK);
     }
 
     @DeleteMapping("/product/delete/{id}")

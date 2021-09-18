@@ -7,7 +7,7 @@ function ActivityUserCard({userActivity}) {
         <div>
 
             <Link to={`/user/${userActivity.userId}`}>
-                <div>
+                <div style={userActivity.status==='ONGOING'? {color:"#e6857e"}:{color:"#58c4a9"}}>
                     {userActivity.status}
                 </div>
                 <div>
