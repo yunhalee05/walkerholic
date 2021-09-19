@@ -2,6 +2,8 @@ package com.yunhalee.walkerholic;
 
 import com.yunhalee.walkerholic.entity.Category;
 import com.yunhalee.walkerholic.entity.Product;
+import com.yunhalee.walkerholic.entity.ProductImage;
+import com.yunhalee.walkerholic.repository.ProductImageRepository;
 import com.yunhalee.walkerholic.repository.ProductRepository;
 import com.yunhalee.walkerholic.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -31,6 +33,9 @@ public class ProductRepositoryTests {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ProductImageRepository productImageRepository;
 
 
     @Test
@@ -67,5 +72,19 @@ public class ProductRepositoryTests {
         Page<Product> productPage = productRepository.findAllByKeyword(pageable,"");
         List<Product> products= productPage.getContent();
         products.forEach(product -> product.getName());
+    }
+
+    @Test
+    public void testUpdateProduct(){
+        Integer id =4;
+        Product product = productRepository.findByProductId(id);
+        ProductImage productImage = new ProductImage();
+        productImage.setName("다운로드.png");
+        productImage.setFilePath("/productUploads/4/다운로드.png");
+        productImage.setProduct(product);
+        productImageRepository.save(productImage);
+
+
+
     }
 }

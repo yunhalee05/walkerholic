@@ -1,3 +1,8 @@
+.productscreen{
+    max-width: 80rem;
+    margin: auto;
+}
+
 .product_category{
     display: flex;
     justify-content: flex-end;
@@ -6,3 +11,43 @@
 .product_category span{
     margin-right: 2rem;
 }
+
+
+/* Product Card */
+.productcard_container{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    justify-content: center;
+    grid-gap:5px;
+    overflow: hidden;
+}
+
+.productcard{
+    display: block;
+    padding: 1rem;
+    cursor: pointer;
+    margin: auto;
+}
+
+.productcard_name{
+    font-size: 1.2rem;
+}
+
+.productcard_image{
+    /* width: 270px;
+    height: 270px;
+    overflow: hidden; */
+}
+
+.productcard_image img{
+    width: 270px;
+    height: auto;
+}
+
+.productcard_price{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+

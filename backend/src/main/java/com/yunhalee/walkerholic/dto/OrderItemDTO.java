@@ -1,37 +1,31 @@
 package com.yunhalee.walkerholic.dto;
 
-import com.yunhalee.walkerholic.entity.Order;
-import com.yunhalee.walkerholic.entity.Product;
+import com.yunhalee.walkerholic.entity.OrderItem;
 import lombok.Getter;
 import lombok.Setter;
-
 
 @Getter
 @Setter
 public class OrderItemDTO {
 
     private Integer id;
-
     private Integer qty;
-
     private Integer price;
 
     private Integer productId;
+    private String productName;
+    private String productDescription;
+    private String productBrand;
+    private String productImageUrl;
 
-    private Integer orderId;
-
-    public OrderItemDTO(Integer id, Integer qty, Integer price, Integer productId, Integer orderId) {
-        this.id = id;
-        this.qty = qty;
-        this.price = price;
-        this.productId = productId;
-        this.orderId = orderId;
-    }
-
-    public OrderItemDTO(Integer qty, Integer price, Integer productId, Integer orderId) {
-        this.qty = qty;
-        this.price = price;
-        this.productId = productId;
-        this.orderId = orderId;
+    public OrderItemDTO(OrderItem orderItem) {
+        this.id = orderItem.getId();
+        this.qty = orderItem.getQty();
+        this.price = orderItem.getPrice();
+        this.productId = orderItem.getProduct().getId();
+        this.productName = orderItem.getProduct().getName();
+        this.productDescription = orderItem.getProduct().getDescription();
+        this.productBrand = orderItem.getProduct().getBrand();
+        this.productImageUrl = orderItem.getProduct().getMainImageUrl();
     }
 }

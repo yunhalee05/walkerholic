@@ -26,21 +26,17 @@ function ProductScreen(props) {
     }, [dispatch, sort, category, keyword])
 
     return (
-        <div>
-            {
+        <div className="productscreen">
+            {   
+                products.products &&
                 <div>
                     <Category setCategory={setCategory}/>
 
                     <Sort setSort={setSort}/>
 
-                    {
-                        products.products.map((product, index)=>(
-                            <ProductCard product={product} key={index}/>
-                        ))
-                    }
+                    <ProductCard products={products.products}/>
                 </div>
             }
-
 
         </div>
     )

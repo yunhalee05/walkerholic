@@ -1,9 +1,6 @@
 package com.yunhalee.walkerholic.controller;
 
-import com.yunhalee.walkerholic.dto.AddressDTO;
-import com.yunhalee.walkerholic.dto.OrderCreateDTO;
-import com.yunhalee.walkerholic.dto.OrderDTO;
-import com.yunhalee.walkerholic.dto.OrderItemDTO;
+import com.yunhalee.walkerholic.dto.*;
 import com.yunhalee.walkerholic.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +18,7 @@ public class OrderController {
     @PostMapping("/order/create")
     public ResponseEntity<?> createOrder(@RequestBody OrderCreateDTO orderCreateDTO) {
         AddressDTO addressDTO = orderCreateDTO.getAddress();
-        List<OrderItemDTO> orderItemDTOS = orderCreateDTO.getOrderItems();
+        List<OrderItemCreateDTO> orderItemCreateDTOS = orderCreateDTO.getOrderItems();
 
         return new ResponseEntity<OrderDTO>(orderService.createOrder(orderCreateDTO), HttpStatus.CREATED);
     }
@@ -36,6 +33,25 @@ public class OrderController {
     public OrderDTO getOrder(@PathVariable("id") String id) {
         Integer orderId = Integer.parseInt(id);
         return orderService.getOrder(orderId);
+    }
+
+    @GetMapping("/cartItems/{id}")
+    public OrderCartDTO getCart(@PathVariable("id")String id){
+        Integer userId = Integer.parseInt(id);
+        return orderService.getCart(userId);
+    }
+
+    @PostMapping("/createCart/{id}")
+    public Integer createCart(@PathVariable("id")String id) {
+        Integer userId = Integer.parseInt(id);
+        return orderService.createCart(userId);
+    }
+
+    @PostMapping("/addToCart/{id}")
+    public OrderItemDTO addToCart(@PathVariable("id")String id, @RequestBody OrderItemCreateDTO orderItem){
+        Integer orderId = Integer.parseInt(id);
+        System.out.println(orderItem);
+        return orderService.addToCart(orderId, orderItem);
     }
 
 }

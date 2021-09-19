@@ -18,6 +18,8 @@ import ActivityDetailScreen from './screens/ActivityDetailScreen';
 import PostsScreen from './screens/PostsScreen';
 import ProductScreen from './screens/ProductScreen'
 import ProductDetailScreen from './screens/ProductDetailScreen'
+import { GET_CARTITEMS_SUCCESS } from './_constants/OrderConstants';
+import CartScreen from './screens/CartScreen';
 
 function App() {
 
@@ -27,10 +29,15 @@ function App() {
     if(localStorage.getItem("walkerholic_token")){
       const token = localStorage.getItem("walkerholic_token").replace(/\"/gi, "")
       dispatch(auth(token)).then(async(id)=>{
-        const res = await axios.get(`/follows/${id}`)
+        const res1 = await axios.get(`/follows/${id}`)
         dispatch({
           type:GET_AUTH_FOLLOWS,
-          payload:res.data
+          payload:res1.data
+        })
+        const res2 = await axios.get(`/cartItems/${id}`)
+        dispatch({
+          type:GET_CARTITEMS_SUCCESS,
+          payload:res2.data
         })
       })
     }
@@ -55,6 +62,7 @@ function App() {
             <Route exact path="/products" component={ProductScreen}/>
             <Route exact path="/products/:sort/:category" component={ProductScreen}/>
             <Route exact path="/product/:id" component={ProductDetailScreen}/>
+            <Route exact path="/cart/:id" component={CartScreen}/>
           </div>
           <Footer/>
       </div>

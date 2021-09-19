@@ -92,8 +92,6 @@ public class JwtAuthenticationController {
         try {
             Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-//            System.out.println(authentication.getAuthorities().toString());
-
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {

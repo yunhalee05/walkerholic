@@ -29,6 +29,7 @@ public class UserDTO {
 
     private boolean isSeller;
 
+
     public UserDTO(User user) {
         this.id = user.getId();
         this.firstname = user.getFirstname();
