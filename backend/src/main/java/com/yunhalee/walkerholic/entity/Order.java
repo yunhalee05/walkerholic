@@ -34,6 +34,8 @@ public class Order extends BaseTimeEntity{
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    private Float shipping;
+
     @Column(name = "is_paid")
     private boolean isPaid;
 

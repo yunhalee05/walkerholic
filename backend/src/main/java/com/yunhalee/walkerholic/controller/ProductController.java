@@ -26,7 +26,7 @@ public class ProductController {
                                 @RequestParam("brand")String brand,
                                 @RequestParam("category")String category,
                                 @RequestParam("stock")Integer stock,
-                                @RequestParam("price")Integer price,
+                                @RequestParam("price")Float price,
                                 @RequestParam("userId")Integer userId,
                                 @RequestParam("multipartFile")List<MultipartFile> multipartFiles){
         ProductCreateDTO productCreateDTO = new ProductCreateDTO(id, name, description,brand,category,stock,price,userId);

@@ -13,10 +13,10 @@ function ProductCard({products}) {
 
     const handleAddToCart = (product) =>{
         if(cart.id){
-            dispatch(addCart(1, product.price, product.id,cart.id))
+            dispatch(addCart(1, product.id,cart.id))
         }else{
             dispatch(createCart()).then(res=>{
-                dispatch(addCart(1, product.price, product.id, res))
+                dispatch(addCart(1, product.id, res))
             })
         }
     }
@@ -24,7 +24,7 @@ function ProductCard({products}) {
         <div className="productcard_container">
             {
                 products.map((product,index)=>(
-                    <div className="productcard">
+                    <div className="productcard" key={index}>
                         <div className="productcard_name">
                             {product.name}
                         </div>

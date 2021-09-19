@@ -20,11 +20,11 @@ public class ProductCreateDTO {
 
     private Integer stock;
 
-    private Integer price;
+    private Float price;
 
     private Integer userId;
 
-    public ProductCreateDTO(String name, String description, String brand, String category, Integer stock, Integer price, Integer userId) {
+    public ProductCreateDTO(String name, String description, String brand, String category, Integer stock, Float price, Integer userId) {
         this.name = name;
         this.description = description;
         this.brand = brand;
@@ -34,7 +34,7 @@ public class ProductCreateDTO {
         this.userId = userId;
     }
 
-    public ProductCreateDTO(Integer id, String name, String description, String brand, String category, Integer stock, Integer price, Integer userId) {
+    public ProductCreateDTO(Integer id, String name, String description, String brand, String category, Integer stock, Float price, Integer userId) {
         this.id = id;
         this.name = name;
         this.description = description;

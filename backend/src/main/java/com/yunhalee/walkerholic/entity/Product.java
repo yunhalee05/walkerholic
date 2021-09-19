@@ -38,7 +38,7 @@ public class Product extends BaseTimeEntity{
     private Integer stock;
 
     @Column(nullable = false)
-    private Integer price;
+    private Float price;
 
     private Float average;
 

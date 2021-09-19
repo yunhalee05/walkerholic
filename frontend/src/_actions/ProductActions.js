@@ -1,5 +1,5 @@
 import axios from "axios"
-import { GET_PRODUCTS_FAIL, GET_PRODUCTS_REQUEST, GET_PRODUCTS_SUCCESS } from "../_constants/ProductConstants"
+import { GET_PRODUCTS_FAIL, GET_PRODUCTS_REQUEST, GET_PRODUCTS_SUCCESS, GET_PRODUCT_FAIL, GET_PRODUCT_REQUEST, GET_PRODUCT_SUCCESS } from "../_constants/ProductConstants"
 
 export const getProducts = (page, sort, category,keyword) =>async(dispatch, getState)=>{
 
@@ -25,6 +25,29 @@ export const getProducts = (page, sort, category,keyword) =>async(dispatch, getS
     }catch(error){
         dispatch({
             type:GET_PRODUCTS_FAIL,
+            payload:error.response.data
+            
+        })
+    }
+}
+export const getProduct = (id) =>async(dispatch, getState)=>{
+
+    dispatch({
+        type:GET_PRODUCT_REQUEST
+    })
+
+    try{
+        const res = await axios.get(`/product/${id}`)
+
+        dispatch({
+            type:GET_PRODUCT_SUCCESS,
+            payload:res.data
+        })
+
+
+    }catch(error){
+        dispatch({
+            type:GET_PRODUCT_FAIL,
             payload:error.response.data
             
         })

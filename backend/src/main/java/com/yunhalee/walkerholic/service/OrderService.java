@@ -37,7 +37,7 @@ public class OrderService {
         List<OrderItem> orderItems = new ArrayList<>();
         orderItemCreateDTOS.forEach(orderItemCreateDTO -> {
             Product product = productRepository.findById(orderItemCreateDTO.getProductId()).get();
-            orderItems.add(OrderItem.createOrderItem(product, orderItemCreateDTO.getQty(), orderItemCreateDTO.getPrice()));
+            orderItems.add(OrderItem.createOrderItem(product, orderItemCreateDTO.getQty()));
         });
 
         Order order = Order.createOrder(user, address, orderItems, orderCreateDTO.getPaymentMethod());
@@ -82,14 +82,13 @@ public class OrderService {
 
         OrderItemDTO createdOrderItemDTO;
         if(orderItemCreateDTO.getId()==null){
-            OrderItem orderItem = OrderItem.createOrderItem(product, orderItemCreateDTO.getQty(), orderItemCreateDTO.getPrice());
+            OrderItem orderItem = OrderItem.createOrderItem(product, orderItemCreateDTO.getQty());
             orderItemRepository.save(orderItem);
             order.addOrderItem(orderItem);
             createdOrderItemDTO = new OrderItemDTO(orderItem);
         }else{
             OrderItem orderItem = orderItemRepository.findById(orderItemCreateDTO.getId()).get();
             orderItem.setQty(orderItemCreateDTO.getQty());
-            orderItem.setPrice(orderItemCreateDTO.getPrice());
             orderItemRepository.save(orderItem);
             order.addOrderItem(orderItem);
             createdOrderItemDTO = new OrderItemDTO(orderItem);

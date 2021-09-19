@@ -27,7 +27,9 @@ public class ProductDTO {
 
     private Integer stock;
 
-    private Integer price;
+    private Float price;
+
+    private Float average;
 
     private List<ProductImage> productImages;
 
@@ -46,6 +48,7 @@ public class ProductDTO {
         this.productImages = ProductImage.imageList(product.getProductImages());
         this.user = new ProductUser(product.getUser());
         this.productReviews = ProductReview.reviewList(product.getReviews());
+        this.average = product.getAverage();
     }
 
     @Getter

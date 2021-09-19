@@ -14,7 +14,7 @@ public class ProductListDTO {
 
     private Integer stock;
 
-    private Integer price;
+    private Float price;
 
     private Float average;
 

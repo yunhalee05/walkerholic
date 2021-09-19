@@ -51,3 +51,125 @@
     align-items: center;
 }
 
+
+
+/* Product Detail */
+
+/* Chrome, Safari, Edge, Opera */
+.productdetail input::-webkit-outer-spin-button,
+.productdetail input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+.productdetail input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.productdetail_container{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.productdetail_images{
+    width: 55vw;
+    margin: auto;
+}
+
+.productdetail_info{
+    width: 45vw;
+    margin: auto;
+    padding: 2rem;
+}
+
+.productdetail_info i{
+    cursor: pointer;
+}
+
+.productdetail_name{
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+.productdetail_price{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.productdetail_cart{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.productdetail_cart input{
+    width: 3rem;
+    text-align: center;
+    border: none;
+}
+
+.productdetail_seller{
+    text-align: right;
+}
+
+
+/* Product Carousel */
+.productcarousel{
+    width: 100%;
+}
+
+.productcarousel-indicators{
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.productcarousel-indicators li{
+    width: 70px;
+    height: 70px;
+    background-color: #fff;
+    position: relative;
+    margin: 10px;
+    border: none;
+}
+.productcarousel-indicators li.active{
+    border: 1px solid black;
+}
+
+.productcarousel-indicators img{
+    position: absolute;
+    width: 100%;
+    border-radius: 50%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+/* Quantity Input */
+.quantityinput{
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.quantityinput i{
+    cursor: pointer;
+}
+/* Chrome, Safari, Edge, Opera */
+.quantityinput input::-webkit-outer-spin-button,
+.quantityinput input::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Firefox */
+.quantityinput input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.quantityinput input{
+    width: 3rem;
+    text-align: center;
+    border: none;
+}

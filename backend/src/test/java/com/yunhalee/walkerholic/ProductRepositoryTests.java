@@ -3,6 +3,7 @@ package com.yunhalee.walkerholic;
 import com.yunhalee.walkerholic.entity.Category;
 import com.yunhalee.walkerholic.entity.Product;
 import com.yunhalee.walkerholic.entity.ProductImage;
+import com.yunhalee.walkerholic.entity.User;
 import com.yunhalee.walkerholic.repository.ProductImageRepository;
 import com.yunhalee.walkerholic.repository.ProductRepository;
 import com.yunhalee.walkerholic.repository.UserRepository;
@@ -37,6 +38,9 @@ public class ProductRepositoryTests {
     @Autowired
     private ProductImageRepository productImageRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
 
     @Test
     public void testGetProductById(){
@@ -49,7 +53,7 @@ public class ProductRepositoryTests {
     @Test
     public void testCreateProduct(){
         Product product = new Product();
-        product.setPrice(10);
+        product.setPrice(10.00f);
         product.setBrand("Adidas");
         product.setCategory(Category.CLOTHES);
         product.setName("Shirts");
@@ -78,12 +82,15 @@ public class ProductRepositoryTests {
     public void testUpdateProduct(){
         Integer id =4;
         Product product = productRepository.findByProductId(id);
-        ProductImage productImage = new ProductImage();
-        productImage.setName("다운로드.png");
-        productImage.setFilePath("/productUploads/4/다운로드.png");
-        productImage.setProduct(product);
-        productImageRepository.save(productImage);
-
+//        ProductImage productImage = new ProductImage();
+//        productImage.setName("다운로드.png");
+//        productImage.setFilePath("/productUploads/3/다운로드.png");
+//        productImage.setProduct(product);
+//        productImageRepository.save(productImage);
+//        User user = userRepository.findById(14).get();
+//        product.setUser(user);
+        product.setPrice(15.00f);
+//        productRepository.save(product);
 
 
     }

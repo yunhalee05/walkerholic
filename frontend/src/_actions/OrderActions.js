@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ADD_TO_CART_FAIL, ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, CREATE_CART_FAIL, CREATE_CART_REQUEST, CREATE_CART_SUCCESS, GET_CARTITEMS_FAIL, GET_CARTITEMS_REQUEST, GET_CARTITEMS_SUCCESS } from "../_constants/OrderConstants"
+import { ADD_TO_CART_FAIL, ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, CREATE_CART_FAIL, CREATE_CART_REQUEST, CREATE_CART_SUCCESS, DELETE_ORDERITEM_FAIL, DELETE_ORDERITEM_REQUEST, DELETE_ORDERITEM_SUCCESS, GET_CARTITEMS_FAIL, GET_CARTITEMS_REQUEST, GET_CARTITEMS_SUCCESS, UPDATE_ORDERITEM_QTY_FAIL, UPDATE_ORDERITEM_QTY_REQUEST, UPDATE_ORDERITEM_QTY_SUCCESS } from "../_constants/OrderConstants"
 
 export const getCart = (id) =>async(dispatch, getState)=>{
 
@@ -56,7 +56,7 @@ export const createCart = () =>async(dispatch, getState)=>{
     }
 }
 
-export const addCart = (qty, price, productId, orderId) =>async(dispatch, getState)=>{
+export const addCart = (qty, productId, orderId) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
     const {cart : {orderItems}} = getState()
@@ -70,14 +70,12 @@ export const addCart = (qty, price, productId, orderId) =>async(dispatch, getSta
             orderItem={
                 id:existOrderItem[0].id,
                 qty:existOrderItem[0].qty+qty,
-                price:existOrderItem[0].price+(price*qty),
                 productId:existOrderItem[0].productId,
                 orderId:orderId
             }
         }else{
             orderItem={
                 qty:qty,
-                price:(price*qty),
                 productId:productId,
                 orderId:orderId
             }
@@ -85,7 +83,6 @@ export const addCart = (qty, price, productId, orderId) =>async(dispatch, getSta
     }else{
     orderItem={
         qty:qty,
-        price:(price*qty),
         productId:productId,
         orderId:orderId
         }
@@ -96,11 +93,9 @@ export const addCart = (qty, price, productId, orderId) =>async(dispatch, getSta
         type:ADD_TO_CART_REQUEST
     })
 
-    console.log(orderItem)
     try{
         const res = await axios.post(`/addToCart/${orderId}`, orderItem)
 
-        console.log(res)
         dispatch({
             type:ADD_TO_CART_SUCCESS,
             payload:res.data
@@ -110,6 +105,67 @@ export const addCart = (qty, price, productId, orderId) =>async(dispatch, getSta
     }catch(error){
         dispatch({
             type:ADD_TO_CART_FAIL,
+            payload:error.response.data
+            
+        })
+        // console.log(error)
+    }
+}
+
+
+export const updateQty = (id, qty) =>async(dispatch, getState)=>{
+
+    const {auth : {user}} = getState()
+
+    dispatch({
+        type:UPDATE_ORDERITEM_QTY_REQUEST
+    })
+
+
+    try{
+        await axios.post(`/updateQty/${id}?qty=${qty}`,null)
+
+        dispatch({
+            type:UPDATE_ORDERITEM_QTY_SUCCESS,
+            payload:{
+                id:id,
+                qty:qty
+            }
+        })
+
+
+    }catch(error){
+        dispatch({
+            type:UPDATE_ORDERITEM_QTY_FAIL,
+            payload:error.response.data
+            
+        })
+        // console.log(error)
+    }
+}
+
+
+export const deleteOrderItem = (id) =>async(dispatch, getState)=>{
+
+    const {auth : {user}} = getState()
+
+    dispatch({
+        type:DELETE_ORDERITEM_REQUEST
+    })
+
+
+    try{
+        await axios.delete(`/deleteOrderItem/${id}`)
+
+        dispatch({
+            type:DELETE_ORDERITEM_SUCCESS,
+            payload:id
+        })
+
+
+    }catch(error){
+        dispatch({
+            type:DELETE_ORDERITEM_FAIL,
             payload:error.response.data
             
         })

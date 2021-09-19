@@ -39,6 +39,7 @@ body button:hover{
   border: 2px solid #e0e0e0;
 }
 
+
 /* Header */
 @import url('./styles/header.css');
 
@@ -71,3 +72,6 @@ body button:hover{
 
 /* Product */
 @import url('./styles/product.css');
+
+/* Cart */
+@import url('./styles/cart.css');

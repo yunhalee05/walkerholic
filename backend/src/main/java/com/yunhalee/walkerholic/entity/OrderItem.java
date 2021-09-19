@@ -21,8 +21,6 @@ public class OrderItem {
     @Column(nullable = false)
     private Integer qty;
 
-    @Column(nullable = false)
-    private Integer price;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
@@ -32,11 +30,10 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    public static OrderItem createOrderItem(Product product,Integer qty, Integer price){
+    public static OrderItem createOrderItem(Product product,Integer qty){
         OrderItem orderItem = new OrderItem();
         orderItem.setProduct(product);
         orderItem.setQty(qty);
-        orderItem.setPrice(price);
 
         product.removeStock(qty);
         return orderItem;

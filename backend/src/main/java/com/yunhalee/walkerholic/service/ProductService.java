@@ -100,7 +100,6 @@ public class ProductService {
 
     public ProductDTO getProduct(Integer id){
         Product product = productRepository.findByProductId(id);
-
         return new ProductDTO(product);
     }
 
