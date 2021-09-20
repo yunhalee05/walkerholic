@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useHistory } from 'react-router'
 import CartProductCard from '../components/cart/CartProductCard'
+import { CHECKOUT } from '../_constants/OrderConstants'
 
 function CartScreen(props) {
 
@@ -9,10 +11,19 @@ function CartScreen(props) {
     const cart = useSelector(state => state.cart)
 
     const dispatch = useDispatch()
+    const history = useHistory()
 
-    const subtotal = parseFloat(cart.orderItems.reduce((a,c)=> a+ c.productPrice*c.qty,0))
+    const subtotal = parseFloat(cart.orderItems?.reduce((a,c)=> a+ c.productPrice*c.qty,0))
     const shipping = subtotal>100 ? parseFloat(0) : parseFloat(5)
     const total = subtotal + shipping 
+
+    const handleCheckout = () =>{
+        dispatch({
+            type:CHECKOUT
+        })
+
+        return history.push(`/placeOrder/${id}`)
+    }
 
     return (
         <>
@@ -44,7 +55,7 @@ function CartScreen(props) {
                         <div>{total.toFixed(2)}$</div>
                     </div>
                     <div className="form_button">
-                        <button>Checkout</button>
+                        <button onClick={handleCheckout}>Checkout</button>
                     </div>
                 </div>
 

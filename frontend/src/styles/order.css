@@ -1,0 +1,16 @@
+.placeorder{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.placeorder_info{
+    width: 50%;
+}
+.placeorder_summary{
+    width: 50%;
+}
+
+.placeorder_items{
+    max-height: 300px;
+}

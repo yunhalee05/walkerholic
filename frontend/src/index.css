@@ -75,3 +75,6 @@ body button:hover{
 
 /* Cart */
 @import url('./styles/cart.css');
+
+/* Order */
+@import url('./styles/order.css');

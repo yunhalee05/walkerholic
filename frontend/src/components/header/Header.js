@@ -7,17 +7,19 @@ import Sidebar from './Sidebar'
 function Header() {
 
     const [keyword, setKeyword] = useState('')
+    const [isOpen, setIsOpen] = useState(false)
 
     const auth = useSelector(state => state.auth)
 
     return (
         <>
-        {/* <Sidebar/> */}
+
+        <Sidebar setIsOpen={setIsOpen} isOpen={isOpen}/>
 
         <div className="header">
             <div className="header_logo">
+                <i class="fas fa-bars" style={{marginRight:'1rem'}} onClick={()=>setIsOpen(true)}></i>
                 <i class="fas fa-walking"></i>
-                <i class="fas fa-male"></i>
                 <Link to='/'>walkerholic</Link>
             </div>
 

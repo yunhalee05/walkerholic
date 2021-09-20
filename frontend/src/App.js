@@ -20,6 +20,9 @@ import ProductScreen from './screens/ProductScreen'
 import ProductDetailScreen from './screens/ProductDetailScreen'
 import { GET_CARTITEMS_SUCCESS } from './_constants/OrderConstants';
 import CartScreen from './screens/CartScreen';
+import OrderScreen from './screens/PlaceOrderScreen';
+import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import AboutUsScreen from './screens/AboutUsScreen';
 
 function App() {
 
@@ -63,6 +66,8 @@ function App() {
             <Route exact path="/products/:sort/:category" component={ProductScreen}/>
             <Route exact path="/product/:id" component={ProductDetailScreen}/>
             <Route exact path="/cart/:id" component={CartScreen}/>
+            <Route exact path="/placeOrder/:id" component={PlaceOrderScreen}/>
+            <Route exact path="/about" component={AboutUsScreen}/>
           </div>
           <Footer/>
       </div>

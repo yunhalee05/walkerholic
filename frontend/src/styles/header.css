@@ -1,6 +1,7 @@
 .header i{
     font-weight: 800;
     padding-left: 1px;
+    cursor: pointer;
 }
 
 .header{
@@ -10,6 +11,15 @@
     align-items: center;
     padding: 2rem;
     height: 6rem;
+}
+
+.header_logo a{
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.header_logo i{
+    font-size: 2rem;
 }
 
 .header_search{
@@ -64,20 +74,112 @@
 
 /* SideBar */
 .sidebar{
+    max-width: 50rem;
     position: fixed;
     margin: 0;
     padding: 0;
     width: 100vw;
     height: 100vh;
-    background-color: green;
+    background-color: white;
     overflow: auto;
+    z-index: 10;
     /* left: -100%; */
+    counter-reset: about;
+    transition: all 1s ease-in-out;
 }
+
+.sidebar_logo{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 2rem;
+    height: 6rem;
+    margin-bottom: 20vh;
+}
+
+.sidebar_logo i{
+    font-size: 2rem;
+    margin-right: 5px;
+}
+
 
 .sidebar_items{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
     justify-content: center;
     grid-gap:5px;
     overflow: hidden;
+    margin-left: 6rem;
+    /* display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; */
+}
+
+.sidebar_item{
+    margin-bottom: 2rem;
+    margin-right: 1rem;
+}
+
+
+.sidebar_item a{
+    font-size: 3rem;
+    font-weight: 800;
+}
+
+
+.sidebar_item_name::before{
+    counter-increment: about;
+    content: '0'counter(about);
+    display: inline-block;
+    transform: translate(0, -30px) rotate(-90deg);
+    font-size: 11px;
+    font-weight: 800;
+}
+
+
+.sidebar_description{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+
+.sidebar_description::before{
+    content: '';
+    width: 10px;
+    height: 2px;
+    background-color: black;
+    margin: 5px;
+}
+
+.sidebar_item::after{
+    content: '';
+    width: 0rem;
+    height: 2px;
+    background-color: black;
+    display: block;
+    transition: all 0.3s ease-in-out;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.sidebar_item:hover::after{
+    width: 4rem;
+}
+
+.sideopen{
+    -webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
+}
+
+.sideclose{
+    visibility: visible;
+	-webkit-transform: translate3d(-100%, 0, 0);
+	transform: translate3d(-100%, 0, 0);
+
 }
