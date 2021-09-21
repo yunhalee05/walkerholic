@@ -53,9 +53,10 @@ public class PostController {
         return new ResponseEntity<HashMap<String, Object>>(postService.getPostsByFollowings(pageNumber, userId), HttpStatus.OK);
     }
 
-    @GetMapping("/posts/home")
-    public List<PostDTO> getHomePosts(){
-        return postService.getHomePosts();
+    @GetMapping("/posts/home/{page}")
+    public HashMap<String, Object> getHomePosts(@PathVariable("page")String page){
+        Integer pageNumber = Integer.parseInt(page);
+        return postService.getHomePosts(pageNumber);
     }
 
     @DeleteMapping("/post/{id}")

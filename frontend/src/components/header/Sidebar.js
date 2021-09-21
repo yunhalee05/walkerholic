@@ -30,7 +30,7 @@ function Sidebar({isOpen,setIsOpen}) {
                     </div>
                     <div className="sidebar_item">
                         <div className="sidebar_item_name">
-                            <Link>Product</Link>
+                            <Link to="/products">Product</Link>
                         </div>
                         <div className="sidebar_description">
                             Explore ecofriendly products
@@ -38,7 +38,7 @@ function Sidebar({isOpen,setIsOpen}) {
                     </div>
                     <div className="sidebar_item">
                         <div className="sidebar_item_name">
-                            <Link>Activity</Link>
+                            <Link to="/activities">Activity</Link>
                         </div> 
                         <div className="sidebar_description">
                             Help planet's health with your power

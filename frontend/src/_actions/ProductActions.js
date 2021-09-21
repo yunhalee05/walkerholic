@@ -21,6 +21,8 @@ export const getProducts = (page, sort, category,keyword) =>async(dispatch, getS
             payload:res.data
         })
 
+        return res.data.products
+
 
     }catch(error){
         dispatch({

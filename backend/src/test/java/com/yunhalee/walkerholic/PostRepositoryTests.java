@@ -70,4 +70,12 @@ public class PostRepositoryTests {
         System.out.println(posts);
     }
 
+    @Test
+    public void testGetPostByLikePosts(){
+        Pageable pageable = PageRequest.of(0, 9);
+        Page<Post> postPage = postRepository.findByLikePostSize(pageable);
+        List<Post> posts = postPage.getContent();
+        posts.forEach(post -> System.out.println(post.getId()));
+    }
+
 }

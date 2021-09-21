@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PostCard from '../components/posts/PostCard'
 import { getHomePost } from '../_actions/PostActions'
@@ -7,11 +7,14 @@ function PostsScreen() {
 
     const home = useSelector(state => state.home)
 
+    const [page, setPage] = useState(1)
+
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getHomePost())
+        dispatch(getHomePost(1))
     }, [dispatch])
+    
     return (
         <>
         {

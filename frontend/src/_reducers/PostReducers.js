@@ -86,7 +86,7 @@ export const homeReducer = (state={}, action)=>{
         case GET_HOME_POST_REQUEST:
             return {...state, loading:true}
         case GET_HOME_POST_SUCCESS:
-            return {...state, loading:false, posts:action.payload}
+            return {...state, loading:false, posts:action.payload.posts, totalElement:action.payload.totalElement, totalPage:action.payload.totalPage}
         case GET_HOME_POST_FAIL:
             return {...state, loading:false, error:action.payload}
 

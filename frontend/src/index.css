@@ -43,6 +43,9 @@ body button:hover{
 /* Header */
 @import url('./styles/header.css');
 
+/* Home */
+@import url('./styles/home.css');
+
 /* Login, Register */
 @import url('./styles/auth.css');
 

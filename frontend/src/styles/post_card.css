@@ -19,6 +19,7 @@
 .postcard_user_info{
     display: flex;
     justify-content: flex-start;
+    margin-bottom: 1rem;
 }
 
 .postcard_user_info img{

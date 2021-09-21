@@ -42,9 +42,6 @@ public class ProductController {
     @GetMapping("/products/{page}")
     public ResponseEntity<?> getProducts(@PathVariable("page")String page, @RequestParam(value = "sort",required = false)String sort, @RequestParam(value = "category", required = false)String category, @RequestParam(value = "keyword",required = false)String keyword){
         Integer pageNumber = Integer.parseInt(page);
-        System.out.println(sort);
-        System.out.println(keyword);
-        System.out.println(category);
         return new ResponseEntity<HashMap>(productService.getProducts(pageNumber, sort, category, keyword),HttpStatus.OK);
     }
 

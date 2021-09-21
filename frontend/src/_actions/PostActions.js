@@ -102,20 +102,21 @@ export const getPost = (id) =>async(dispatch, getState)=>{
     }
 }
 
-export const getHomePost = () =>async(dispatch, getState)=>{
+export const getHomePost = (page) =>async(dispatch, getState)=>{
 
     dispatch({
         type:GET_HOME_POST_REQUEST
     })
 
     try{
-        const res = await axios.get(`/posts/home`)
+        const res = await axios.get(`/posts/home/${page}`)
 
         dispatch({
             type:GET_HOME_POST_SUCCESS,
             payload:res.data
         })
 
+        return res.data.posts
 
     }catch(error){
         dispatch({
