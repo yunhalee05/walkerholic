@@ -27,18 +27,18 @@ function HomePostCard({post}) {
                 <div className="home_cardbody_image">
                     <img src={post.postImages[0].imageUrl} alt="" />
                 </div>
-            <div className="home_cardbody_content">
-                {
-                    post.content.length>0 && <strong>{post.user.fullname}  </strong>
-                }
-                <span>
-                {
-                    post.content.length<60
-                    ? post.content
-                    :post.content.slice(0,60)+ "..."
-                }
-                </span>
-            </div>
+                <div className="home_cardbody_content">
+                    {
+                        post.content.length>0 && <strong>{post.user.fullname}  </strong>
+                    }
+                    <span>
+                    {
+                        post.content.length<20
+                        ? post.content
+                        :post.content.slice(0,20)+ "..."
+                    }
+                    </span>
+                </div>
         </div>
 
         <div className="home_cardfooter">

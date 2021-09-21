@@ -6,6 +6,7 @@ import ProductCard from '../components/home/ProductCard';
 import { Link } from 'react-router-dom';
 import { getHomePost } from '../_actions/PostActions';
 import HomePostCard from '../components/home/HomePostCard';
+import Arrow from '../images/Arrow.png'
 
 function HomeScreen() {
 
@@ -30,7 +31,7 @@ function HomeScreen() {
         <div className="home">
             <div className="home_main">
                 <div className="home_maintitle">
-                    Save<br/><span style={{backgroundColor:"#5374a6", fontStyle:"italic"}}>&nbsp;our&nbsp;</span><br/>planet
+                    Save<br/><span style={{backgroundColor:"#b59760", fontStyle:"italic"}}>&nbsp;our&nbsp;</span><br/>planet
                 </div>
                 <div className="home_image">
                     <div className="home_image_description">
@@ -52,27 +53,38 @@ function HomeScreen() {
                 }
                 </div>
             </div>
-                <div className="home_posts_tape_top">
-
+            <div className="home_posts_tape_container">
+                <div className="home_posts_tape">
+                    <div className="home_posts_tape_top_phrase">
+                        <p>
+                            Checkout our planetsaver's latest posts Share idea to save earth Checkout our planetsaver's latest posts Share idea to save earth
+                        </p>
+                    </div>
                 </div>
-            <div className="home_posts_container">
-                <div className="home_posts_description">
-                    Check out planetsaver's popular posts
+                <div className="home_posts_container">
+                    <div className="home_posts_description">
+                        <div className="home_posts_description_more_button">
+                            <Link to="/posts">→ More Posts</Link>
+                        </div>
+                        Latest <br/>popular <br/> posts
+                    </div>
+                    <div className="home_posts">
+                    {
+                        !isLoad &&
+                        posts.map((post, index)=>(
+                            <HomePostCard post={post}/>
+                        ))
+                    }
+                    </div>
                 </div>
-                <div className="home_posts">
-                {
-                    !isLoad &&
-                    posts.map((post, index)=>(
-                        <HomePostCard post={post}/>
-                    ))
-                }
+                <div className="home_posts_tape">
+                    <div className="home_posts_tape_bottom_phrase">
+                        <p>
+                            Checkout our planetsaver's latest posts Share idea to save earth Checkout our planetsaver's latest posts Share idea to save earth
+                        </p>
+                    </div>
                 </div>
-                {console.log(posts)}
             </div>
-                <div className="home_posts_tape_bottom">
-                        
-                </div>
-            
         </div>
     )
 }
