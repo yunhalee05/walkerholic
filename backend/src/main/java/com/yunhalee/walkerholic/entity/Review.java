@@ -29,4 +29,14 @@ public class Review extends BaseTimeEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+//    비지니스 로직
+    public static Review createReview(Integer rating, String comment, User user, Product product){
+        Review review = new Review();
+        review.setRating(rating);
+        review.setComment(comment);
+        review.setUser(user);
+        review.setProduct(product);
+        return review;
+    }
 }

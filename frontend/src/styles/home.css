@@ -151,8 +151,8 @@
 .home_posts_tape{
     max-width: 100%;
     height: 4.6rem;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
+    border-top: 2px solid #5e5e5e;
+    border-bottom: 2px solid #5e5e5e;
     overflow: hidden;
     font-size: 2.7rem;
     font-weight: 800;
@@ -183,13 +183,18 @@
     margin-bottom: 10rem;
 }
 
-.home_posts_tape_container:hover .home_posts_tape_top_phrase,
-.home_posts_tape_container:hover .home_posts_tape_bottom_phrase{
+.home_posts_tape_container:hover .home_posts_tape_top_phrase{
     /* -webkit-animation-play-state: paused;
     -moz-animation-play-state: paused;
     -o-animation-play-state: paused;
     animation-play-state: paused; */
     animation: top_tape 70s linear infinite;
+
+}
+
+.home_posts_tape_container:hover .home_posts_tape_bottom_phrase{
+    animation: top_tape 70s linear infinite;
+    animation-direction: reverse;
 
 }
 

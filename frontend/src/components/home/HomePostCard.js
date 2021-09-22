@@ -39,26 +39,26 @@ function HomePostCard({post}) {
                     }
                     </span>
                 </div>
-        </div>
-
-        <div className="home_cardfooter">
-            <div className="home_cardfooter_icon">
-                <div>
-                    <LikeButton isLike={true} ></LikeButton>
-                </div>
-                <div>
-                    <i class="far fa-paper-plane" ></i>
-                </div>
-                <div>
-                    <i class="far fa-clipboard" ></i>
-                </div>
             </div>
 
-            <div className="d-flex justify-content-between" style={{fontSize:"13px"}}>
-                <div><strong>{post.postLikes.length}</strong> likes</div>
-            </div>
+            <div className="home_cardfooter">
+                <div className="home_cardfooter_icon">
+                    <div>
+                        <LikeButton isLike={true} ></LikeButton>
+                    </div>
+                    <div>
+                        <i class="far fa-paper-plane" ></i>
+                    </div>
+                    <div>
+                        <i class="far fa-clipboard" ></i>
+                    </div>
+                </div>
 
-        </div>
+                <div className="d-flex justify-content-between" style={{fontSize:"13px"}}>
+                    <div><strong>{post.postLikes.length}</strong> likes</div>
+                </div>
+
+            </div>
         </div>
     )
 }

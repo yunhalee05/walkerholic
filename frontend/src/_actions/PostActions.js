@@ -62,7 +62,6 @@ export const createPost = (bodyFormData) =>async(dispatch, getState)=>{
     try{
         const res = await axios.post('/post/save', bodyFormData)
 
-        console.log(res)
         dispatch({
             type:CREATE_POST_SUCCESS,
             payload:res.data

@@ -5,6 +5,7 @@ import ProductCarousel from '../components/product/ProductCarousel'
 import Rating from '../components/product/Rating'
 import ReviewCard from '../components/product/ReviewCard'
 import { addCart, createCart } from '../_actions/OrderActions'
+import ProductReview from '../components/product/ProductReview'
  
 function ProductDetailScreen(props) {
 
@@ -23,6 +24,9 @@ function ProductDetailScreen(props) {
         dispatch(getProduct(id))
     }, [dispatch])
 
+
+
+    console.log(id)
     const handleQty = (button) =>{
         if(button==="plus"){
             const plusQty = qty+1
@@ -105,18 +109,9 @@ function ProductDetailScreen(props) {
                     <hr />
                 </div>
             </div>
-            <div className="productdetail_review">
-                {
-                    product.productReviews.length===0
-                    ? <div>No reviews yet.</div> 
-                    : <div>
-                        {
-                            product.productReviews.map((review,index)=>(
-                                <ReviewCard review={review} key={index}/>
-                            ))
-                        }
-                    </div>
-                }
+            <div className="productdetail_reviews">
+                <ProductReview reviews={product.productReviews} productId={id}/>
+                
             </div>
         </div>
         }

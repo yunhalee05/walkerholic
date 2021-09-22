@@ -50,6 +50,7 @@ public class Product extends BaseTimeEntity{
     private User user;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OrderBy("createdAt DESC")
     private Set<Review> reviews = new HashSet<>();
 
 //    @Transient
