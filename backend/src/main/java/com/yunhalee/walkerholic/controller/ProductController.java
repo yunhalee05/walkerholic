@@ -45,6 +45,14 @@ public class ProductController {
         return new ResponseEntity<HashMap>(productService.getProducts(pageNumber, sort, category, keyword),HttpStatus.OK);
     }
 
+    @GetMapping("/products/seller/{id}/{page}")
+    public ResponseEntity<?> getProductsBySeller(@PathVariable("id")String id, @PathVariable("page")String page, @RequestParam(value = "sort",required = false)String sort, @RequestParam(value = "category", required = false)String category, @RequestParam(value = "keyword",required = false)String keyword) {
+        Integer sellerId = Integer.parseInt(id);
+        Integer pageNumber = Integer.parseInt(page);
+        return new ResponseEntity<HashMap>(productService.getProductsBySeller(sellerId,pageNumber,sort, category, keyword),HttpStatus.OK);
+
+    }
+
     @DeleteMapping("/product/delete/{id}")
     public String deleteProduct(@PathVariable("id")String id){
         Integer productId = Integer.parseInt(id);

@@ -4,6 +4,7 @@ import com.yunhalee.walkerholic.FileUploadUtils;
 import com.yunhalee.walkerholic.dto.ProductCreateDTO;
 import com.yunhalee.walkerholic.dto.ProductDTO;
 import com.yunhalee.walkerholic.dto.ProductListDTO;
+import com.yunhalee.walkerholic.dto.UserSellerDTO;
 import com.yunhalee.walkerholic.entity.Category;
 import com.yunhalee.walkerholic.entity.Product;
 import com.yunhalee.walkerholic.entity.ProductImage;
@@ -130,6 +131,42 @@ public class ProductService {
             List<Product> products = productPage.getContent();
             products.forEach(product -> productDTOS.add(new ProductListDTO(product)));
         }
+        productInfo.put("products",productDTOS);
+        productInfo.put("totalElement", productPage.getTotalElements());
+        productInfo.put("totalPage", productPage.getTotalPages());
+        return productInfo;
+    }
+
+
+    public HashMap<String,Object> getProductsBySeller(Integer id, Integer page,String sort, String category, String keyword){
+
+        Pageable pageable = PageRequest.of(page-1, PRODUCT_PER_PAGE, Sort.by("createdAt"));
+
+        if(sort.equals("highest")){
+            pageable = PageRequest.of(page-1,PRODUCT_PER_PAGE, Sort.by(Sort.Direction.DESC,"price"));
+        }else if(sort.equals("lowest")){
+            pageable = PageRequest.of(page-1, PRODUCT_PER_PAGE, Sort.by("price"));
+        }else if(sort.equals("toprated")){
+            pageable = PageRequest.of(page-1, PRODUCT_PER_PAGE, Sort.by(Sort.Direction.DESC, "average"));
+        }
+
+        List<ProductListDTO> productDTOS = new ArrayList<>();
+        HashMap<String, Object> productInfo = new HashMap<>();
+
+        Page<Product> productPage;
+        if(category == null  ||  category.isBlank()){
+            productPage = productRepository.findAllBySellerAndKeyword(pageable,id, keyword);
+            List<Product> products = productPage.getContent();
+            products.forEach(product -> productDTOS.add(new ProductListDTO(product)));
+        }else{
+            Category category1 = Category.valueOf(category);
+            productPage = productRepository.findAllBySellerAndCategory(pageable, id,category1, keyword);
+            List<Product> products = productPage.getContent();
+            products.forEach(product -> productDTOS.add(new ProductListDTO(product)));
+        }
+
+        User user = userRepository.findById(id).get();
+        productInfo.put("seller", new UserSellerDTO(user));
         productInfo.put("products",productDTOS);
         productInfo.put("totalElement", productPage.getTotalElements());
         productInfo.put("totalPage", productPage.getTotalPages());

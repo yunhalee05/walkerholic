@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { useHistory } from 'react-router'
 
-function Category({setCategory}) {
+function Category({category,setCategory}) {
 
     const history = useHistory()
 
@@ -23,10 +23,19 @@ function Category({setCategory}) {
 
     return (
         <div className="product_category">
+            <div>
+                <span className={`product_category_name ${category==='' && 'product_category_active'}`} onClick={()=>setCategory('')}>
+                    ALL 
+                </span>
+                {
+                    categories.length>0 &&
+                    <span>|</span>
+                }
+            </div>
         {
             categories.map((c,index)=>(
                 <div>
-                    <span style={{cursor:"pointer"}} key={index} onClick={()=>setCategory(c)}>
+                    <span className={`product_category_name ${category===c && 'product_category_active'}`} key={index} onClick={()=>setCategory(c)}>
                         {c} 
                     </span>
                     {

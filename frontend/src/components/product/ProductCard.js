@@ -1,12 +1,12 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
+import { Link } from 'react-router-dom'
 import earth from '../../images/earth.svg'
 import { addCart, createCart } from '../../_actions/OrderActions'
 import Rating from './Rating'
 
 function ProductCard({products}) {
-    // product.imageUrl  ? product.imageUrl :
+    
     const dispatch = useDispatch()
 
     const cart = useSelector(state => state.cart)
@@ -25,23 +25,28 @@ function ProductCard({products}) {
             {
                 products.map((product,index)=>(
                     <div className="productcard" key={index}>
-                        <div className="productcard_name">
-                            {product.name}
-                        </div>
-                        <div className="productcard_image">
-                            <img src={ earth} alt="" />
-                        </div>
-                        <div className="productcard_price">
-                            <div>{product.price}$</div>
-                            <Rating rating={product.average}/>
-                        </div>
-                        <div className="productcard_stock">
-                            {
-                                product.stock>0 
-                                ? <button onClick={()=>handleAddToCart(product)}>Add to cart</button>
-                                :'Out of Stock'
-                            }
-                        </div>
+                        <Link to={`/product/${product.id}`}>
+                            <div className="productcard_image">
+                                <img src={ earth} alt="" />
+                            </div>
+                            <div className="productcard_product_info">
+                            <div className="productcard_name">
+                                <div>{product.name}</div>
+                                <div className="productcard_stock">
+                                {
+                                    product.stock>0 
+                                    ? <span className="in_stock" onClick={()=>handleAddToCart(product)} >&nbsp;In Stock&nbsp;</span>
+                                    : <span className="out_of_stock">&nbsp;Out of Stock&nbsp;</span>
+                                }
+                                </div>
+                            </div>
+                            <div className="productcard_price">
+                                <div >&nbsp;{parseFloat(product.price).toFixed(2)}$&nbsp;</div>
+                                <Rating rating={product.average}/>
+                            </div>
+                            </div>
+                        </Link>
+
                     </div>
                 ))
             }

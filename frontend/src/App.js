@@ -64,7 +64,7 @@ function App() {
             <Route exact path="/activities" component={ActivityScreen}/>
             <Route exact path="/activity/:id" component={ActivityDetailScreen}/>
             <Route exact path="/products" component={ProductScreen}/>
-            <Route exact path="/products/:sort/:category" component={ProductScreen}/>
+            <Route exact path="/products/:seller" component={ProductScreen}/>
             <Route exact path="/product/:id" component={ProductDetailScreen}/>
             <Route exact path="/cart/:id" component={CartScreen}/>
             <Route exact path="/placeOrder/:id" component={PlaceOrderScreen}/>

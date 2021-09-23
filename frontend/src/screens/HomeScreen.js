@@ -46,7 +46,7 @@ function HomeScreen() {
                 </div>
                 <div className="home_products">
                 {
-                    !isLoad &&
+                    !isLoad && products &&
                     products.map((product, index)=>(
                         <ProductCard product={product} key={index}/>
                     ))                
