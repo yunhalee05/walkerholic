@@ -23,6 +23,7 @@ import CartScreen from './screens/CartScreen';
 import OrderScreen from './screens/PlaceOrderScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import AboutUsScreen from './screens/AboutUsScreen';
+import OrderListScreen from './screens/OrderListScreen';
 
 function App() {
 
@@ -68,6 +69,10 @@ function App() {
             <Route exact path="/cart/:id" component={CartScreen}/>
             <Route exact path="/placeOrder/:id" component={PlaceOrderScreen}/>
             <Route exact path="/about" component={AboutUsScreen}/>
+
+            <Route exact path="/orderlist" component={OrderListScreen}/>
+            <Route exact path="/orderlist/:id" component={OrderListScreen}/>
+
           </div>
           <Footer/>
       </div>

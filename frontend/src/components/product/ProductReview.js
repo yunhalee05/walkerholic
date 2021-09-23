@@ -30,10 +30,11 @@ function ProductReview({reviews, productId}) {
                 <div className="product_reviews_title">
                     <img src={Review} alt="" />
                 </div>
+                <div className="product_review">
                 {
                     reviews.length===0
-                    ? <div>No reviews yet.</div> 
-                    : <div className="product_review">
+                    ? <div className="product_reviews_title" style={{textAlign:"center", transform:"translateY(11rem)", color:"white", WebkitTextStroke:"2px black"}}>No reviews yet.</div> 
+                    : <div >
                         {
                             reviews.map((review,index)=>(
                                 <ReviewCard review={review} key={index}/>
@@ -41,6 +42,7 @@ function ProductReview({reviews, productId}) {
                         }
                     </div>
                 }
+                </div>
             </div>
             <div className="product_write_review">
                 <form onSubmit={handleCreateReview}>

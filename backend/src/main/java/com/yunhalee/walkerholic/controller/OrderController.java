@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -52,6 +53,19 @@ public class OrderController {
         Integer orderId = Integer.parseInt(id);
         System.out.println(orderItem);
         return orderService.addToCart(orderId, orderItem);
+    }
+
+    @GetMapping("/orderlist/{page}")
+    public ResponseEntity<?> getOrderList(@PathVariable("page")String page){
+        Integer pageNumber = Integer.parseInt(page);
+        return new ResponseEntity<HashMap<String,Object>>(orderService.getOrderList(pageNumber),HttpStatus.OK);
+    }
+
+    @GetMapping("/orderlist/{page}/{id}")
+    public ResponseEntity<?> getOrderListBySeller(@PathVariable("page")String page,@PathVariable("id")String id){
+        Integer pageNumber = Integer.parseInt(page);
+        Integer sellerId = Integer.parseInt(id);
+        return new ResponseEntity<HashMap<String,Object>>(orderService.getOrderListBySeller(pageNumber,sellerId),HttpStatus.OK);
     }
 
 

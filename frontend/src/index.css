@@ -81,3 +81,6 @@ body button:hover{
 
 /* Order */
 @import url('./styles/order.css');
+
+/* List */
+@import url('./styles/list.css');

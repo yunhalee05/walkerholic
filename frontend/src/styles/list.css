@@ -1,0 +1,53 @@
+.list{
+    max-width: 60rem;
+    margin: auto;
+    margin-top: 5rem;
+}
+
+.list_title{
+    font-size: 5rem;
+    font-weight: 800;
+}
+
+.list table{
+    border-radius: 14px;
+    border: 1px solid black;
+    width: 100%;
+}
+
+.list th{
+    font-size: 1.6rem;
+    font-weight: 600;
+    min-width: 150px;
+    border: 1px solid black;
+}
+
+nav{
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.pagination{
+    font-weight: 800;
+    margin-top: 2rem;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+
+
+.pagination li{
+    padding: 5px;
+    border: 1px solid black;
+    cursor: pointer;
+    z-index: 1;
+}
+.page_number{
+    border-right: 1px solid black;
+}
+
+.page_active{
+  background-color: #ff643d;
+}

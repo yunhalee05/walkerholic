@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ADD_TO_CART_FAIL, ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, CREATE_CART_FAIL, CREATE_CART_REQUEST, CREATE_CART_SUCCESS, DELETE_ORDERITEM_FAIL, DELETE_ORDERITEM_REQUEST, DELETE_ORDERITEM_SUCCESS, GET_CARTITEMS_FAIL, GET_CARTITEMS_REQUEST, GET_CARTITEMS_SUCCESS, UPDATE_ORDERITEM_QTY_FAIL, UPDATE_ORDERITEM_QTY_REQUEST, UPDATE_ORDERITEM_QTY_SUCCESS } from "../_constants/OrderConstants"
+import { ADD_TO_CART_FAIL, ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, CREATE_CART_FAIL, CREATE_CART_REQUEST, CREATE_CART_SUCCESS, DELETE_ORDERITEM_FAIL, DELETE_ORDERITEM_REQUEST, DELETE_ORDERITEM_SUCCESS, GET_CARTITEMS_FAIL, GET_CARTITEMS_REQUEST, GET_CARTITEMS_SUCCESS, GET_ORDER_LIST_FAIL, GET_ORDER_LIST_REQUEST, GET_ORDER_LIST_SUCCESS, UPDATE_ORDERITEM_QTY_FAIL, UPDATE_ORDERITEM_QTY_REQUEST, UPDATE_ORDERITEM_QTY_SUCCESS } from "../_constants/OrderConstants"
 
 export const getCart = (id) =>async(dispatch, getState)=>{
 
@@ -166,6 +166,64 @@ export const deleteOrderItem = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:DELETE_ORDERITEM_FAIL,
+            payload:error.response.data
+            
+        })
+        // console.log(error)
+    }
+}
+
+
+
+export const getOrderList = (page) =>async(dispatch, getState)=>{
+
+    const {auth : {user}} = getState()
+
+    dispatch({
+        type:GET_ORDER_LIST_REQUEST
+    })
+
+
+    try{
+        const res = await axios.get(`/orderlist/${page}`)
+
+        dispatch({
+            type:GET_ORDER_LIST_SUCCESS,
+            payload: res.data
+        })
+
+
+    }catch(error){
+        dispatch({
+            type:GET_ORDER_LIST_FAIL,
+            payload:error.response.data
+            
+        })
+        // console.log(error)
+    }
+}
+
+export const getOrderListBySeller = (page,id) =>async(dispatch, getState)=>{
+
+    const {auth : {user}} = getState()
+
+    dispatch({
+        type:GET_ORDER_LIST_REQUEST
+    })
+
+
+    try{
+        const res = await axios.get(`/orderlist/${page}/${id}`)
+
+        dispatch({
+            type:GET_ORDER_LIST_SUCCESS,
+            payload: res.data
+        })
+
+
+    }catch(error){
+        dispatch({
+            type:GET_ORDER_LIST_FAIL,
             payload:error.response.data
             
         })

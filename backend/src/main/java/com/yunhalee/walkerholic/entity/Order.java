@@ -61,6 +61,14 @@ public class Order extends BaseTimeEntity{
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderItem> orderItems = new HashSet<>();
 
+    @Transient
+    public Float getTotalAmount(){
+        Float totalAmount = 0f;
+        for (OrderItem orderItem : this.orderItems) {
+            totalAmount += orderItem.getProduct().getPrice()* orderItem.getQty();
+        }
+        return totalAmount;
+    }
 
     //연관관계메서드
     public void addOrderItem(OrderItem orderItem){

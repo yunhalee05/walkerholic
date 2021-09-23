@@ -2,7 +2,7 @@ import{combineReducers, createStore, compose, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk'
 import { activityReducer } from './ActivityReducers';
 import { authReducer } from './AuthReducers';
-import { cartReducer } from './OrderReducers';
+import { cartReducer, listReducer } from './OrderReducers';
 import { discoverReducer, followingPostsReducer, homeReducer, postReducer } from './PostReducers';
 import { productsReducer } from './ProductReducers';
 import { profileReducer } from './ProfileReducers';
@@ -26,6 +26,7 @@ const reducer = combineReducers({
     activity : activityReducer,
     products : productsReducer,
     cart : cartReducer,
+    list: listReducer,
     
 
 })

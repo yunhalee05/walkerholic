@@ -7,9 +7,13 @@ import com.yunhalee.walkerholic.repository.OrderRepository;
 import com.yunhalee.walkerholic.repository.ProductRepository;
 import com.yunhalee.walkerholic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -20,6 +24,9 @@ public class OrderService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final OrderItemRepository orderItemRepository;
+
+    public static final int ORDER_LIST_PER_PAGE = 10;
+
 
     public OrderDTO createOrder(OrderCreateDTO orderCreateDTO){
 
@@ -96,5 +103,35 @@ public class OrderService {
 
         orderRepository.save(order);
         return createdOrderItemDTO;
+    }
+
+    public HashMap<String, Object> getOrderList(Integer page){
+        Pageable pageable = PageRequest.of(page-1,ORDER_LIST_PER_PAGE);
+        Page<Order> orderPage = orderRepository.findAll(pageable, OrderStatus.CART);
+        List<Order> orders = orderPage.getContent();
+        List<OrderListDTO> orderListDTOS = new ArrayList<>();
+        orders.forEach(order -> orderListDTOS.add(new OrderListDTO(order)));
+
+        HashMap<String, Object> orderList = new HashMap<>();
+        orderList.put("orders", orderListDTOS);
+        orderList.put("totalElement", orderPage.getTotalElements());
+        orderList.put("totalPage", orderPage.getTotalPages());
+
+        return orderList;
+    }
+
+    public HashMap<String, Object> getOrderListBySeller(Integer page, Integer id){
+        Pageable pageable = PageRequest.of(page-1,ORDER_LIST_PER_PAGE);
+        Page<Order> orderPage = orderRepository.findBySellerId(pageable, id, OrderStatus.CART);
+        List<Order> orders = orderPage.getContent();
+        List<OrderListDTO> orderListDTOS = new ArrayList<>();
+        orders.forEach(order -> orderListDTOS.add(new OrderListDTO(order)));
+
+        HashMap<String, Object> orderList = new HashMap<>();
+        orderList.put("orders", orderListDTOS);
+        orderList.put("totalElement", orderPage.getTotalElements());
+        orderList.put("totalPage", orderPage.getTotalPages());
+
+        return orderList;
     }
 }
