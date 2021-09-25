@@ -78,3 +78,114 @@
     height: 100%;
 }
 
+
+/* User Activity */
+.useractivity{
+    max-width: 75rem;
+    margin: auto;
+    margin-top: 8rem;
+}
+
+.useractivity_title{
+    font-size: 3.6rem;
+    font-weight: 800;
+    text-align: center;
+}
+
+.useractivity_score{
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.useractivity_score span{
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+
+.useractivity_card_container{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    justify-content: center;
+    grid-gap:15px;
+    overflow: hidden;
+    /* padding-left: 1rem;
+    padding-right: 1rem; */
+    padding: 10px;
+}
+
+.useractivity_card{
+    display: block;
+    margin: auto;
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ededed;
+    box-shadow: 5px 5px #ededed;
+    border-radius: 20px;
+    /* background-color: #f9f5ff; */
+    position: relative;
+}
+
+.useractivity_card_icon{
+    text-align: right;
+}
+
+.useractivity_card_icon i{
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.useractivity_card_info{
+    text-align: center;
+}
+
+.useractivity_card_name{
+    font-weight: 800;
+    font-size: 1rem;
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+.useractivity_card_score{
+    font-weight: 400;
+    margin: auto;
+    font-size: 11px;
+    margin-bottom: 5px;
+}
+
+.useractivity_card_status{
+    font-weight: 800;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.useractivity_card_image{
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    /* border: 1px solid #d4d4d4; */
+    border-radius: 50%;
+    margin: auto;
+    overflow: hidden;
+}
+
+.useractivity_card_image img{
+    width: 100%;
+    height: 100%;
+}
+
+.useractivity_card_time{
+    position: absolute;
+    font-size: 12px;
+    font-weight: 800;
+    top: 7%;
+    border: 2px solid #fade61;
+    border-radius: 5px;
+    color: #fade61;
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: black;
+}

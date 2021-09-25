@@ -35,24 +35,22 @@ function CardHeader({post}) {
                 </div>
             </div>
 
-            <div className="nav-item dropdown">
-                <span className="material-icons" id="moreLink" data-toggle="dropdown">
-                    more_horiz
-                </span>
-                <div className="dropdown-menu">
-                    {
-                        auth.user.id === post.user.id &&
-                        <>
-                            <div className="dropdown-item" onClick={()=>setIsEdit(!isEdit)}>
-                                Edit Post
-                            </div>
-                            <div className="dropdown-item">
-                                Delete Post
-                            </div>
-                        </>
-                    }
+            {
+                auth.user.id === post.user.id &&
+                <div className="nav-item dropdown">
+                    <span className="material-icons" id="moreLink" data-toggle="dropdown">
+                        more_horiz
+                    </span>
+                    <div className="dropdown-menu">
+                                <div className="dropdown-item" onClick={()=>setIsEdit(!isEdit)}>
+                                    Edit Post
+                                </div>
+                                <div className="dropdown-item">
+                                    Delete Post
+                                </div>
+                    </div>
                 </div>
-            </div>
+            }
             {
                 isEdit &&
                 <EditPost setIsEdit={setIsEdit} post={post}/>

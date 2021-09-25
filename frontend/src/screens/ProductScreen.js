@@ -29,9 +29,9 @@ function ProductScreen(props) {
         }else{
             dispatch({
                 type:RESET_SELLER
-            }).then(res=>(
-                dispatch(getProducts(page, sort, category,keyword))
-            ))
+            })
+
+            dispatch(getProducts(page, sort, category,keyword))
         }
     }, [dispatch, page, sort, category, keyword, sellerId])
 

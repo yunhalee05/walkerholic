@@ -27,17 +27,20 @@ function CartProductCard({product}) {
                 </div>
                 <div className="cart_product_info">
                     <div>
-                        {product.productName}
+                        <div style={{fontSize:"1.3rem", fontWeight:"600"}}>
+                            {product.productName}
+                        </div>
+                        <div style={{fontSize:"1.1rem",fontStyle:"italic"}}>
+                            {parseFloat(product.productPrice* qty).toFixed(2)} $
+                        </div>
                     </div>
                     <QuantityInput qty={qty} setQty={setQty} stock={product.stock}/>
                 </div>
-                <div className="cart_product_price">
-                    <div >
-                        <i onClick={handleDelete} className="far fa-trash-alt"></i>
+                <div className="cart_product_delete">
+                    <div style={{marginBottom:"1rem"}}>
+                        <span onClick={handleDelete} >&times;</span>
                     </div>
-                    <div>
-                        {parseFloat(product.productPrice* qty).toFixed(2)} $
-                    </div>
+
                 </div>
             </div>
         </>

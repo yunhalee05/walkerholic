@@ -21,20 +21,30 @@ public class ReviewService {
     public ReviewDTO saveReview(ReviewCreateDTO reviewCreateDTO){
         if(reviewCreateDTO.getId()!=null){
             Review existingReview = reviewRepository.findByReviewId(reviewCreateDTO.getId());
+            if(existingReview.getRating() != reviewCreateDTO.getRating()){
+                Product product = productRepository.findById(existingReview.getProduct().getId()).get();
+                product.editReview(existingReview.getRating(),reviewCreateDTO.getRating());
+                productRepository.save(product);
+                existingReview.setRating(reviewCreateDTO.getRating());
+            }
             existingReview.setComment(reviewCreateDTO.getComment());
-            existingReview.setRating(reviewCreateDTO.getRating());
             reviewRepository.save(existingReview);
             return new ReviewDTO(existingReview);
         }else{
             User user = userRepository.findById(reviewCreateDTO.getUserId()).get();
             Product product = productRepository.findById(reviewCreateDTO.getProductId()).get();
             Review review = Review.createReview(reviewCreateDTO.getRating(), reviewCreateDTO.getComment(), user,product);
+            product.addReview(review);
+            productRepository.save(product);
             reviewRepository.save(review);
             return new ReviewDTO(review);
         }
     }
 
     public Integer deleteReview(Integer id){
+        Review review = reviewRepository.findById(id).get();
+        Product product = productRepository.findById(review.getProduct().getId()).get();
+        product.deleteReview(review.getRating());
         reviewRepository.deleteById(id);
         return id;
     }

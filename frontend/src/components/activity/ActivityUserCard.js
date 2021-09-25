@@ -4,8 +4,7 @@ import basicProfile from '../../images/basicProfile.svg'
 
 function ActivityUserCard({userActivity}) {
     return (
-        <div>
-
+        <div className="activityuser_card">
             <Link to={`/user/${userActivity.userId}`}>
                 <div style={userActivity.status==='ONGOING'? {color:"#e6857e"}:{color:"#58c4a9"}}>
                     {userActivity.status}

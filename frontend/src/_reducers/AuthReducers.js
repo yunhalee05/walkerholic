@@ -1,4 +1,4 @@
-import { AUTH_FAIL, AUTH_REQUEST, AUTH_SUCCESS, GET_AUTH_FOLLOWS, LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_REQUEST, REGISTER_SUCCESS } from "../_constants/AuthConstants";
+import { AUTH_FAIL, AUTH_REQUEST, AUTH_SUCCESS, GET_AUTH_FOLLOWS, LEVEL_DOWN, LEVEL_UP, LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_REQUEST, REGISTER_SUCCESS } from "../_constants/AuthConstants";
 import { FOLLOW_FAIL, FOLLOW_REQUEST, FOLLOW_SUCCESS, UNFOLLOW_FAIL, UNFOLLOW_REQUEST, UNFOLLOW_SUCCESS } from "../_constants/FollowConstants";
 import { EDIT_PROFILE_FAIL, EDIT_PROFILE_REQUEST, EDIT_PROFILE_SUCCESS } from "../_constants/ProfileConstants";
 
@@ -49,6 +49,11 @@ export const authReducer = (state={}, action)=>{
             return {...state, loading:false, user:{...state.user, followings:state.user.followings.filter(follow=> follow.id !== action.payload)}}
         case UNFOLLOW_FAIL:
             return {...state, loading:false, error:action.payload}
+        
+        case LEVEL_UP:
+            return {...state, user:{...state.user, level:action.payload}}
+        case LEVEL_DOWN:
+            return {...state, user:{...state.user, level:action.payload}}
 
         
         default:

@@ -1,7 +1,7 @@
 import React from 'react'
 import basicProfile from '../../images/basicProfile.svg'
 import {levelIconShow} from '../../utils/MediaShow'
-import SellerExclude from '../../images/SellerExclude.png'
+import SellerExclude from '../../images/SellerExclude2.png'
 import {Link} from 'react-router-dom'
 
 function SellerCard({seller}) {

@@ -6,7 +6,7 @@ export const cartReducer = (state={}, action)=>{
         case GET_CARTITEMS_REQUEST:
             return {...state, loading:true}
         case GET_CARTITEMS_SUCCESS:
-            return {...state, loading:false, ...action.payload}
+            return {...state, loading:false, success:true, ...action.payload}
         case GET_CARTITEMS_FAIL:
             return {...state, loading:false, error:action.payload}
 

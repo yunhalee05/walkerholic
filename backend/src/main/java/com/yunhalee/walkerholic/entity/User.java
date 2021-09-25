@@ -83,5 +83,36 @@ public class User {
         return this.firstname+this.lastname;
     }
 
+    @Transient
+    public Integer getScore(){
+        Integer score = 0;
+        for (UserActivity activity : this.activities) {
+            if(activity.getStatus() == ActivityStatus.FINISHED) {
+                score += activity.getActivity().getScore();
+            }
+        }
+        return score;
+    }
 
+//    비지니스 로직
+    public void addUserActivity(UserActivity userActivity){
+        Integer score = this.getScore();
+        score+=userActivity.getActivity().getScore();
+        for (Level level : Level.values()) {
+            if(level.getMin()<= score && level.getMax()>=score){
+                this.level = level;
+                return ;
+            }
+        }
+    }
+
+    public void deleteUserActivity(){
+        Integer score = this.getScore();
+        for (Level level : Level.values()) {
+            if(level.getMin()<= score && level.getMax()>=score){
+                this.level = level;
+                return ;
+            }
+        }
+    }
 }

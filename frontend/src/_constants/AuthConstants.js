@@ -11,3 +11,6 @@ export const AUTH_SUCCESS = 'AUTH_SUCCESS'
 export const AUTH_FAIL = 'AUTH_FAIL'
 
 export const GET_AUTH_FOLLOWS = 'GET_AUTH_FOLLOWS'
+
+export const LEVEL_UP = 'LEVEL_UP'
+export const LEVEL_DOWN = 'LEVEL_DOWN'

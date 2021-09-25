@@ -68,6 +68,18 @@ public class Product extends BaseTimeEntity{
         this.average = (float)(Math.round(sum/(long)reviews.size()*100)/100.0);
     }
 
+    public void editReview(Integer preRating, Integer postRating){
+        Integer sum = reviews.stream().mapToInt(reviews->reviews.getRating()).sum();
+        sum = (sum - preRating + postRating);
+        this.average = (float)(Math.round(sum/(long)reviews.size()*100)/100.0);
+    }
+
+    public void deleteReview(Integer rating){
+        Integer sum = reviews.stream().mapToInt(reviews->reviews.getRating()).sum();
+        sum -= rating;
+        this.average = (float)(Math.round(sum/(long)(reviews.size()-1)*100)/100.0);
+    }
+
     //비지니스 로직
     public void addStock(Integer qty){
         this.stock += qty;

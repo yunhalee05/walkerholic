@@ -18,12 +18,11 @@ import ActivityDetailScreen from './screens/ActivityDetailScreen';
 import PostsScreen from './screens/PostsScreen';
 import ProductScreen from './screens/ProductScreen'
 import ProductDetailScreen from './screens/ProductDetailScreen'
-import { GET_CARTITEMS_SUCCESS } from './_constants/OrderConstants';
-import CartScreen from './screens/CartScreen';
-import OrderScreen from './screens/PlaceOrderScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import AboutUsScreen from './screens/AboutUsScreen';
 import OrderListScreen from './screens/OrderListScreen';
+import { getCart } from './_actions/OrderActions';
+import UserActivityScreen from './screens/UserActivityScreen';
 
 function App() {
 
@@ -38,11 +37,12 @@ function App() {
           type:GET_AUTH_FOLLOWS,
           payload:res1.data
         })
-        const res2 = await axios.get(`/cartItems/${id}`)
-        dispatch({
-          type:GET_CARTITEMS_SUCCESS,
-          payload:res2.data
-        })
+        // const res2 = await axios.get(`/cartItems/${id}`)
+        // dispatch({
+        //   type:GET_CARTITEMS_SUCCESS,
+        //   payload:res2.data
+        // })
+        dispatch(getCart(id))
       })
     }
   }, [dispatch])
@@ -63,15 +63,18 @@ function App() {
             <Route exact path="/post/:id" component={PostDetailScreen}/>
             <Route exact path="/activities" component={ActivityScreen}/>
             <Route exact path="/activity/:id" component={ActivityDetailScreen}/>
+            <Route exact path="/activities/user/:userId" component={UserActivityScreen}/>
+
             <Route exact path="/products" component={ProductScreen}/>
             <Route exact path="/products/:seller" component={ProductScreen}/>
             <Route exact path="/product/:id" component={ProductDetailScreen}/>
-            <Route exact path="/cart/:id" component={CartScreen}/>
-            <Route exact path="/placeOrder/:id" component={PlaceOrderScreen}/>
+            <Route exact path="/placeorder/:id" component={PlaceOrderScreen}/>
+
             <Route exact path="/about" component={AboutUsScreen}/>
 
             <Route exact path="/orderlist" component={OrderListScreen}/>
             <Route exact path="/orderlist/:id" component={OrderListScreen}/>
+            <Route exact path="/orderlist/user/:userId" component={OrderListScreen}/>
 
           </div>
           <Footer/>

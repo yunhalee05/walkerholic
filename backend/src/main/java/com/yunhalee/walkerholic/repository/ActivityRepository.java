@@ -10,4 +10,5 @@ public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 
     @Query(value = "SELECT DISTINCT a FROM Activity a LEFT JOIN FETCH a.userActivities s LEFT JOIN FETCH s.user u WHERE a.id=:id")
     Activity findByActivityId(Integer id);
+
 }
