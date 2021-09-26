@@ -1,6 +1,7 @@
 package com.yunhalee.walkerholic.controller;
 
 import com.yunhalee.walkerholic.dto.UserDTO;
+import com.yunhalee.walkerholic.dto.UserListDTO;
 import com.yunhalee.walkerholic.dto.UserRegisterDTO;
 import com.yunhalee.walkerholic.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,6 +40,18 @@ public class UserController {
     public ResponseEntity<UserDTO> getUser(@PathVariable("id")String id){
         Integer userId = Integer.parseInt(id);
         return new ResponseEntity<UserDTO>(userService.getUser(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/userlist/{page}/{sort}")
+    public ResponseEntity<?> getUsers(@PathVariable("page")String page, @PathVariable("sort")String sort){
+        Integer pageNumber = Integer.parseInt(page);
+        return new ResponseEntity<HashMap<String, Object>>(userService.getUsers(pageNumber,sort),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/user/delete/{id}")
+    public ResponseEntity<?> deleteuser(@PathVariable("id")String id){
+        Integer userId = Integer.parseInt(id);
+        return new ResponseEntity<Integer>(userService.deleteUser(userId), HttpStatus.OK);
     }
 
 

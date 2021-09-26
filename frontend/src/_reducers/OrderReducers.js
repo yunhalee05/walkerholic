@@ -1,4 +1,4 @@
-import { ADD_TO_CART_FAIL, ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, CHECKOUT, CREATE_CART_FAIL, CREATE_CART_REQUEST, CREATE_CART_SUCCESS, DELETE_ORDERITEM_FAIL, DELETE_ORDERITEM_REQUEST, DELETE_ORDERITEM_SUCCESS, GET_CARTITEMS_FAIL, GET_CARTITEMS_REQUEST, GET_CARTITEMS_SUCCESS, GET_ORDER_LIST_FAIL, GET_ORDER_LIST_REQUEST, GET_ORDER_LIST_SUCCESS, UPDATE_ORDERITEM_QTY_FAIL, UPDATE_ORDERITEM_QTY_REQUEST, UPDATE_ORDERITEM_QTY_SUCCESS } from "../_constants/OrderConstants";
+import { ADD_TO_CART_FAIL, ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, CHECKOUT, CREATE_CART_FAIL, CREATE_CART_REQUEST, CREATE_CART_SUCCESS, DELETE_ORDERITEM_FAIL, DELETE_ORDERITEM_REQUEST, DELETE_ORDERITEM_SUCCESS, GET_CARTITEMS_FAIL, GET_CARTITEMS_REQUEST, GET_CARTITEMS_SUCCESS, UPDATE_ORDERITEM_QTY_FAIL, UPDATE_ORDERITEM_QTY_REQUEST, UPDATE_ORDERITEM_QTY_SUCCESS } from "../_constants/OrderConstants";
 
 export const cartReducer = (state={}, action)=>{
     switch(action.type){
@@ -52,18 +52,3 @@ export const cartReducer = (state={}, action)=>{
 }
 
 
-export const listReducer = (state={}, action)=>{
-    switch(action.type){
-        case GET_ORDER_LIST_REQUEST:
-            return {...state, loading:true}
-        case GET_ORDER_LIST_SUCCESS:
-            return {...state, loading:false, orders:action.payload}
-        case GET_ORDER_LIST_FAIL:
-            return {...state, loading:false, error:action.payload}
-    
-
-    
-        default:
-            return state;
-    }
-}

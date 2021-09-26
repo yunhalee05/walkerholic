@@ -23,6 +23,8 @@ import AboutUsScreen from './screens/AboutUsScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import { getCart } from './_actions/OrderActions';
 import UserActivityScreen from './screens/UserActivityScreen';
+import ProductListScreen from './screens/ProductListScreen';
+import UserListScreen from './screens/UserListScreen';
 
 function App() {
 
@@ -57,6 +59,8 @@ function App() {
             <Route exact path="/signin" component={LoginScreen}/>
             <Route exact path="/signup" component={RegisterScreen}/>
             <Route exact path="/user/:id" component={ProfileScreen}/>
+            <Route exact path="/userlist" component={UserListScreen}/>
+
             <Route exact path="/posts" component={PostsScreen}/>
             <Route exact path="/posts/discover" component={DiscoverScreen}/>
             <Route exact path="/posts/:id" component={PostScreen}/>
@@ -69,6 +73,7 @@ function App() {
             <Route exact path="/products/:seller" component={ProductScreen}/>
             <Route exact path="/product/:id" component={ProductDetailScreen}/>
             <Route exact path="/placeorder/:id" component={PlaceOrderScreen}/>
+            <Route exact path="/productlist" component={ProductListScreen}/>
 
             <Route exact path="/about" component={AboutUsScreen}/>
 

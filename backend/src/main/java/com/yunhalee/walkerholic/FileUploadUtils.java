@@ -54,6 +54,7 @@ public class FileUploadUtils {
         Path dirPath = Paths.get(dir);
         if(Files.exists(dirPath)){
             try{
+                cleanDir(dir);
                 Files.delete(dirPath);
             }catch (IOException e){
                 System.out.println("Could not delete directory : " + dir);

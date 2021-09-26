@@ -2,6 +2,7 @@ package com.yunhalee.walkerholic.service;
 
 import com.yunhalee.walkerholic.FileUploadUtils;
 import com.yunhalee.walkerholic.dto.UserDTO;
+import com.yunhalee.walkerholic.dto.UserListDTO;
 import com.yunhalee.walkerholic.dto.UserRegisterDTO;
 import com.yunhalee.walkerholic.entity.Level;
 import com.yunhalee.walkerholic.entity.Role;
@@ -9,12 +10,19 @@ import com.yunhalee.walkerholic.entity.User;
 import com.yunhalee.walkerholic.exception.UserEmailAlreadyExistException;
 import com.yunhalee.walkerholic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +36,9 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
     }
+
+    public static final int USER_LIST_PER_PAGE = 10;
+
 
     private void saveProfileFile(MultipartFile multipartFile, User user, boolean isNew) throws IOException {
         try{
@@ -129,6 +140,26 @@ public class UserService {
         UserDTO userDTO = new UserDTO(user);
 
         return new UserDTO(user);
+    }
+
+    public HashMap<String, Object> getUsers(Integer page, String sort){
+        Pageable pageable = PageRequest.of(page-1,USER_LIST_PER_PAGE, Sort.by(sort));
+        Page<User> userPage = userRepository.findAllUsers(pageable);
+        List<User> users = userPage.getContent();
+        List<UserListDTO> userListDTOS = new ArrayList<>();
+        users.forEach(user -> userListDTOS.add(new UserListDTO(user)));
+        HashMap<String, Object> userList = new HashMap<>();
+        userList.put("users",userListDTOS);
+        userList.put("totalElement", userPage.getTotalElements());
+        userList.put("totalPage", userPage.getTotalPages());
+        return userList;
+    }
+
+    public Integer deleteUser(Integer id){
+        userRepository.deleteById(id);
+        String dir = "profileUploads/" + id;
+        FileUploadUtils.deleteDir(dir);
+        return id;
     }
 
 
