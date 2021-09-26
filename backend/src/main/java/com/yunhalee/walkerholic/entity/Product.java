@@ -42,14 +42,14 @@ public class Product extends BaseTimeEntity{
 
     private Float average;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> productImages = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("createdAt DESC")
     private Set<Review> reviews = new HashSet<>();
 
@@ -93,9 +93,21 @@ public class Product extends BaseTimeEntity{
         this.stock = restStock;
     }
 
+    public void addProductImage(ProductImage productImage){
+        this.productImages.add(productImage);
+    }
+
     @Transient
     public String getMainImageUrl(){
         return this.productImages.get(0).getFilePath();
     }
+
+    @Transient
+    public List<String> getImagesUrl(){
+        List<String> imagesUrl = new ArrayList<>();
+        this.productImages.forEach(productImage -> imagesUrl.add(productImage.getFilePath()));
+        return imagesUrl;
+    }
+
 
 }

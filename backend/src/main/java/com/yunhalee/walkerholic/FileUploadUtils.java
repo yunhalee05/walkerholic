@@ -61,4 +61,14 @@ public class FileUploadUtils {
             }
         }
     }
+
+    //파일 삭제하기
+    public static void deleteFile(String filePath){
+        File file = new File(filePath);
+        if(file.exists()){
+            file.delete();
+        }else{
+            System.out.println("File does not exist. : " + filePath);
+        }
+    }
 }

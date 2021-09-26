@@ -2,6 +2,7 @@ package com.yunhalee.walkerholic.controller;
 
 import com.yunhalee.walkerholic.dto.ProductCreateDTO;
 import com.yunhalee.walkerholic.dto.ProductDTO;
+import com.yunhalee.walkerholic.dto.ProductListDTO;
 import com.yunhalee.walkerholic.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
@@ -20,17 +21,18 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("/product/save")
-    public String createProduct(@RequestParam("id")Integer id,
-                                @RequestParam("name")String name,
-                                @RequestParam("description")String description,
-                                @RequestParam("brand")String brand,
-                                @RequestParam("category")String category,
-                                @RequestParam("stock")Integer stock,
-                                @RequestParam("price")Float price,
-                                @RequestParam("userId")Integer userId,
-                                @RequestParam("multipartFile")List<MultipartFile> multipartFiles){
+    public ProductListDTO saveProduct(@RequestParam(value = "id",required = false)Integer id,
+                                      @RequestParam("name")String name,
+                                      @RequestParam("description")String description,
+                                      @RequestParam("brand")String brand,
+                                      @RequestParam("category")String category,
+                                      @RequestParam("stock")Integer stock,
+                                      @RequestParam("price")Float price,
+                                      @RequestParam("userId")Integer userId,
+                                      @RequestParam(value = "multipartFile", required = false)List<MultipartFile> multipartFiles,
+                                      @RequestParam(value = "deletedImages", required = false)List<String> deletedImages){
         ProductCreateDTO productCreateDTO = new ProductCreateDTO(id, name, description,brand,category,stock,price,userId);
-        return productService.saveProduct(productCreateDTO, multipartFiles);
+        return productService.saveProduct(productCreateDTO, multipartFiles, deletedImages);
     }
 
     @GetMapping("/product/{id}")
@@ -54,9 +56,22 @@ public class ProductController {
     }
 
     @DeleteMapping("/product/delete/{id}")
-    public String deleteProduct(@PathVariable("id")String id){
+    public Integer deleteProduct(@PathVariable("id")String id){
         Integer productId = Integer.parseInt(id);
         return productService.deleteProduct(productId);
+    }
+
+    @GetMapping("/productlist/{page}/{sort}")
+    public ResponseEntity<?> getProductList(@PathVariable("page")String page, @PathVariable("sort")String sort){
+        Integer pageNumber = Integer.parseInt(page);
+        return new ResponseEntity<HashMap<String, Object>>(productService.getAllProductList(pageNumber,sort),HttpStatus.OK);
+    }
+
+    @GetMapping("/productlist/{page}/{sort}/{id}")
+    public ResponseEntity<?> getProductListBySeller(@PathVariable("page")String page, @PathVariable("sort")String sort, @PathVariable("id")String id){
+        Integer pageNumber = Integer.parseInt(page);
+        Integer sellerId = Integer.parseInt(id);
+        return new ResponseEntity<HashMap<String, Object>>(productService.getProductListBySeller(pageNumber,sort, sellerId),HttpStatus.OK);
     }
 
 

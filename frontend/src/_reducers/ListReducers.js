@@ -1,4 +1,5 @@
 import { GET_ORDER_LIST_FAIL, GET_ORDER_LIST_REQUEST, GET_ORDER_LIST_SUCCESS } from "../_constants/OrderConstants";
+import { CREATE_PRODUCT_FAIL, CREATE_PRODUCT_REQUEST, CREATE_PRODUCT_SUCCESS, DELETE_PRODUCT_FAIL, DELETE_PRODUCT_REQUEST, DELETE_PRODUCT_SUCCESS, EDIT_PRODUCT_FAIL, EDIT_PRODUCT_REQUEST, EDIT_PRODUCT_SUCCESS, GET_PRODUCT_LIST_FAIL, GET_PRODUCT_LIST_REQUEST, GET_PRODUCT_LIST_SUCCESS } from "../_constants/ProductConstants";
 import { DELETE_USER_FAIL, DELETE_USER_REQUEST, DELETE_USER_SUCCESS, GET_USER_LIST_FAIL, GET_USER_LIST_REQUEST, GET_USER_LIST_SUCCESS } from "../_constants/UserConstants";
 
 export const listReducer = (state={}, action)=>{
@@ -17,7 +18,6 @@ export const listReducer = (state={}, action)=>{
         case GET_USER_LIST_FAIL:
             return {...state, loading:false, error:action.payload}
     
-    
         case DELETE_USER_REQUEST:
             return {...state, loading:true}
         case DELETE_USER_SUCCESS:
@@ -25,6 +25,33 @@ export const listReducer = (state={}, action)=>{
         case DELETE_USER_FAIL:
             return {...state, loading:false, error:action.payload}
     
+        case GET_PRODUCT_LIST_REQUEST:
+            return {...state, loading:true}
+        case GET_PRODUCT_LIST_SUCCESS:
+            return {...state, loading:false, products:action.payload}
+        case GET_PRODUCT_LIST_FAIL:
+            return {...state, loading:false, error:action.payload}
+    
+        case DELETE_PRODUCT_REQUEST:
+            return {...state, loading:true}
+        case DELETE_PRODUCT_SUCCESS:
+            return {...state, loading:false, products:{...state.products, products:state.products.products.filter(product=> product.id!==action.payload)}}
+        case DELETE_PRODUCT_FAIL:
+            return {...state, loading:false, error:action.payload}
+    
+        case EDIT_PRODUCT_REQUEST:
+            return {...state, loading:true}
+        case EDIT_PRODUCT_SUCCESS:
+            return {...state, loading:false, products:{...state.products, products:state.products.products.map(product=> product.id===action.payload.id ? action.payload : product)}}
+        case EDIT_PRODUCT_FAIL:
+            return {...state, loading:false, error:action.payload}
+    
+        case CREATE_PRODUCT_REQUEST:
+            return {...state, loading:true}
+        case CREATE_PRODUCT_SUCCESS:
+            return {...state, loading:false, products:{...state.products, products:[...state.products.products, action.payload]}}
+        case CREATE_PRODUCT_FAIL:
+            return {...state, loading:false, error:action.payload}
 
     
         default:

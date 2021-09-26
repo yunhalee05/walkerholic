@@ -74,6 +74,7 @@ function App() {
             <Route exact path="/product/:id" component={ProductDetailScreen}/>
             <Route exact path="/placeorder/:id" component={PlaceOrderScreen}/>
             <Route exact path="/productlist" component={ProductListScreen}/>
+            <Route exact path="/productlist/:sellerId" component={ProductListScreen}/>
 
             <Route exact path="/about" component={AboutUsScreen}/>
 

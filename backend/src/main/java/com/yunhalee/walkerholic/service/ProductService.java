@@ -1,10 +1,7 @@
 package com.yunhalee.walkerholic.service;
 
 import com.yunhalee.walkerholic.FileUploadUtils;
-import com.yunhalee.walkerholic.dto.ProductCreateDTO;
-import com.yunhalee.walkerholic.dto.ProductDTO;
-import com.yunhalee.walkerholic.dto.ProductListDTO;
-import com.yunhalee.walkerholic.dto.UserSellerDTO;
+import com.yunhalee.walkerholic.dto.*;
 import com.yunhalee.walkerholic.entity.Category;
 import com.yunhalee.walkerholic.entity.Product;
 import com.yunhalee.walkerholic.entity.ProductImage;
@@ -18,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,6 +36,14 @@ public class ProductService {
 
     public static final int PRODUCT_PER_PAGE = 9;
 
+    public static final int PRODUCT_LIST_PER_PAGE = 10;
+
+    private void deleteProductImage(List<String> deletedImages){
+        for (String deletedImage : deletedImages) {
+            productImageRepository.deleteByFilePath(deletedImage);
+            FileUploadUtils.deleteFile(deletedImage);
+        }
+    }
 
     private void saveProductImage(Product product, List<MultipartFile> multipartFiles){
         multipartFiles.forEach(multipartFile -> {
@@ -51,6 +57,7 @@ public class ProductService {
                 productImage.setFilePath("/productUploads/" + product.getId() + "/" + fileName);
                 productImage.setProduct(product);
                 productImageRepository.save(productImage);
+                product.addProductImage(productImage);
 
             }catch (IOException ex){
                 new IOException("Could not save file : " + multipartFile.getOriginalFilename());
@@ -59,7 +66,7 @@ public class ProductService {
 
     }
 
-    public String saveProduct(ProductCreateDTO productCreateDTO, List<MultipartFile> multipartFiles){
+    public ProductListDTO saveProduct(ProductCreateDTO productCreateDTO, List<MultipartFile> multipartFiles, List<String> deletedImages){
 
         if(productCreateDTO.getId()!=null){
             Product existingProduct = productRepository.findById(productCreateDTO.getId()).get();
@@ -70,12 +77,16 @@ public class ProductService {
             existingProduct.setStock(productCreateDTO.getStock());
             existingProduct.setPrice(productCreateDTO.getPrice());
 
-            if(multipartFiles.size()!=0){
+            if(multipartFiles!=null && multipartFiles.size()!=0){
                 saveProductImage(existingProduct,multipartFiles);
+            }
+            if(deletedImages!=null && deletedImages.size()!=0){
+                deleteProductImage(deletedImages);
             }
 
             productRepository.save(existingProduct);
 
+            return new ProductListDTO(existingProduct);
         }else{
             Product product = new Product();
             User user = userRepository.findById(productCreateDTO.getUserId()).get();
@@ -94,9 +105,10 @@ public class ProductService {
             }
 
             productRepository.save(product);
+
+            return new ProductListDTO(product);
         }
 
-        return "Product Created Successfully.";
     }
 
     public ProductDTO getProduct(Integer id){
@@ -173,13 +185,45 @@ public class ProductService {
         return productInfo;
     }
 
-    public String deleteProduct(Integer id){
+    public Integer deleteProduct(Integer id){
         Product product = productRepository.findByProductId(id);
         String dir = "/productUploads/"+ id;
         FileUploadUtils.deleteDir(dir);
 
         productRepository.deleteById(id);
-        return "Product Deleted Successfully.";
+        return id;
+    }
+
+    public HashMap<String, Object> getAllProductList(Integer page, String sort){
+        Pageable pageable = PageRequest.of(page-1, PRODUCT_LIST_PER_PAGE, Sort.by(sort));
+        Page<Product> productPage = productRepository.findAllProductList(pageable);
+        List<Product> products = productPage.getContent();
+        List<ProductListDTO> productListDTOS = new ArrayList<>();
+
+        products.forEach(product -> productListDTOS.add(new ProductListDTO(product)));
+
+        HashMap<String, Object> productList = new HashMap<>();
+        productList.put("products", productListDTOS);
+        productList.put("totalElement", productPage.getTotalElements());
+        productList.put("totalPage", productPage.getTotalPages());
+
+        return productList;
+    }
+
+    public HashMap<String, Object> getProductListBySeller(Integer page, String sort, Integer id){
+        Pageable pageable = PageRequest.of(page-1, PRODUCT_LIST_PER_PAGE, Sort.by(sort));
+        Page<Product> productPage = productRepository.findByUserId(id,pageable);
+        List<Product> products = productPage.getContent();
+        List<ProductListDTO> productListDTOS = new ArrayList<>();
+
+        products.forEach(product -> productListDTOS.add(new ProductListDTO(product)));
+
+        HashMap<String, Object> productList = new HashMap<>();
+        productList.put("products", productListDTOS);
+        productList.put("totalElement", productPage.getTotalElements());
+        productList.put("totalPage", productPage.getTotalPages());
+
+        return productList;
     }
 
 }
