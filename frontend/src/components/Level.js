@@ -25,7 +25,7 @@ function Level() {
     }, [])
 
     return (
-        <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center" >
             {
                 levels.map((level, index)=>(
                     <div key={index} className="d-flex align-items-center">

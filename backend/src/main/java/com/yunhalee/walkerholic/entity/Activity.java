@@ -33,6 +33,7 @@ public class Activity {
     private String imageUrl;
 
     @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("createdAt DESC")
     private Set<UserActivity> userActivities = new HashSet<>();
 
     public Activity(String name, Integer score, String description) {

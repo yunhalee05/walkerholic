@@ -20,28 +20,33 @@ function ActivityDetailScreen(props) {
     return (
         <div className="activity_detail">
             {
-                activity.activity.id &&
+                activity.activity?.id &&
                 <>
                     <div className="activity_detail_info">
-                        <div style={{textAlign:"center",fontWeight:"800",fontSize:"2rem"}}>
-                            {activity.activity.name}
-                        </div>
                         <div className="activity_detail_image">
                             <img src={activity.activity.imageUrl?activity.activity.imageUrl : earth} alt="activityImage"/>
                         </div>
-                        <div style={{textAlign:"right",fontWeight:"600", fontSize:"1.2rem"}}>
-                            {activity.activity.score} points activity
-                        </div>
-                        <div style={{}}>
-                            {activity.activity.description}
+                        <div className="activity_detail_activity_info">
+                            <div style={{textAlign:"center",fontWeight:"800",fontSize:"2rem"}}>
+                                {activity.activity.name}
+                            </div>
+                            <div style={{textAlign:"right",fontWeight:"600", fontSize:"15px"}}>
+                                <strong>{activity.activity.score}</strong> points activity
+                            </div>
+                            <div style={{fontSize:'13px', color:"#737373", fontWeight:"600"}}>
+                                {activity.activity.description}
+                            </div>
                         </div>
                     </div>
 
-                    <hr/>
-                    <div>
+                    <div className="activityuser_user_title">
+                        People who participated in this activity : )
+                    </div>
+
+                    <div className="activityuser_card_container">
                         {
-                            activity.activity.activityUsers.map((user,index)=>(
-                                <ActivityUserCard user={user} key={index}/>
+                            activity.activity?.activityUsers.map((activity,index)=>(
+                                <ActivityUserCard activity={activity} key={index}/>
                             ))
                         }
                     </div>

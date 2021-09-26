@@ -5,6 +5,7 @@ import com.yunhalee.walkerholic.entity.UserActivity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +42,7 @@ public class ActivityDTO {
         private Integer userId;
         private String userImageUrl;
         private String userFullname;
+        private LocalDateTime updatedAt;
 
         static List<ActivityUser> userActivityList(Set<UserActivity> userActivities){
             List<ActivityUser> activityUsers = new ArrayList<>();
@@ -54,6 +56,7 @@ public class ActivityDTO {
             this.userId = userActivity.getUser().getId();
             this.userImageUrl = userActivity.getUser().getImageUrl();
             this.userFullname = userActivity.getUser().getFullname();
+            this.updatedAt = userActivity.getUpdatedAt();
         }
     }
 }

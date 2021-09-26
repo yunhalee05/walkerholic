@@ -20,7 +20,7 @@ function ActivityScreen() {
     return (
         <div className="activity">
             <Level/>
-            <div>
+            <div style={{marginTop:"4rem", textAlign:"right", marginRight:"4rem"}}>
                 <button onClick={()=>setIsCreate(!isCreate)}>Create Activity</button>
             </div>
             {

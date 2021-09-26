@@ -27,7 +27,7 @@ function ProductCard({products}) {
                     <div className="productcard" key={index}>
                         <Link to={`/product/${product.id}`}>
                             <div className="productcard_image">
-                                <img src={ earth} alt="" />
+                                <img src={product.imagesUrl[0]} alt="" />
                             </div>
                             <div className="productcard_product_info">
                             <div className="productcard_name">

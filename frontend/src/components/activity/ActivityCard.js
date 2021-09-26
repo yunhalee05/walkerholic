@@ -19,20 +19,22 @@ function ActivityCard({activity}) {
     return (
         <>
                 <div className="activitycard">
-                    <div>
-                        <button onClick={()=>setIsEdit(!isEdit)}>Edit</button>
+                    <div style={{textAlign:"right", marginBottom:"1rem"}}>
+                        <button onClick={()=>setIsEdit(!isEdit)} style={{marginRight:"1rem"}}>Edit</button>
                         <button onClick={handleDelete}>Delete</button>
                     </div>
-                    <Link to={`/activity/${activity.id}`} style={{display:"flex"}}>
-                        <div className="activity_image">
-                            <img src={activity.imageUrl?activity.imageUrl : earth} alt="activityImage"/>
-                        </div>
-                        <div className="activity_info">
-                            <div className="activity_name">{activity.name}</div>
-                            <div className="activity_score">{activity.score} points</div>
-                            <div className="activity_description">{activity.description}</div>
-                        </div>
-                    </Link>
+                    <div style={{marginBottom:"1rem"}}>
+                        <Link to={`/activity/${activity.id}`} style={{display:"flex"}}>
+                            <div className="activity_image">
+                                <img src={activity.imageUrl?activity.imageUrl : earth} alt="activityImage"/>
+                            </div>
+                            <div className="activity_info">
+                                <div className="activity_name">{activity.name}</div>
+                                <div className="activity_score"><strong>{activity.score}</strong> points</div>
+                                <div className="activity_description">{activity.description}</div>
+                            </div>
+                        </Link>
+                    </div>
 
                 </div>
             {
