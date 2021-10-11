@@ -46,20 +46,22 @@ function OrderListScreen(props) {
                     orders &&
                     orders.orders.map((order,index)=>(
                         <tbody key={index}>
-                            <td><Link to={`/order/${order.id}`}>{order.id}</Link></td>
+                            <td style={{textAlign:"left", paddingLeft:'10px'}}><Link to={`/order/${order.id}`}>{order.id}</Link></td>
                             <td>
                                 <div className="orderlist_user">
-                                    <img src={order.user.imageUrl} alt="" />
+                                    <div className="orderlist_user_image">
+                                        <img src={order.user.imageUrl} alt="" />
+                                    </div>
                                     <span>{order.user.fullname}</span>
                                 </div>
                             </td>
-                            <td>{order.isPaid? order.paidAt : "Not yet"}</td>
-                            <td>{order.isDelivered? order.deliveredAt : "Not yet"}</td>
-                            <td>{order.orderStatus}</td>
+                            <td style={{textAlign:"left", paddingLeft:'10px'}}>{order.isPaid? order.paidAt : "Not yet"}</td>
+                            <td style={{textAlign:"left", paddingLeft:'10px'}}>{order.isDelivered? order.deliveredAt : "Not yet"}</td>
+                            <td style={{textAlign:"left", paddingLeft:'10px'}}>{order.orderStatus}</td>
                             <td>
                                 <div className="orderlist_action">
-                                    <i class="far fa-edit"></i>
-                                    <i class="far fa-trash-alt"></i>
+                                    <i className="far fa-edit" style={{marginRight:"10px"}}></i>
+                                    <i className="far fa-trash-alt"></i>
                                 </div>
                             </td>
 

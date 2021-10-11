@@ -17,10 +17,11 @@
     font-size: 1.6rem;
     padding: 1rem;
     font-weight: 800;
+    margin-bottom: 1rem;
 }
 
 .placeorder_address{
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
 }
 
 .placeorder_address input{
@@ -37,6 +38,15 @@
 .placeorder_address small{
     color: #d14c0f;
 }
+
+.placeorder_payment{
+    margin-bottom: 3rem;
+}
+
+.placeorder_delivery{
+    margin-bottom: 3rem;
+}
+
 .placeorder_summary{
     width: 45%;
     padding: 2rem;
@@ -98,3 +108,25 @@
 .placeorder_price{
     padding: 10px;
 }
+
+.order_info{
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.order_info label{
+    text-transform: uppercase;
+    font-weight: 700;
+    background-color: white;
+    border-radius: 3px;
+    border: 1px solid black;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.order_info span{
+    font-weight: 800;
+}
+

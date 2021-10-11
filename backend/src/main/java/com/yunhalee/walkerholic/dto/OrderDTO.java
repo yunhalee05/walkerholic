@@ -37,6 +37,10 @@ public class OrderDTO {
 
     private List<OrderItem> orderItems;
 
+    private Float total;
+
+    private Float shipping;
+
     public OrderDTO(Order order) {
         this.id = order.getId();
         this.orderStatus = order.getOrderStatus().name();
@@ -48,6 +52,8 @@ public class OrderDTO {
         this.address = new AddressDTO(order.getAddress());
         this.user = new OrderUser(order.getUser());
         this.orderItems = OrderItem.listItems(order.getOrderItems());
+        this.total = order.getTotalAmount();
+        this.shipping = order.getShipping();
     }
 
     @Getter
