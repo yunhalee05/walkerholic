@@ -25,13 +25,17 @@
 
 .placeorder_address input{
     display: block;
-    margin-bottom: 15px;
+    margin-top: 15px;
     width: 100%;
     height: 45px;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #cccccc;
     font-size: 13px;
+}
+
+.placeorder_address small{
+    color: #d14c0f;
 }
 .placeorder_summary{
     width: 45%;

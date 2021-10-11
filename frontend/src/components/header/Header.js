@@ -45,7 +45,7 @@ function Header() {
                             <div className="header_content header_cart">
                                 <i class="fas fa-shopping-cart" style={{fontSize:"1.8rem"}} onClick={()=>setIsCart(!isCart)}></i>
                                 <div className="header_cart_count">
-                                    {cart.orderItems.length}
+                                    {cart.orderItems?cart.orderItems.length: 0}
                                 </div>
                             </div>
                         }

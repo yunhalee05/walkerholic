@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { getOrderList, getOrderListBySeller } from '../_actions/OrderActions'
 
 function OrderListScreen(props) {
@@ -15,7 +16,7 @@ function OrderListScreen(props) {
 
     const dispatch = useDispatch()
 
-    const pages = [...Array(orders.totalPage).keys()]
+    const pages = [...Array(orders?.totalPage).keys()]
 
 
     useEffect(() => {
@@ -45,7 +46,7 @@ function OrderListScreen(props) {
                     orders &&
                     orders.orders.map((order,index)=>(
                         <tbody key={index}>
-                            <td>{order.id}</td>
+                            <td><Link to={`/order/${order.id}`}>{order.id}</Link></td>
                             <td>
                                 <div className="orderlist_user">
                                     <img src={order.user.imageUrl} alt="" />
@@ -61,6 +62,7 @@ function OrderListScreen(props) {
                                     <i class="far fa-trash-alt"></i>
                                 </div>
                             </td>
+
                         </tbody>
                     ))
                 }

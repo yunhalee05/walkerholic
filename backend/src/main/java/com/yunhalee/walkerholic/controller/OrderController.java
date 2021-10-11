@@ -68,5 +68,10 @@ public class OrderController {
         return new ResponseEntity<HashMap<String,Object>>(orderService.getOrderListBySeller(pageNumber,sellerId),HttpStatus.OK);
     }
 
+    @PostMapping("/payOrder")
+    public void payOrder(@RequestBody OrderCreateDTO orderCreateDTO){
+        orderService.payOrder(orderCreateDTO);
+    }
+
 
 }

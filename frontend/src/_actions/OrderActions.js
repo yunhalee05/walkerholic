@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ADD_TO_CART_FAIL, ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, CREATE_CART_FAIL, CREATE_CART_REQUEST, CREATE_CART_SUCCESS, DELETE_ORDERITEM_FAIL, DELETE_ORDERITEM_REQUEST, DELETE_ORDERITEM_SUCCESS, GET_CARTITEMS_FAIL, GET_CARTITEMS_REQUEST, GET_CARTITEMS_SUCCESS, GET_ORDER_LIST_FAIL, GET_ORDER_LIST_REQUEST, GET_ORDER_LIST_SUCCESS, UPDATE_ORDERITEM_QTY_FAIL, UPDATE_ORDERITEM_QTY_REQUEST, UPDATE_ORDERITEM_QTY_SUCCESS } from "../_constants/OrderConstants"
+import { ADD_TO_CART_FAIL, ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, CREATE_CART_FAIL, CREATE_CART_REQUEST, CREATE_CART_SUCCESS, CREATE_ORDER_FAIL, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, DELETE_ORDERITEM_FAIL, DELETE_ORDERITEM_REQUEST, DELETE_ORDERITEM_SUCCESS, GET_CARTITEMS_FAIL, GET_CARTITEMS_REQUEST, GET_CARTITEMS_SUCCESS, GET_ORDER_LIST_FAIL, GET_ORDER_LIST_REQUEST, GET_ORDER_LIST_SUCCESS, UPDATE_ORDERITEM_QTY_FAIL, UPDATE_ORDERITEM_QTY_REQUEST, UPDATE_ORDERITEM_QTY_SUCCESS } from "../_constants/OrderConstants"
 
 export const getCart = (id) =>async(dispatch, getState)=>{
 
@@ -224,6 +224,32 @@ export const getOrderListBySeller = (page,id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_ORDER_LIST_FAIL,
+            payload:error.response.data
+            
+        })
+        // console.log(error)
+    }
+}
+
+export const createOrder = (orderCreateDTO) =>async(dispatch, getState)=>{
+
+    const {auth : {user}} = getState()
+
+    dispatch({
+        type:CREATE_ORDER_REQUEST
+    })
+
+
+    try{
+        await axios.post('/payOrder', orderCreateDTO)
+        dispatch({
+            type:CREATE_ORDER_SUCCESS
+        })
+
+
+    }catch(error){
+        dispatch({
+            type:CREATE_ORDER_FAIL,
             payload:error.response.data
             
         })

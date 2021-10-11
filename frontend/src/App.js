@@ -25,6 +25,7 @@ import { getCart } from './_actions/OrderActions';
 import UserActivityScreen from './screens/UserActivityScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import UserListScreen from './screens/UserListScreen';
+import OrderScreen from './screens/OrderScreen';
 
 function App() {
 
@@ -76,8 +77,10 @@ function App() {
             <Route exact path="/productlist" component={ProductListScreen}/>
             <Route exact path="/productlist/:sellerId" component={ProductListScreen}/>
 
+
             <Route exact path="/about" component={AboutUsScreen}/>
 
+            <Route exact path="/order/:id" component={OrderScreen}/>
             <Route exact path="/orderlist" component={OrderListScreen}/>
             <Route exact path="/orderlist/:id" component={OrderListScreen}/>
             <Route exact path="/orderlist/user/:userId" component={OrderListScreen}/>

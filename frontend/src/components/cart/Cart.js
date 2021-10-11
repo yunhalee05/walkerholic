@@ -11,7 +11,7 @@ function Cart({id, isCart, setIsCart}) {
     const dispatch = useDispatch()
     const history = useHistory()
 
-    const subtotal = parseFloat(cart.orderItems?.reduce((a,c)=> a+ c.productPrice*c.qty,0))
+    const subtotal = cart.orderItems? parseFloat(cart.orderItems?.reduce((a,c)=> a+ c.productPrice*c.qty,0)) : parseFloat(0)
     const shipping = subtotal>100 ? parseFloat(0) : parseFloat(5)
     const total = subtotal + shipping 
 
@@ -36,7 +36,7 @@ function Cart({id, isCart, setIsCart}) {
                     </div>
                     <div className="cart_products_container">
                         {
-                            cart.orderItems.length===0 
+                            (!cart.orderItems ||cart.orderItems.length===0 )
                             ? <span>No Items.</span>
                             :   cart.orderItems.map((item,index)=>(
                                     <CartProductCard product={item} key={index} />

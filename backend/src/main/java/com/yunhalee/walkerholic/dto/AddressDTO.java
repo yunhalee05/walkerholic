@@ -22,6 +22,17 @@ public class AddressDTO {
 
     private Integer longitude;
 
+    public AddressDTO() {
+    }
+
+    public AddressDTO(String name, String country, String city, String zipcode, String address) {
+        this.name = name;
+        this.country = country;
+        this.city = city;
+        this.zipcode = zipcode;
+        this.address = address;
+    }
+
     public AddressDTO(String name, String country, String city, String zipcode, String address, Integer latitude, Integer longitude) {
         this.name = name;
         this.country = country;

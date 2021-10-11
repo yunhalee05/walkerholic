@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -133,5 +134,17 @@ public class OrderService {
         orderList.put("totalPage", orderPage.getTotalPages());
 
         return orderList;
+    }
+
+    public void payOrder(OrderCreateDTO orderCreateDTO){
+        Order order = orderRepository.findById(orderCreateDTO.getId()).get();
+        Address address = new Address(orderCreateDTO.getAddress().getName(),orderCreateDTO.getAddress().getCountry(),orderCreateDTO.getAddress().getCity(), orderCreateDTO.getAddress().getZipcode(), orderCreateDTO.getAddress().getAddress());
+        order.setAddress(address);
+        order.setShipping(orderCreateDTO.getShipping());
+        order.setPaymentMethod(orderCreateDTO.getPaymentMethod());
+        order.setPaid(true);
+        order.setPaidAt(LocalDateTime.now());
+        order.setOrderStatus(OrderStatus.ORDER);
+        orderRepository.save(order);
     }
 }

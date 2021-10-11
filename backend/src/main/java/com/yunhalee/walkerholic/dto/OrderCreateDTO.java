@@ -13,11 +13,23 @@ public class OrderCreateDTO {
 
     private String paymentMethod;
 
+    private Float shipping;
+
     private AddressDTO address;
 
     private List<OrderItemCreateDTO> orderItems;
 
     private Integer userId;
+
+    public OrderCreateDTO() {
+    }
+
+    public OrderCreateDTO(Integer id, String paymentMethod, Float shipping, AddressDTO address) {
+        this.id = id;
+        this.paymentMethod = paymentMethod;
+        this.shipping = shipping;
+        this.address = address;
+    }
 
     public OrderCreateDTO(Integer id, String paymentMethod, AddressDTO address, List<OrderItemCreateDTO> orderItems, Integer userId) {
         this.id = id;

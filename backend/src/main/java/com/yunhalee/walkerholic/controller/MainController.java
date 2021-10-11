@@ -3,6 +3,7 @@ package com.yunhalee.walkerholic.controller;
 import com.yunhalee.walkerholic.dto.LevelDTO;
 import com.yunhalee.walkerholic.entity.Category;
 import com.yunhalee.walkerholic.entity.Level;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +14,9 @@ import java.util.stream.Collectors;
 
 @RestController
 public class MainController {
+
+    @Value("${paypal_client_id}")
+    private String PAYPAL_CLIENT_ID;
 
     @GetMapping("/")
     public String viewHomePage(){
@@ -34,5 +38,10 @@ public class MainController {
     @GetMapping("/categories")
     public List<String> getCategories(){
         return Arrays.stream(Category.values()).map(category -> category.name()).collect(Collectors.toList());
+    }
+
+    @GetMapping("/paypal")
+    public String getPAYPAL_CLIENT_ID(){
+        return PAYPAL_CLIENT_ID;
     }
 }

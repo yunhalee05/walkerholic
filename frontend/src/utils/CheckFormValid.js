@@ -118,3 +118,37 @@ export const checkEditActivityFormValid = (name, score, description)=>{
         errLength:Object.keys(err).length
     }
 }
+
+export const checkAddressFormValid = (addressName, address, country, city, zipcode)=>{
+    const err={}
+    if(!addressName) {
+        err.addressName = "Please add addressName."
+    }else if(addressName.length>25){
+        err.addressName = "AddressName is up to 25characters long."
+    }
+
+    if(!address){
+        err.address = "Please add address."
+    }else if(address.length>50){
+        err.address = "Address is up to 50characters long."
+    }
+
+    if(!country){
+        err.country = "Please add country."
+    }
+
+    if(!city){
+        err.city = "Please add country."
+    }
+
+    if(!zipcode){
+        err.zipcode = "Please add country."
+    }else if(zipcode.length<5){
+        err.zipcode = "ZipCode is too short."
+    }
+    
+    return{
+        err,
+        errLength:Object.keys(err).length
+    }
+}

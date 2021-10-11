@@ -1,6 +1,11 @@
+import axios from 'axios'
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router'
+import {checkAddressFormValid} from '../utils/CheckFormValid'
+import {PayPalButton} from 'react-paypal-button-v2';
+import { createOrder } from '../_actions/OrderActions'
 
 function PlaceOrderScreen(props) {
 
@@ -9,19 +14,80 @@ function PlaceOrderScreen(props) {
     const cart = useSelector(state => state.cart)
     const history = useHistory()
 
+    const [err, setErr] = useState({})
+    const [addressName, setAddressName] = useState('')
+    const [address, setAddress] = useState('')
+    const [country, setCountry] = useState('')
+    const [city, setCity] = useState('')
+    const [zipcode, setZipcode] = useState('')
+    const [checkAddress, setCheckAddress] = useState(false)
+    const [sdkReady, setSdkReady] = useState(false)
+
+    const dispatch = useDispatch()
+
     useEffect(() => {
         if(!cart.checkout){
             history.push(`/`)
+        }else{
+            if(!window.paypal){
+                addPaypalScript()
+            }else{
+                setSdkReady(true)
+            }
         }
-    }, [])
+    }, [sdkReady])
 
-    const handleSubmit=()=>{
+    const addPaypalScript = async () =>{
+        const {data} = await axios.get('/paypal');
+        const script = document.createElement('script');
+        script.type = "text/javascript";
+        script.src = `http://www.paypal.com/sdk/js?client-id=${data}`
+        script.async = true;
+        script.onload = ()=>{
+            setSdkReady(true);
+        };
+        document.body.appendChild(script);
+    }
 
+    const handleCheckAddress=(e)=>{
+        e.preventDefault()
+        const check = checkAddressFormValid(addressName,address,country,city,zipcode)
+
+        if(check.errLength>0) {
+            setErr(check.err)
+            return
+        }else{
+            setErr({})
+            setCheckAddress(true)
+        }
     }
 
     const subtotal = parseFloat(cart.orderItems?.reduce((a,c)=> a+ c.productPrice*c.qty,0))
     const shipping = subtotal>100 ? parseFloat(0) : parseFloat(5)
     const total = subtotal + shipping 
+
+    const successPaymentHandler = (paymentResult)=>{
+        const addressInfo = {
+            name: addressName,
+            country,city,zipcode,address
+        }
+
+        const orderCreateDTO = {
+            id,
+            shipping,
+            paymentMethod:"paypal",
+            address:addressInfo
+        }
+
+        dispatch(createOrder(orderCreateDTO)).then(res=>{
+            props.history.push(`/order/${id}`)
+        })
+    }
+
+    const onError = (error)=>{
+        err.payment = error
+        setErr(err)
+    }
 
     return (
         <>
@@ -29,21 +95,54 @@ function PlaceOrderScreen(props) {
             cart.loading ===false &&
             <div className="placeorder">
                 <div className="placeorder_info">
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleCheckAddress}>
                             <div className="placeorder_address">
                                 <div className="placeorder_subtitle">🏠 Shipping Address </div>
-                                <input type="text" placeholder="Address Name"/>
-                                <input type="text" placeholder="Address"/>
-                                <input type="text" placeholder="Country"/>
-                                <input type="text" placeholder="City"/>
-                                <input type="text" placeholder="Zip Code"/>
-                            </div>
-                            <hr/>
-                            <div className="placeorder_payment">
-                                <div className="placeorder_subtitle">💸 Payment </div>
-
+                                <div style={{textAlign:"right"}}>
+                                    <button>Check Address</button>                                    
+                                </div>
+                                <input type="text" placeholder="Address Name" value={addressName} onChange={(e)=>setAddressName(e.target.value)}/>
+                                {
+                                    err.addressName &&
+                                    <small>{err.addressName}</small>
+                                }
+                                <input type="text" placeholder="Address" value={address} onChange={e=>setAddress(e.target.value)}/>
+                                {
+                                    err.address &&
+                                    <small>{err.address}</small>
+                                }
+                                <input type="text" placeholder="Country" value={country} onChange={e=>setCountry(e.target.value)}/>
+                                {
+                                    err.country &&
+                                    <small>{err.country}</small>
+                                }
+                                <input type="text" placeholder="City" value={city} onChange={e=>setCity(e.target.value)}/>
+                                {
+                                    err.city &&
+                                    <small>{err.city}</small>
+                                }
+                                <input type="text" placeholder="Zip Code" value={zipcode} onChange={e=>setZipcode(e.target.value)}/>
+                                {
+                                    err.zipcode &&
+                                    <small>{err.zipcode}</small>
+                                }
                             </div>
                         </form>
+                        <hr/>
+                        <div className="placeorder_payment">
+                            <div className="placeorder_subtitle">💸 Payment </div>
+                            {
+                                checkAddress 
+                                ? sdkReady 
+                                    ?<PayPalButton amount={total} onSuccess = {successPaymentHandler} onError={onError}></PayPalButton>
+                                    : <span>Loading...</span>
+                                : <span>checkAddress First</span>
+                            }
+                            {
+                                err.payment &&
+                                <small>{err.payment}</small>
+                            }
+                        </div>
                 </div>
                 <div className="placeorder_summary">
                     <div className="placeorder_items">
