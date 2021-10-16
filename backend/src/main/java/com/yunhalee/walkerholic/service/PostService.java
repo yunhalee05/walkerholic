@@ -157,6 +157,11 @@ public class PostService {
         String dir = "/productUploads/"+ id;
         FileUploadUtils.deleteDir(dir);
 
+        Post post = postRepository.findByPostId(id);
+        for (PostImage postImage : post.getPostImages()) {
+            postImageRepository.deleteById(postImage.getId());
+        }
+
         postRepository.deleteById(id);
         return "Post Deleted Successfully.";
     }

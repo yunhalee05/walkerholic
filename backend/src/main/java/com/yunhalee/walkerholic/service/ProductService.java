@@ -190,6 +190,10 @@ public class ProductService {
         String dir = "/productUploads/"+ id;
         FileUploadUtils.deleteDir(dir);
 
+        for (ProductImage productImage : product.getProductImages()) {
+            productImageRepository.deleteById(productImage.getId());
+        }
+
         productRepository.deleteById(id);
         return id;
     }

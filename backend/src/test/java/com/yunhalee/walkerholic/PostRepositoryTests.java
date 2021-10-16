@@ -1,7 +1,11 @@
 package com.yunhalee.walkerholic;
 
 import com.yunhalee.walkerholic.entity.Post;
+import com.yunhalee.walkerholic.entity.PostImage;
+import com.yunhalee.walkerholic.entity.User;
+import com.yunhalee.walkerholic.repository.PostImageRepository;
 import com.yunhalee.walkerholic.repository.PostRepository;
+import com.yunhalee.walkerholic.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Rollback(false)
 @SpringBootTest
@@ -29,53 +32,150 @@ public class PostRepositoryTests {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private PostImageRepository postImageRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public static final int POST_PER_PAGE = 9;
+
     @Test
-    public void testGetPostById(){
+    public void createPost(){
+        //given
+        String content = "testPost";
+        Integer postImageId = 1;
+        Integer userId = 1;
+        List<PostImage> postImages = new ArrayList<>();
+        postImages.add(postImageRepository.findById(postImageId).get());
+        User user = userRepository.findById(userId).get();
+
+        Post post = new Post();
+        post.setContent(content);
+        post.setPostImages(postImages);
+        post.setUser(user);
+
+        //when
+        Post post1 = postRepository.save(post);
+
+        //then
+        assertThat(post1.getId()).isNotNull();
+        assertThat(post1.getContent()).isEqualTo(content);
+        assertThat(post1.getUser().getId()).isEqualTo(userId);
+        List<Integer> postImageIds = post1.getPostImages().stream().map(postImage -> postImage.getId()).collect(Collectors.toList());
+        assertThat(postImageIds).contains(postImageId);
+    }
+
+    @Test
+    public void updatePost(){
+        //given
+        Integer postId = 1;
+        Post post = postRepository.findById(postId).get();
+        String originalContent = post.getContent();
+
+        post.setContent("updateTestContent");
+
+        //when
+        Post post1 = postRepository.save(post);
+
+        //then
+        assertThat(post1.getContent()).isNotEqualTo(originalContent);
+    }
+
+    @Test
+    public void getPostById(){
+        //given
         Integer id = 1;
+
+        //when
         Post post = postRepository.findByPostId(id);
-        assertThat(post.getContent(), is(equalTo("first post")));
 
+        //then
+        assertThat(post.getId()).isEqualTo(id);
     }
 
     @Test
-    public void testGetPostByUserId(){
-        Integer id = 14;
-        List<Post> posts = postRepository.findByUserId(id);
-        System.out.println(posts);
+    public void getPostByUserId(){
+        //given
+        Integer userId = 1;
+
+        //when
+        List<Post> posts = postRepository.findByUserId(userId);
+
+        //then
+        for (Post post : posts) {
+            assertThat(post.getUser().getId()).isEqualTo(userId);
+        }
     }
 
     @Test
-    public void testGetPostByRandom(){
-        Integer id = 3;
-        Pageable pageable = PageRequest.of(0, 1);
-        Page<Post> pagePost  = postRepository.findByRandom(pageable, id);
+    public void getPostByRandom(){
+        //given
+        Integer userId = 1;
+        Integer page = 1;
+
+        //when
+        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
+        Page<Post> pagePost  = postRepository.findByRandom(pageable, userId);
         List<Post> posts = pagePost.getContent();
-        System.out.println(posts);
+
+        //then
+        for (Post post : posts) {
+            assertThat(post.getUser().getId()).isNotEqualTo(userId);
+        }
     }
 
     @Test
-    public void testDeletePostById(){
-        Integer id = 3;
-        postRepository.deleteById(id);
-    }
-
-    @Test
-    public void testGetPostByFollowings(){
+    public void getPostByFollowings(){
+        //given
         List<Integer> followings = new ArrayList<>();
-        followings.add(14);
-        Pageable pageable = PageRequest.of(0, 9);
+        followings.add(1);
+        Integer page = 1;
 
+        //when
+        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
         Page<Post> pagePost = postRepository.findByFollowings(pageable, followings);
         List<Post> posts = pagePost.getContent();
-        System.out.println(posts);
+
+        //then
+        for (Post post : posts) {
+            assertThat(followings).contains(post.getUser().getId());
+        }
     }
 
     @Test
-    public void testGetPostByLikePosts(){
-        Pageable pageable = PageRequest.of(0, 9);
+    public void getPostByLikePosts(){
+        //given
+        Integer page = 1;
+
+        //when
+        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
         Page<Post> postPage = postRepository.findByLikePostSize(pageable);
         List<Post> posts = postPage.getContent();
-        posts.forEach(post -> System.out.println(post.getId()));
+
+        //then
+        Integer priorLikeSize = posts.get(0).getLikePosts().size();
+        for(int i = 1; i<posts.size(); i++){
+            assertThat(posts.get(i).getLikePosts().size()).isLessThan(priorLikeSize);
+            priorLikeSize = posts.get(i).getLikePosts().size();
+        }
+    }
+
+
+    @Test
+    public void deletePostById(){
+        //given
+        Integer id = 1;
+        Post post = postRepository.findById(id).get();
+        for (PostImage postImage : post.getPostImages()) {
+            postImageRepository.deleteById(postImage.getId());
+        }
+
+        //when
+        postRepository.deleteById(id);
+
+        //then
+        assertThat(postRepository.findById(id)).isNull();
     }
 
 }
