@@ -68,6 +68,13 @@ public class OrderController {
         return new ResponseEntity<HashMap<String,Object>>(orderService.getOrderListBySeller(pageNumber,sellerId),HttpStatus.OK);
     }
 
+    @GetMapping("/orderlistByUser/{page}/{id}")
+    public ResponseEntity<?> getOrderListByUser(@PathVariable("page")String page,@PathVariable("id")String id){
+        Integer pageNumber = Integer.parseInt(page);
+        Integer userId = Integer.parseInt(id);
+        return new ResponseEntity<HashMap<String,Object>>(orderService.getOrderListByUser(pageNumber,userId),HttpStatus.OK);
+    }
+
     @PostMapping("/payOrder")
     public void payOrder(@RequestBody OrderCreateDTO orderCreateDTO){
         orderService.payOrder(orderCreateDTO);

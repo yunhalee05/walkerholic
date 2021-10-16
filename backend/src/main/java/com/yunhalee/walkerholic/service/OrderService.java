@@ -136,6 +136,21 @@ public class OrderService {
         return orderList;
     }
 
+    public HashMap<String, Object> getOrderListByUser(Integer page, Integer id){
+        Pageable pageable = PageRequest.of(page-1,ORDER_LIST_PER_PAGE);
+        Page<Order> orderPage = orderRepository.findByUserId(pageable, id, OrderStatus.CART);
+        List<Order> orders = orderPage.getContent();
+        List<OrderListDTO> orderListDTOS = new ArrayList<>();
+        orders.forEach(order -> orderListDTOS.add(new OrderListDTO(order)));
+
+        HashMap<String, Object> orderList = new HashMap<>();
+        orderList.put("orders", orderListDTOS);
+        orderList.put("totalElement", orderPage.getTotalElements());
+        orderList.put("totalPage", orderPage.getTotalPages());
+
+        return orderList;
+    }
+
     public void payOrder(OrderCreateDTO orderCreateDTO){
         Order order = orderRepository.findById(orderCreateDTO.getId()).get();
         Address address = new Address(orderCreateDTO.getAddress().getName(),orderCreateDTO.getAddress().getCountry(),orderCreateDTO.getAddress().getCity(), orderCreateDTO.getAddress().getZipcode(), orderCreateDTO.getAddress().getAddress());
