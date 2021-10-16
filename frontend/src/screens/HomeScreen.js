@@ -72,7 +72,7 @@ function HomeScreen() {
                     {
                         !isLoad &&
                         posts.map((post, index)=>(
-                            <HomePostCard post={post}/>
+                            <HomePostCard post={post} key={index}/>
                         ))
                     }
                     </div>

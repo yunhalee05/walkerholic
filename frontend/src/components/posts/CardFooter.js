@@ -37,15 +37,20 @@ function CardFooter({post}) {
     return (
         <div className="cardfooter">
             <div className="cardfooter_icon">
-                <div>
-                    <LikeButton isLike={isLike} handleLike={handleLike} ></LikeButton>
-                </div>
-                {/* <Link to={`/post/${post.id}`} className="text-dark">
-                        <i className="far fa-comment"></i>
-                </Link> */}
-                <div>
-                    <i class="far fa-paper-plane" onClick={()=>setIsShare(!isShare)}></i>
-                </div>
+                {
+                    auth.user.id &&
+                    <>
+                        <div>
+                            <LikeButton isLike={isLike} handleLike={handleLike} ></LikeButton>
+                        </div>
+                        {/* <Link to={`/post/${post.id}`} className="text-dark">
+                                <i className="far fa-comment"></i>
+                        </Link> */}
+                        <div>
+                            <i class="far fa-paper-plane" onClick={()=>setIsShare(!isShare)}></i>
+                        </div>
+                    </>
+                }
                 <div>
                     <i class="far fa-clipboard" onClick={()=>handleCopyLink}></i>
                 </div>

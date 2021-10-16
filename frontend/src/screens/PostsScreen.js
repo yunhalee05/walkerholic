@@ -18,7 +18,7 @@ function PostsScreen() {
     return (
         <>
         {
-            home.loading===false &&
+            (home.loading===false && home.posts) &&
             <div className="post_screen">
                 {
                     home.posts.map((post,index)=>(

@@ -37,7 +37,7 @@ export const createCart = () =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/createCart')
+        const res = await axios.post(`/createCart/${user.id}`)
 
         dispatch({
             type:CREATE_CART_SUCCESS,

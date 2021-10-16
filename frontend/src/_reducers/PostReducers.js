@@ -90,6 +90,20 @@ export const homeReducer = (state={}, action)=>{
         case GET_HOME_POST_FAIL:
             return {...state, loading:false, error:action.payload}
 
+        case LIKE_POST_REQUEST:
+            return {...state, loading:true}
+        case LIKE_POST_SUCCESS:
+            return {...state, loading:false, posts:state.posts.map(post=>post.id===action.payload.postId ? {...post, postLikes:[...post.postLikes, action.payload.likePost]}:post)}
+        case LIKE_POST_FAIL:
+            return {...state, loading:false, error:action.payload}
+
+        case UNLIKE_POST_REQUEST:
+            return {...state, loading:true}
+        case UNLIKE_POST_SUCCESS:
+            return {...state, loading:false, posts:state.posts.map(post=>post.id===action.payload.postId? {...post, postLikes:post.postLikes.filter(like=>like.id!==action.payload.likeId)}:post)}
+        case UNLIKE_POST_FAIL:
+            return {...state, loading:false, error:action.payload}
+
         default:
             return state;
     }

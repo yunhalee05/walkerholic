@@ -135,8 +135,8 @@ export const likePost = (postId) =>async(dispatch, getState)=>{
 
     try{
         const res = await axios.post(`/likePost/${postId}/${user.id}`, null)
+        console.log(res)
 
-        
         const likePost = {id:res.data.id, userId:res.data.user.id, fullname:res.data.user.fullname, imageUrl:res.data.user.imageUrl}
 
         
@@ -168,7 +168,8 @@ export const unlikePost = (postId, id) =>async(dispatch, getState)=>{
 
     try{
         const res = await axios.delete(`/unlikePost/${id}`)
-        
+        console.log(res)
+
         dispatch({
             type:UNLIKE_POST_SUCCESS,
             payload:{
