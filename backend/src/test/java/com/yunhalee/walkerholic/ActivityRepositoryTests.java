@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ActivityRepositoryTests {
 
     @Autowired
-    private ActivityRepository repo;
+    ActivityRepository repo;
 
     @Test
     public void createActivity(){
