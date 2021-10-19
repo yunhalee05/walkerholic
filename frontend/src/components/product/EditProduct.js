@@ -8,7 +8,7 @@ import { createProduct, editProduct } from '../../_actions/ProductActions'
 function EditProduct({product, setIsEdit, isEdit}) {
 
     const [name, setName] = useState(product? product.name :'')
-    const [description, setDiscription] = useState(product? product.description : '')
+    const [description, setDescription] = useState(product? product.description : '')
     const [brand, setBrand] = useState(product? product.brand : '')
     const [category, setCategory] = useState(product? product.category : 'TUMBLER')
     const [stock, setStock] = useState(product? product.stock : 0)
@@ -209,7 +209,10 @@ function EditProduct({product, setIsEdit, isEdit}) {
                     </div>
                 </div>
 
-
+                <div className="form_group">
+                    <label htmlFor="description">Description</label>
+                    <input type="text" className="form_control" value={description} onChange={e=>setDescription(e.target.value)} />
+                </div>
 
                 <div className="form_button">
                     <button type="submit" className="follow_button" style={{marginRight:"1rem"}}>Post</button>
