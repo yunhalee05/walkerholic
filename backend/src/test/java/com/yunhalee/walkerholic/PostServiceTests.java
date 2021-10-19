@@ -53,7 +53,7 @@ public class PostServiceTests {
         multipartFiles.add(multipartFile);
 
         //when
-        PostDTO postDTO = postService.savePost(postCreateDTO, multipartFiles);
+        PostDTO postDTO = postService.savePost(postCreateDTO, multipartFiles,null);
 
         //then
         assertNotNull(postDTO.getId());
@@ -74,7 +74,7 @@ public class PostServiceTests {
         PostCreateDTO postCreateDTO = new PostCreateDTO(post.getId(), post.getTitle(),post.getContent(), post.getUser().getId());
 
         //when
-        PostDTO postDTO = postService.savePost(postCreateDTO, null);
+        PostDTO postDTO = postService.savePost(postCreateDTO, null, null);
 
         //then
         assertEquals(postDTO.getId(), postId);

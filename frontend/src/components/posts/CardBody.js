@@ -10,9 +10,6 @@ function CardBody({post}) {
                 <Carousel postImages={post.postImages}></Carousel>
             }
             <div className="cardbody_content">
-                {
-                    post.content.length>0 && <strong>{post.user.fullname}  </strong>
-                }
                 <span>
                 {
                     post.content.length<60

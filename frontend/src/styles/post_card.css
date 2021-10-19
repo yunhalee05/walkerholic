@@ -14,46 +14,65 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 10px 0 10px;
+}
+
+.postcard_title{
+    font-size: 1.4rem;
+    font-weight: 600;
 }
 
 .postcard_user_info{
     display: flex;
     justify-content: flex-start;
     margin-bottom: 1rem;
+    margin-top: 10px;
 }
 
 .postcard_user_info img{
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     overflow: hidden;
     border: 2px solid black;
     border-radius: 50%;
     margin-right: 8px;
 }
 
+.postcard_user_name{
+    font-size: 11px;
+    font-weight: 400;
+}
+
 /* Card Body */
 .cardbody_content{
-    margin-top: 1rem;
+    margin-top: 2rem;
     margin-left: 1rem;
 }
 
 /* Card Footer */
 .cardfooter{
-    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .cardfooter_icon{
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
-    margin-bottom: 1rem;
-
 }
 
 .cardfooter_icon i{
-    margin-right: 14px;
+    margin-left: 14px;
     font-size: 24px;
     cursor: pointer;
+}
+
+.card_footer_likes{
+    position: absolute;
+    font-size: 8px;
+    text-align: right;
+    font-weight: 500;
+    top: 15%;
+    left: 60%;
 }
 
 .sharemodal{

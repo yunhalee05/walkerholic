@@ -1,5 +1,5 @@
 import axios from "axios"
-import { CREATE_POST_FAIL, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, GET_DISCOVER_POSTS_FAIL, GET_DISCOVER_POSTS_REQUEST, GET_DISCOVER_POSTS_SUCCESS, GET_FOLLOWINGS_POSTS_FAIL, GET_FOLLOWINGS_POSTS_REQUEST, GET_FOLLOWINGS_POSTS_SUCCESS, GET_HOME_POST_FAIL, GET_HOME_POST_REQUEST, GET_HOME_POST_SUCCESS, GET_POST_FAIL, GET_POST_REQUEST, GET_POST_SUCCESS, LIKE_POST_FAIL, LIKE_POST_REQUEST, LIKE_POST_SUCCESS, UNLIKE_POST_FAIL, UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS } from "../_constants/PostConstants"
+import { CREATE_POST_FAIL, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, DELETE_POST_FAIL, DELETE_POST_REQUEST, DELETE_POST_SUCCESS, GET_DISCOVER_POSTS_FAIL, GET_DISCOVER_POSTS_REQUEST, GET_DISCOVER_POSTS_SUCCESS, GET_FOLLOWINGS_POSTS_FAIL, GET_FOLLOWINGS_POSTS_REQUEST, GET_FOLLOWINGS_POSTS_SUCCESS, GET_HOME_POST_FAIL, GET_HOME_POST_REQUEST, GET_HOME_POST_SUCCESS, GET_POST_FAIL, GET_POST_REQUEST, GET_POST_SUCCESS, LIKE_POST_FAIL, LIKE_POST_REQUEST, LIKE_POST_SUCCESS, UNLIKE_POST_FAIL, UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS } from "../_constants/PostConstants"
 
 export const getDiscoverPosts = (page, id) =>async(dispatch, getState)=>{
 
@@ -70,6 +70,30 @@ export const createPost = (bodyFormData) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:CREATE_POST_FAIL,
+            payload:error.response.data
+            
+        })
+    }
+}
+
+export const deletePost = (id) =>async(dispatch, getState)=>{
+
+    dispatch({
+        type:DELETE_POST_REQUEST
+    })
+
+    try{
+        await axios.delete(`/post/${id}`)
+
+        dispatch({
+            type:DELETE_POST_SUCCESS,
+            payload:id
+        })
+
+
+    }catch(error){
+        dispatch({
+            type:DELETE_POST_FAIL,
             payload:error.response.data
             
         })

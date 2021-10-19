@@ -40,8 +40,11 @@ function CardFooter({post}) {
                 {
                     auth.user.id &&
                     <>
-                        <div>
+                        <div style={{position:"relative"}}>
                             <LikeButton isLike={isLike} handleLike={handleLike} ></LikeButton>
+                            <div className="card_footer_likes"style={isLike? {color:"white"}:{color:"black"}}>
+                                {post.postLikes.length}
+                            </div>
                         </div>
                         {/* <Link to={`/post/${post.id}`} className="text-dark">
                                 <i className="far fa-comment"></i>
@@ -56,9 +59,6 @@ function CardFooter({post}) {
                 </div>
             </div>
 
-            <div className="d-flex justify-content-between">
-                <h6>{post.postLikes.length} likes</h6>
-            </div>
 
             {
                 isShare &&

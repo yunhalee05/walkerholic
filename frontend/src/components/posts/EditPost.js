@@ -9,7 +9,9 @@ function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
 
     const [title, setTitle] = useState(post? post.title : '')
     const [content, setContent] = useState(post? post.content : '')
+    const [originalImages, setOriginalImages] = useState(post? post.postImages : [])
     const [images, setImages] = useState([])
+    const [deletedImages, setDeletedImages] = useState([])
 
     const [stream, setStream] = useState(false)
     const [tracks, setTracks] = useState('')
@@ -31,6 +33,12 @@ function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
         })
 
         setImages([...images, ...newImages])
+    }
+    const deleteOriginalImage = (index, image)=>{
+        const newArr = [...originalImages]
+        newArr.splice(index, 1)
+        setDeletedImages([...deletedImages, image])
+        setOriginalImages(newArr)
     }
 
     const deleteImage=(index)=>{
@@ -94,15 +102,26 @@ function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
             bodyFormData.append("content", content)
             bodyFormData.append("userId", auth.user.id)
             images.forEach(image=> bodyFormData.append("multipartFile", image))
+            deletedImages.forEach(image=>bodyFormData.append("deletedImages",image))
         }else{
             bodyFormData.append("title", title)
             bodyFormData.append("content", content)
             bodyFormData.append("userId", auth.user.id)
             images.forEach(image=> bodyFormData.append("multipartFile", image))
+            deletedImages.forEach(image=>bodyFormData.append("deletedImages",image))
         }
 
         dispatch(createPost(bodyFormData))
 
+    }
+
+    const imageTypeCheck = (image)=>{ 
+        const type = image.slice(image.indexOf(".")+1).toLowerCase(); 
+        if(type === "jpg" || type === "png" || type === "jpeg" || type === "gif" || type === "bmp"){ 
+            return "image"
+        }else if(type === "mp4" || type === "avi" || type === "wmv" || type === "mov" ){
+            return "video"
+        }
     }
 
 
@@ -127,6 +146,19 @@ function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
                 </div>
 
                 <div className="show_images">
+                    {
+                        originalImages &&
+                        originalImages.map((image, index)=>(
+                            <div key={index} id="file_img">
+                            {  
+                                imageTypeCheck(image.imageUrl) === "image"
+                                    ? imageShow(image.imageUrl)
+                                    : videoShow(image.imageUrl)
+                            }
+                            <span onClick={()=>deleteOriginalImage(index, image.imageUrl)}>&times;</span>
+                        </div>
+                        ))
+                    }
                     {
 
                         images && 

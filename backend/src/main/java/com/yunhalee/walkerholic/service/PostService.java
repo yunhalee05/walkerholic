@@ -40,6 +40,12 @@ public class PostService {
 
     public static final int POST_PER_PAGE = 9;
 
+    private void deletePostImage(List<String> deletedImages){
+        for (String deletedImage : deletedImages) {
+            postImageRepository.deleteByFilePath(deletedImage);
+            FileUploadUtils.deleteFile(deletedImage);
+        }
+    }
 
     private void savePostImage(Post post, List<MultipartFile> multipartFiles){
         multipartFiles.forEach(multipartFile -> {
@@ -60,13 +66,16 @@ public class PostService {
         });
     }
 
-    public PostDTO savePost(PostCreateDTO postCreateDTO, List<MultipartFile> multipartFiles){
+    public PostDTO savePost(PostCreateDTO postCreateDTO, List<MultipartFile> multipartFiles, List<String> deletedImages){
         if(postCreateDTO.getId()!=null){
             Post existingPost = postRepository.findById(postCreateDTO.getId()).get();
             existingPost.setTitle(postCreateDTO.getTitle());
             existingPost.setContent(postCreateDTO.getContent());
             if(multipartFiles!=null){
                 savePostImage(existingPost, multipartFiles);
+            }
+            if(deletedImages!=null && deletedImages.size()!=0){
+                deletePostImage(deletedImages);
             }
             postRepository.save(existingPost);
             return new PostDTO(existingPost);

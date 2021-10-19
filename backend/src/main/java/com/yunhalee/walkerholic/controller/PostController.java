@@ -23,9 +23,10 @@ public class PostController {
                            @RequestParam("title")String title,
                            @RequestParam("content")String content,
                            @RequestParam("userId")Integer userId,
-                           @RequestParam("multipartFile")List<MultipartFile> multipartFiles){
+                           @RequestParam("multipartFile")List<MultipartFile> multipartFiles,
+                           @RequestParam(value = "deletedImages", required = false)List<String> deletedImages){
         PostCreateDTO postCreateDTO = new PostCreateDTO(id,title, content, userId);
-        return new ResponseEntity<PostDTO>(postService.savePost(postCreateDTO,multipartFiles),HttpStatus.OK);
+        return new ResponseEntity<PostDTO>(postService.savePost(postCreateDTO,multipartFiles, deletedImages),HttpStatus.OK);
     }
 
     @GetMapping("/post/{id}")
