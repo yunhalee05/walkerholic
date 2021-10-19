@@ -6,10 +6,11 @@ import {Link} from 'react-router-dom'
 import { login } from '../_actions/AuthActions'
 import { GET_AUTH_FOLLOWS } from '../_constants/AuthConstants'
 
-function LoginScreen() {
+function LoginScreen(props) {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [typePass, setTypePass] = useState(false)
 
     const dispatch = useDispatch()
     const handleSubmit = (e)=>{
@@ -21,10 +22,12 @@ function LoginScreen() {
               type:GET_AUTH_FOLLOWS,
               payload:res.data
             })
+            props.history.push('/')
         })
+        
     }
     return (
-        <div className="auth">
+        <div className="auth" style={{marginTop:"20%"}}>
             <form onSubmit={handleSubmit}>
                 <div className="auth_message">
                     Welcome to walkerholic!
@@ -36,15 +39,19 @@ function LoginScreen() {
 
                 <div className="form_group">
                     <label htmlFor="password">Password</label>
-                    <input type="text" className="form_control" value={password} onChange={e=>setPassword(e.target.value)} />
+                    <input type={typePass ? "text" :"password"} className="form_control" value={password} onChange={e=>setPassword(e.target.value)} />
+                    <small className="pass" onClick={()=>setTypePass(!typePass)}>
+                        {typePass ? 'Hide' : 'Show'}
+                    </small>
                 </div>
 
-                <div className="form_button">
+                <div className="form_button" style={{margin:"2rem"}}>
                     <button>Sign in</button>
                 </div>
 
                 <div className="form_switch">
-                    <strong>Don't you have an account yet? <Link to="/signup">Register Now!</Link></strong>
+                    <div>Don't you have an account yet? </div>
+                    <div><Link to="/signup">Register Now!</Link></div>
                 </div>
             </form>
             

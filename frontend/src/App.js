@@ -64,7 +64,7 @@ function App() {
 
             <Route exact path="/posts" component={PostsScreen}/>
             <Route exact path="/posts/discover" component={DiscoverScreen}/>
-            <Route exact path="/posts/:id" component={PostScreen}/>
+            <Route exact path="/posts/user/:id" component={PostScreen}/>
             <Route exact path="/post/:id" component={PostDetailScreen}/>
             <Route exact path="/activities" component={ActivityScreen}/>
             <Route exact path="/activity/:id" component={ActivityDetailScreen}/>

@@ -16,8 +16,10 @@ function PostScreen() {
     const [page, setPage] = useState(1)
 
     useEffect(() => {
-        dispatch(getFollowingsPosts(1, auth.user.id))
-    }, [dispatch])
+        if(auth.user && auth.user.id){
+            dispatch(getFollowingsPosts(1, auth.user.id))
+        }
+    }, [dispatch, auth.user])
 
     const handleLoadMore = () =>{
         dispatch(getFollowingsPosts(page+1, auth.user.id)).then(res=>{

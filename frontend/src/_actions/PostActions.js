@@ -10,7 +10,6 @@ export const getDiscoverPosts = (page, id) =>async(dispatch, getState)=>{
     try{
         const res = await axios.get(`/posts/discover/${page}/${id}`)
 
-
         dispatch({
             type:GET_DISCOVER_POSTS_SUCCESS,
             payload:res.data

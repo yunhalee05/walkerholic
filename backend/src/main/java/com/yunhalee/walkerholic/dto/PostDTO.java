@@ -15,6 +15,8 @@ public class PostDTO {
 
     private Integer id;
 
+    private String title;
+
     private String content;
 
     private PostUser user;
@@ -28,6 +30,7 @@ public class PostDTO {
 
     public PostDTO(Post post) {
         this.id = post.getId();
+        this.title = post.getTitle();
         this.content = post.getContent();
         this.user = new PostUser(post.getUser());
         this.postLikes = PostLike.likeList(post.getLikePosts());

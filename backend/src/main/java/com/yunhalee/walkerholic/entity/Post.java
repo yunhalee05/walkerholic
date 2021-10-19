@@ -26,6 +26,9 @@ public class Post extends BaseTimeEntity{
     @Column(name = "post_id")
     private Integer id;
 
+    @Column(nullable = false)
+    private String title;
+
     private String content;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)

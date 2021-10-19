@@ -41,9 +41,10 @@ public class PostServiceTests {
     @Test
     public void createPost(){
         //given
+        String title = "testTitle";
         String content = "testContent";
         Integer userId = 1;
-        PostCreateDTO postCreateDTO = new PostCreateDTO(content, userId);
+        PostCreateDTO postCreateDTO = new PostCreateDTO(title, content, userId);
         MultipartFile multipartFile = new MockMultipartFile("uploaded-file",
                 "sampleFile.txt",
                 "text/plain",
@@ -56,6 +57,7 @@ public class PostServiceTests {
 
         //then
         assertNotNull(postDTO.getId());
+        assertEquals(postDTO.getTitle(), title);
         assertEquals(postDTO.getContent(), content);
         assertNotNull(postDTO.getPostImages());
         assertEquals(postRepository.findById(postDTO.getId()).get().getPostImages().get(0).getName(),"sampleFile.txt");
@@ -69,7 +71,7 @@ public class PostServiceTests {
         String originalContent = post.getContent();
         String newContent = "updateTestPost";
         post.setContent(newContent);
-        PostCreateDTO postCreateDTO = new PostCreateDTO(post.getId(), post.getContent(), post.getUser().getId());
+        PostCreateDTO postCreateDTO = new PostCreateDTO(post.getId(), post.getTitle(),post.getContent(), post.getUser().getId());
 
         //when
         PostDTO postDTO = postService.savePost(postCreateDTO, null);

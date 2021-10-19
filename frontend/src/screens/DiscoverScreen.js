@@ -14,8 +14,10 @@ function DiscoverScreen() {
     const [page, setPage] = useState(2)
 
     useEffect(() => {
-        dispatch(getDiscoverPosts(1, auth.user.id))
-    }, [dispatch])
+        if(auth.user &&auth.user.id){
+            dispatch(getDiscoverPosts(1, auth.user.id))
+        }
+    }, [dispatch, auth.user])
 
     const handleLoadMore = () =>{
         dispatch(getDiscoverPosts(page, auth.user.id))
@@ -27,7 +29,10 @@ function DiscoverScreen() {
             <div style={{fontSize:'2.4rem', fontWeight:'800',textAlign:'center' , marginTop:'2rem', marginBottom:"2rem"}}>
                 Find Co-Earthsavers!
             </div>
-            <PostThumb posts ={discover.posts}/>
+            {
+                discover.posts &&
+                <PostThumb posts ={discover.posts}/>
+            }
 
             {
                 discover.totalPage > page &&

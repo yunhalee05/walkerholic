@@ -67,11 +67,11 @@ function RegisterScreen() {
     return (
         <div className="auth">
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-                <div className="auth_message">
+                <div className="auth_message" style={{marginBottom:"1rem"}}>
                         Be with us!
                 </div>
 
-                <div style={{width:"100%", height:"150px" , display:"flex", justifyContent:"center"}}>
+                <div style={{width:"100%", height:"150px" , display:"flex", justifyContent:"center", marginBottom:"3rem"}}>
                     <div className="form_group_image" >
                         <img id="preview" src={Earth} alt="profileImage" />
                         <span>
@@ -163,12 +163,13 @@ function RegisterScreen() {
                     <input type="checkbox" onClick={()=>setIsSeller(!isSeller)} />
                 </div>
 
-                <div className="form_button">
-                    <button>Sign in</button>
+                <div className="form_button" style={{margin:"2rem"}}>
+                    <button>Sign up</button>
                 </div>
 
                 <div className="form_switch">
-                    <strong>Already have an acoount? <Link to="/signin">Login Now!</Link></strong>
+                    <div>Already have an acoount? </div>
+                    <div><Link to="/signin">Login Now!</Link></div>
                 </div>
             </form>
         </div>

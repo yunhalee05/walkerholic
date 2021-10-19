@@ -3,9 +3,7 @@ package com.yunhalee.walkerholic;
 import com.yunhalee.walkerholic.entity.Level;
 import com.yunhalee.walkerholic.entity.Role;
 import com.yunhalee.walkerholic.entity.User;
-import com.yunhalee.walkerholic.entity.UserActivity;
 import com.yunhalee.walkerholic.repository.UserRepository;
-import com.yunhalee.walkerholic.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,7 +143,7 @@ public class UserRepositoryTests {
 
         //when
         userRepository.deleteById(id);
-        
+
         //then
         assertThat(userRepository.findById(id)).isNull();
     }

@@ -9,17 +9,21 @@ public class PostCreateDTO {
 
     private Integer id;
 
+    private String title;
+
     private String content;
 
     private Integer userId;
 
-    public PostCreateDTO(Integer id, String content, Integer userId) {
+    public PostCreateDTO(Integer id, String title, String content, Integer userId) {
         this.id = id;
+        this.title = title;
         this.content = content;
         this.userId = userId;
     }
 
-    public PostCreateDTO(String content, Integer userId) {
+    public PostCreateDTO(String title, String content, Integer userId) {
+        this.title = title;
         this.content = content;
         this.userId = userId;
     }

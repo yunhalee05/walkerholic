@@ -15,17 +15,24 @@ public class UserPostDTO {
 
     private Integer id;
 
-    private String content;
+    private String title;
 
     private String imageUrl;
 
-    private Integer postLikes;
+    private String userImageUrl;
+
+    private String userName;
+
+    private Integer userId;
+
 
     public UserPostDTO(Post post) {
         this.id = post.getId();
-        this.content = post.getContent();
+        this.title = post.getTitle();
         this.imageUrl = post.getPostImages().get(0).getFilePath();
-        this.postLikes = post.getLikePosts().size();
+        this.userImageUrl = post.getUser().getImageUrl();
+        this.userName = post.getUser().getFullname();
+        this.userId = post.getUser().getId();
     }
 
 }

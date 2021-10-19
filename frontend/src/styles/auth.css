@@ -1,16 +1,22 @@
 .auth{
     display: flex;
     justify-content: center;
+    margin: auto;
+    margin-top: 10%;
 }
 
 .auth_message{
     text-align: center;
     font-weight: 800;
     font-size: 1.4rem;
+    margin-bottom: 3rem;
 }
 
 .auth form{
     text-align: center;
+    border: 2px solid black;
+    padding: 3rem;
+    border-radius: 20px;
 }
 
 .auth i{
@@ -23,6 +29,11 @@
     align-items: center;
     position: relative;
     margin-top: 18px;
+}
+
+.form_group label{
+    font-weight: 600;
+    margin-right: 1rem;
 }
 
 .form_group input{
@@ -83,4 +94,40 @@
     display: flex;
     justify-content: center;
     
+}
+
+.form_switch{
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.form_switch a:hover{
+    color: #bf4b19;
+}
+
+@media (max-width:535px){
+    .auth form{
+        padding: 10px;
+    }
+    .form_group label{
+        font-size: 12px;
+    }
+}
+
+@media (max-width:445px){
+    .form_group label{
+        font-size: 12px;
+    }
+    .form_group input{
+        width: 12rem;
+    }
+}
+
+@media (max-width:345px){
+    .form_group label{
+        font-size: 12px;
+    }
+    .form_group input{
+        width: 10rem;
+    }
 }

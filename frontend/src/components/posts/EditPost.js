@@ -7,6 +7,7 @@ import { createPost } from '../../_actions/PostActions'
 
 function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
 
+    const [title, setTitle] = useState(post? post.title : '')
     const [content, setContent] = useState(post? post.content : '')
     const [images, setImages] = useState([])
 
@@ -89,10 +90,12 @@ function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
 
         if(post){
             bodyFormData.append("id", post.id)
+            bodyFormData.append("title", title)
             bodyFormData.append("content", content)
             bodyFormData.append("userId", auth.user.id)
             images.forEach(image=> bodyFormData.append("multipartFile", image))
         }else{
+            bodyFormData.append("title", title)
             bodyFormData.append("content", content)
             bodyFormData.append("userId", auth.user.id)
             images.forEach(image=> bodyFormData.append("multipartFile", image))
@@ -112,6 +115,12 @@ function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
                     ? <div className="edit_title">Post {post.id}</div>
                     : <div className="edit_title">Create Post</div>
                 }
+
+                <div className="form_group">
+                    <label htmlFor="title">Title</label>
+                    <input type="text" className="form_control" value={title} onChange={e=>setTitle(e.target.value)} />
+                </div>
+
                 <div className="form_group">
                     <label htmlFor="content">Content</label>
                     <textarea type="text" className="form_control" value={content} onChange={e=>setContent(e.target.value)} />

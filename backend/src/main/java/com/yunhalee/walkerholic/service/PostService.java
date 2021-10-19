@@ -63,6 +63,7 @@ public class PostService {
     public PostDTO savePost(PostCreateDTO postCreateDTO, List<MultipartFile> multipartFiles){
         if(postCreateDTO.getId()!=null){
             Post existingPost = postRepository.findById(postCreateDTO.getId()).get();
+            existingPost.setTitle(postCreateDTO.getTitle());
             existingPost.setContent(postCreateDTO.getContent());
             if(multipartFiles!=null){
                 savePostImage(existingPost, multipartFiles);
@@ -72,6 +73,8 @@ public class PostService {
         }else{
             Post post = new Post();
             User user = userRepository.findById(postCreateDTO.getUserId()).get();
+            post.setTitle(postCreateDTO.getTitle());
+            System.out.println(postCreateDTO.getTitle());
             post.setContent(postCreateDTO.getContent());
             post.setUser(user);
             postRepository.save(post);

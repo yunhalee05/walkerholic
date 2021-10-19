@@ -50,7 +50,7 @@ function Header() {
                             </div>
                         }
                         <div className="header_content header_posts">
-                            <Link to={`/posts/${auth.user.id}`}><i className="far fa-pencil-alt" style={{fontSize:"1.3rem"}}></i></Link>
+                            <Link to={`/posts/user/${auth.user.id}`}><i className="far fa-pencil-alt" style={{fontSize:"1.3rem"}}></i></Link>
                         </div>
                         <div className="header_content header_discover">
                             <Link to="/posts/discover"><i className="fas fa-globe" style={{fontSize:"1.3rem"}}></i></Link>
