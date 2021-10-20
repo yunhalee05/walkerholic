@@ -55,11 +55,20 @@ public class OrderService {
         return new OrderDTO(order);
     }
 
-    public String cancelOrder(Integer id){
+    public OrderListDTO cancelOrder(Integer id){
         Order order = orderRepository.findById(id).get();
         order.cancel();
+        orderRepository.save(order);
 
-        return "Order Canceled Successfully.";
+        return new OrderListDTO(order);
+    }
+
+    public OrderListDTO deliverOrder(Integer id){
+        Order order = orderRepository.findById(id).get();
+        order.deliver();
+        orderRepository.save(order);
+
+        return new OrderListDTO(order);
     }
 
     public OrderDTO getOrder(Integer id){

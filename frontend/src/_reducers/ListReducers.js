@@ -1,4 +1,4 @@
-import { GET_ORDER_LIST_FAIL, GET_ORDER_LIST_REQUEST, GET_ORDER_LIST_SUCCESS } from "../_constants/OrderConstants";
+import { CANCEL_ORDER_FAIL, CANCEL_ORDER_REQUEST, CANCEL_ORDER_SUCCESS, DELIVER_ORDER_FAIL, DELIVER_ORDER_REQUEST, DELIVER_ORDER_SUCCESS, GET_ORDER_LIST_FAIL, GET_ORDER_LIST_REQUEST, GET_ORDER_LIST_SUCCESS } from "../_constants/OrderConstants";
 import { CREATE_PRODUCT_FAIL, CREATE_PRODUCT_REQUEST, CREATE_PRODUCT_SUCCESS, DELETE_PRODUCT_FAIL, DELETE_PRODUCT_REQUEST, DELETE_PRODUCT_SUCCESS, EDIT_PRODUCT_FAIL, EDIT_PRODUCT_REQUEST, EDIT_PRODUCT_SUCCESS, GET_PRODUCT_LIST_FAIL, GET_PRODUCT_LIST_REQUEST, GET_PRODUCT_LIST_SUCCESS } from "../_constants/ProductConstants";
 import { DELETE_USER_FAIL, DELETE_USER_REQUEST, DELETE_USER_SUCCESS, GET_USER_LIST_FAIL, GET_USER_LIST_REQUEST, GET_USER_LIST_SUCCESS } from "../_constants/UserConstants";
 
@@ -9,6 +9,20 @@ export const listReducer = (state={}, action)=>{
         case GET_ORDER_LIST_SUCCESS:
             return {...state, loading:false, orders:action.payload}
         case GET_ORDER_LIST_FAIL:
+            return {...state, loading:false, error:action.payload}
+
+        case CANCEL_ORDER_REQUEST:
+            return {...state, loading:true}
+        case CANCEL_ORDER_SUCCESS:
+            return {...state, loading:false, orders:state.orders.map(order=>order.id ===action.payload.id ? action.payload : order)}
+        case CANCEL_ORDER_FAIL:
+            return {...state, loading:false, error:action.payload}
+
+        case DELIVER_ORDER_REQUEST:
+            return {...state, loading:true}
+        case DELIVER_ORDER_SUCCESS:
+            return {...state, loading:false, orders:state.orders.map(order=>order.id ===action.payload.id ? action.payload : order)}
+        case DELIVER_ORDER_FAIL:
             return {...state, loading:false, error:action.payload}
     
         case GET_USER_LIST_REQUEST:

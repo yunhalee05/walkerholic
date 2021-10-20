@@ -24,9 +24,6 @@ function ProductDetailScreen(props) {
         dispatch(getProduct(id))
     }, [dispatch])
 
-
-
-    console.log(id)
     const handleQty = (button) =>{
         if(button==="plus"){
             const plusQty = qty+1

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ADD_TO_CART_FAIL, ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, CREATE_CART_FAIL, CREATE_CART_REQUEST, CREATE_CART_SUCCESS, CREATE_ORDER_FAIL, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, DELETE_ORDERITEM_FAIL, DELETE_ORDERITEM_REQUEST, DELETE_ORDERITEM_SUCCESS, GET_CARTITEMS_FAIL, GET_CARTITEMS_REQUEST, GET_CARTITEMS_SUCCESS, GET_ORDER_FAIL, GET_ORDER_LIST_FAIL, GET_ORDER_LIST_REQUEST, GET_ORDER_LIST_SUCCESS, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, UPDATE_ORDERITEM_QTY_FAIL, UPDATE_ORDERITEM_QTY_REQUEST, UPDATE_ORDERITEM_QTY_SUCCESS } from "../_constants/OrderConstants"
+import { ADD_TO_CART_FAIL, ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, CANCEL_ORDER_FAIL, CANCEL_ORDER_REQUEST, CANCEL_ORDER_SUCCESS, CREATE_CART_FAIL, CREATE_CART_REQUEST, CREATE_CART_SUCCESS, CREATE_ORDER_FAIL, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, DELETE_ORDERITEM_FAIL, DELETE_ORDERITEM_REQUEST, DELETE_ORDERITEM_SUCCESS, DELIVER_ORDER_FAIL, DELIVER_ORDER_REQUEST, DELIVER_ORDER_SUCCESS, GET_CARTITEMS_FAIL, GET_CARTITEMS_REQUEST, GET_CARTITEMS_SUCCESS, GET_ORDER_FAIL, GET_ORDER_LIST_FAIL, GET_ORDER_LIST_REQUEST, GET_ORDER_LIST_SUCCESS, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, UPDATE_ORDERITEM_QTY_FAIL, UPDATE_ORDERITEM_QTY_REQUEST, UPDATE_ORDERITEM_QTY_SUCCESS } from "../_constants/OrderConstants"
 
 export const getCart = (id) =>async(dispatch, getState)=>{
 
@@ -281,5 +281,59 @@ export const getOrder = (id) =>async(dispatch, getState)=>{
             
         })
         // console.log(error)
+    }
+}
+export const cancelOrder = (id) =>async(dispatch, getState)=>{
+
+    const {auth : {user}} = getState()
+
+    dispatch({
+        type:CANCEL_ORDER_REQUEST
+    })
+
+
+    try{
+        const res = await axios.post(`/order/cancel/${id}`)
+        dispatch({
+            type:CANCEL_ORDER_SUCCESS,
+            payload:res.data
+        })
+
+
+    }catch(error){
+        dispatch({
+            type:CANCEL_ORDER_FAIL,
+            payload:error.response.data
+            
+        })
+        // console.log(error)
+    }
+}
+
+export const deliverOrder = (id) =>async(dispatch, getState)=>{
+
+    const {auth : {user}} = getState()
+
+    dispatch({
+        type:DELIVER_ORDER_REQUEST
+    })
+
+
+    try{
+        const res = await axios.post(`/order/deliver/${id}`)
+        dispatch({
+            type:DELIVER_ORDER_SUCCESS,
+            payload:res.data
+        })
+        console.log(res.data)
+
+
+    }catch(error){
+        dispatch({
+            type:DELIVER_ORDER_FAIL,
+            payload:error.response.data
+            
+        })
+        console.log(error)
     }
 }

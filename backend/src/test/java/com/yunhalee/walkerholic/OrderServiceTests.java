@@ -3,6 +3,7 @@ package com.yunhalee.walkerholic;
 
 import com.yunhalee.walkerholic.dto.*;
 import com.yunhalee.walkerholic.entity.Order;
+import com.yunhalee.walkerholic.entity.OrderItem;
 import com.yunhalee.walkerholic.entity.OrderStatus;
 import com.yunhalee.walkerholic.repository.OrderItemRepository;
 import com.yunhalee.walkerholic.repository.OrderRepository;
@@ -18,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
@@ -115,6 +117,39 @@ public class OrderServiceTests {
     }
 
     @Test
+    public void cancelOrder(){
+        //given
+        Integer orderId = 1;
+        List<Integer> originalStock = orderRepository.findById(orderId).get().getOrderItems().stream().map(orderItem -> orderItem.getProduct().getStock()).collect(Collectors.toList());
+        List<Integer> qty = orderRepository.findById(orderId).get().getOrderItems().stream().map(orderItem -> orderItem.getQty()).collect(Collectors.toList());
+
+        //when
+        OrderListDTO orderListDTO = orderService.cancelOrder(orderId);
+
+        //then
+        assertEquals(orderListDTO.getOrderStatus(), OrderStatus.CANCEL.name());
+        List<Integer> canceledStock = orderRepository.findById(orderId).get().getOrderItems().stream().map(orderItem -> orderItem.getProduct().getStock()).collect(Collectors.toList());
+        for (int i = 0; i<originalStock.size(); i++){
+            Set<OrderItem> orderItems = orderRepository.findById(orderId).get().getOrderItems();
+            Integer recoveredStock = originalStock.get(i) + qty.get(i);
+            assertEquals(recoveredStock, canceledStock.get(i));
+        }
+    }
+
+    @Test
+    public void deliverOrder(){
+        //given
+        Integer orderId = 1;
+
+        //when
+        OrderListDTO orderListDTO = orderService.deliverOrder(orderId);
+
+        //then
+        assertTrue(orderListDTO.isDelivered());
+        assertNotNull(orderListDTO.getDeliveredAt());
+    }
+
+    @Test
     public void getOrderById(){
         //given
         Integer orderId = 1;
@@ -186,16 +221,6 @@ public class OrderServiceTests {
         }
     }
 
-    @Test
-    public void cancelOrder(){
-        //given
-        Integer orderId = 1;
 
-        //when
-        orderService.cancelOrder(orderId);
-
-        //then
-        assertNull(orderRepository.findById(orderId));
-    }
 
 }

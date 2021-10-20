@@ -99,4 +99,12 @@ public class Order extends BaseTimeEntity{
         });
     }
 
+    public void deliver(){
+        if(!isPaid){
+            throw new IllegalStateException("Order must be paid.");
+        }
+        this.setDelivered(true);
+        this.setDeliveredAt(LocalDateTime.now());
+    }
+
 }

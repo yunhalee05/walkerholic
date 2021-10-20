@@ -25,9 +25,15 @@ public class OrderController {
     }
 
     @PostMapping("/order/cancel/{id}")
-    public String deleteOrder(@PathVariable("id") String id) {
+    public OrderListDTO deleteOrder(@PathVariable("id") String id) {
         Integer orderId = Integer.parseInt(id);
         return orderService.cancelOrder(orderId);
+    }
+
+    @PostMapping("/order/deliver/{id}")
+    public OrderListDTO deliverOrder(@PathVariable("id") String id) {
+        Integer orderId = Integer.parseInt(id);
+        return orderService.deliverOrder(orderId);
     }
 
     @GetMapping("/order/{id}")

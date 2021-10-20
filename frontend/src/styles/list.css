@@ -79,6 +79,11 @@
     margin: auto;
 }
 
+.orderlist_action button{
+    margin-right: 10px;
+}
+
+
 .orderlist_user_image img{
     width: 100%;
     height: 100%;

@@ -165,7 +165,7 @@ public class OrderRepositoryTests {
     @Test
     public void cancelOrder(){
         //given
-        Integer orderId = 1;
+        Integer orderId = 3;
         Order order = orderRepository.findById(orderId).get();
         for (OrderItem orderItem : order.getOrderItems()) {
             orderItemRepository.deleteById(orderItem.getId());
