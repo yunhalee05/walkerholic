@@ -52,7 +52,7 @@ function CardHeader({post}) {
                             <Link to={`/user/${post.user.id}`}>{post.user.fullname}</Link>
                         </div>
                         <div>
-                            {moment(post.createdAt).fromNow()}
+                            {moment(post.createdAt).format('YYYY MM DD HH:mm:ss')}
                         </div>
                     </div>
                 </div>

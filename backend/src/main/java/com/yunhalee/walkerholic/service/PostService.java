@@ -134,11 +134,11 @@ public class PostService {
         Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
         Page<Post> pagePost = postRepository.findByLikePostSize(pageable);
         List<Post> posts = pagePost.getContent();
-        List<PostDTO> postDTOList = new ArrayList<>();
-        posts.forEach(post -> postDTOList.add(new PostDTO(post)));
+        List<UserPostDTO> userPostDTOList = new ArrayList<>();
+        posts.forEach(post -> userPostDTOList.add(new UserPostDTO(post)));
 
         HashMap<String, Object> homePosts = new HashMap<>();
-        homePosts.put("posts", postDTOList);
+        homePosts.put("posts", userPostDTOList);
         homePosts.put("totalElement",pagePost.getTotalElements());
         homePosts.put("totalPage", pagePost.getTotalPages());
 

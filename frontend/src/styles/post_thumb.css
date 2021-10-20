@@ -6,12 +6,13 @@
     display: column;
     columns: var(--columns);
     gap: var(--gap);
-    padding: 10px;
+    padding: 2rem;
 }
 
 .post_thumb{
     width: 100%;
     word-break:normal;
+    padding: 2rem;
 }
 
 .post_thumb_container > *{
@@ -43,10 +44,27 @@
 }
 
 .post_thumb_title{
-    font-size: 1.4rem;
-    font-weight: 400;
+    font-size: 1.8rem;
+    font-weight: 500;
     padding: 10px;
+    cursor: pointer;
 }
+
+.post_thumb_title::before{
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: flex;
+    background-color: black;
+    transform: translate(-20px,25px);
+    opacity: 0;
+}
+
+.post_thumb_title:hover::before{
+    opacity: 1;
+}
+
 
 .post_thumb_user{
     padding: 10px;

@@ -9,7 +9,6 @@ function PostCard({post}) {
             <CardHeader post={post}/>
             <hr/>
             <CardBody post={post}/>
-            <hr/>
             <CardFooter post={post} />
         </div>
     )

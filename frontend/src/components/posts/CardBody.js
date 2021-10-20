@@ -5,10 +5,12 @@ function CardBody({post}) {
     const [readMore, setReadMore] = useState(false)
     return (
         <div className="cardbody">
+            <div className="cardbody_image">
             {
                 post.postImages.length>0 &&
                 <Carousel postImages={post.postImages}></Carousel>
             }
+            </div>
             <div className="cardbody_content">
                 <span>
                 {

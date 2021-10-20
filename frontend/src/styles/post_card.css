@@ -1,10 +1,10 @@
 .postcard{
-    max-width: 60rem;
+    max-width: 63rem;
     margin: auto;
-    border: 1px solid #e3e3e3;
+    border: 2px solid black;
     border-radius: 13px;
     box-shadow: 5px 5px #e8e8e8;
-    padding: 1rem;
+    padding: 2rem;
     margin-bottom: 2rem;
 }
 
@@ -18,8 +18,9 @@
 }
 
 .postcard_title{
-    font-size: 1.4rem;
+    font-size: 1.8rem;
     font-weight: 600;
+    word-break: normal;
 }
 
 .postcard_user_info{
@@ -30,10 +31,10 @@
 }
 
 .postcard_user_info img{
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     overflow: hidden;
-    border: 2px solid black;
+    border: 1px solid black;
     border-radius: 50%;
     margin-right: 8px;
 }
@@ -44,24 +45,31 @@
 }
 
 /* Card Body */
+.cardbody_image{
+    width: 90%;
+    margin: auto;
+    margin-top: 3rem;
+}
 .cardbody_content{
-    margin-top: 2rem;
+    margin-top: 3rem;
     margin-left: 1rem;
+    font-size: 1.2rem;
 }
 
 /* Card Footer */
 .cardfooter{
-    margin-right: 1rem;
+    margin: 4rem 0 3rem 0;
+    text-align: center;
 }
 
 .cardfooter_icon{
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
 }
 
 .cardfooter_icon i{
-    margin-left: 14px;
+    margin-left: 20px;
     font-size: 24px;
     cursor: pointer;
 }
@@ -72,7 +80,7 @@
     text-align: right;
     font-weight: 500;
     top: 15%;
-    left: 60%;
+    left: 64%;
 }
 
 .sharemodal{

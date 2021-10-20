@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import PostCard from '../components/posts/PostCard'
+import PostThumb from '../components/PostThumb'
 import { getHomePost } from '../_actions/PostActions'
 
 function PostsScreen() {
@@ -20,12 +21,15 @@ function PostsScreen() {
         {
             (home.loading===false && home.posts) &&
             <div className="post_screen">
-                {
+                {/* {
                     home.posts.map((post,index)=>(
                         <PostCard post={post} key={index}/>
                     ))
-                }
-                
+                } */}
+            {
+                home.posts &&
+                <PostThumb posts ={home.posts}/>
+            }
             </div>
 
         }

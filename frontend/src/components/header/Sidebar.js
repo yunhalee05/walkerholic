@@ -22,7 +22,7 @@ function Sidebar({isOpen,setIsOpen}) {
                 <div className="sidebar_items">
                     <div className="sidebar_item">
                         <div className="sidebar_item_name">
-                            <Link to={auth.user?.id ? `/posts/${auth.user.id}`:'/posts'}>Post</Link>
+                            <Link to='/posts'>Post</Link>
                         </div>
                         <div className="sidebar_description">
                             Checkout our planetsaver's latest moment
