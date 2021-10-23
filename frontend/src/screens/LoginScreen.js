@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux'
 import {Link} from 'react-router-dom'
 import { login } from '../_actions/AuthActions'
 import { GET_AUTH_FOLLOWS } from '../_constants/AuthConstants'
+import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, NAVER_AUTH_URL, KAKAO_AUTH_URL, ACCESS_TOKEN } from '../utils/SocialLogin';
+
 
 function LoginScreen(props) {
 
@@ -26,12 +28,14 @@ function LoginScreen(props) {
         })
         
     }
+
     return (
         <div className="auth" style={{marginTop:"20%"}}>
             <form onSubmit={handleSubmit}>
                 <div className="auth_message">
                     Welcome to walkerholic!
                 </div>
+                <button><a href="http://localhost:8080/oauth2/authorization/google">Continue with Google</a></button>
                 <div className="form_group">
                     <label htmlFor="email">Email</label>
                     <input type="email" className="form_control" value={email} onChange={e=>setEmail(e.target.value)}/>

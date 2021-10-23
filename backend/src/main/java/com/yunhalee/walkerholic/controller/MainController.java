@@ -4,7 +4,9 @@ import com.yunhalee.walkerholic.dto.LevelDTO;
 import com.yunhalee.walkerholic.entity.Category;
 import com.yunhalee.walkerholic.entity.Level;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
@@ -20,14 +22,8 @@ public class MainController {
 
     @GetMapping("/")
     public String viewHomePage(){
-        return "Hello World";
+        return "";
     }
-//    @GetMapping("/api/hello")
-//    public HashMap hello(){
-//        HashMap result = new HashMap();
-//        result.put("message","안녕하세요");
-//        return result;
-//    }
 
     @GetMapping("/levels")
     public List<LevelDTO> getLevels(){

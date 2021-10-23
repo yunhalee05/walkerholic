@@ -1,8 +1,11 @@
 package com.yunhalee.walkerholic.entity;
 
+import com.yunhalee.walkerholic.security.oauth.ProviderType;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -37,7 +40,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(length = 64, name = "image_url")
+    @Column(name = "image_url")
     private String imageUrl;
 
     @Column(length = 13)
@@ -50,6 +53,10 @@ public class User {
     private String description;
 
     private boolean isSeller;
+
+    @Column(name = "provider_type")
+    @Enumerated(EnumType.STRING)
+    private ProviderType providerType;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserActivity> activities = new HashSet<>();

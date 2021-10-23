@@ -14,12 +14,25 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private CustomOauth2UserService customOauth2UserService;
+
+    @Autowired
+    private OAuth2SuccessHandler oAuth2SuccessHandler;
+
+    @Autowired
+    private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+
+    @Autowired
+    private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -29,6 +42,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
+
+    @Bean
+    public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
+        return new HttpCookieOAuth2AuthorizationRequestRepository();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -62,20 +80,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .csrf()
                     .disable()
+                .formLogin()
+                    .disable()
                 .authorizeRequests()
                     .antMatchers("/authenticate", "/signin","/signup","/user/check_email","/user/register","/company/companylist","/team/teamlist","/user/userlist" ,"/company/check_name","/company/save","/team/check_name","/team/save","/user/addTeam","/user/deleteTeam","/team/delete","/product/**")
                     .permitAll()
                 .anyRequest()
 //                    .authenticated()
-                        .permitAll()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .and()
+                    .permitAll()
+                    .and()
+                .exceptionHandling()
+                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                    .and()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                    .formLogin()
-                    .disable();
+                    .and()
+                .oauth2Login()
+                    .authorizationEndpoint()
+                    .authorizationRequestRepository(cookieAuthorizationRequestRepository())
+                    .baseUri("/oauth2/authorization")
+                    .and()
+                    .redirectionEndpoint()
+                    .baseUri("/oauth2/callback/*")
+                    .and()
+                    .userInfoEndpoint()
+                    .userService(customOauth2UserService)
+                    .and()
+                    .successHandler(oAuth2SuccessHandler)
+                    .failureHandler((AuthenticationFailureHandler) oAuth2AuthenticationFailureHandler);
+
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }

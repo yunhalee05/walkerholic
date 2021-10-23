@@ -61,6 +61,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, status);
     }
 
+
+    @ExceptionHandler(OAuthProviderMissMatchException.class)
+    public ResponseEntity<ErrorResponse> handleOAuthProviderMissMatchException(OAuthProviderMissMatchException e){
+        ErrorResponse errorResponse = new ErrorResponse();
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        errorResponse.setStatus(status.value());
+        errorResponse.setMessage(e.getMessage());
+
+        return new ResponseEntity<>(errorResponse, status);
+    }
+
     @ExceptionHandler(IllegalAccessException.class)
     protected ResponseEntity<ErrorResponse> handleIllegalAccessException(IllegalAccessException e){
         ErrorResponse errorResponse = new ErrorResponse();
