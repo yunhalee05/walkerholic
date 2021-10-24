@@ -57,6 +57,8 @@ function App() {
 
           <div className="main">
             <Route exact path="/" component={HomeScreen}/>
+            <Route exact path="/oauth2/redirect" component={HomeScreen}/>
+
             <Route exact path="/signin" component={LoginScreen}/>
             <Route exact path="/signup" component={RegisterScreen}/>
             <Route exact path="/user/:id" component={ProfileScreen}/>

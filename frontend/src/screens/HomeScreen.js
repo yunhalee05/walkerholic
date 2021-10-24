@@ -6,17 +6,38 @@ import ProductCard from '../components/home/ProductCard';
 import { Link } from 'react-router-dom';
 import { getHomePost } from '../_actions/PostActions';
 import HomePostCard from '../components/home/HomePostCard';
-import Arrow from '../images/Arrow.png'
+import { auth } from '../_actions/AuthActions';
+import axios from 'axios';
+import { GET_AUTH_FOLLOWS } from '../_constants/AuthConstants';
+import { getCart } from '../_actions/OrderActions';
 
-function HomeScreen() {
+function HomeScreen(props) {
 
     const [products, setProducts] = useState([])
     const [posts, setPosts] = useState([])
     const [isLoad, setIsLoad] = useState(true)
 
+    const token = props.location.search.substr(7)
+
 
     const dispatch = useDispatch()
     useEffect(() => {
+        if(token){
+            localStorage.setItem("walkerholic_token", token)
+            dispatch(auth(token)).then(async(id)=>{
+                const res1 = await axios.get(`/follows/${id}`)
+                dispatch({
+                  type:GET_AUTH_FOLLOWS,
+                  payload:res1.data
+                })
+                // const res2 = await axios.get(`/cartItems/${id}`)
+                // dispatch({
+                //   type:GET_CARTITEMS_SUCCESS,
+                //   payload:res2.data
+                // })
+                dispatch(getCart(id))
+              })
+        }
         setIsLoad(true)
         dispatch(getProducts(1)).then(res=>
             setProducts(res)
