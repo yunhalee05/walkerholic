@@ -23,6 +23,18 @@
     cursor: pointer;
 }
 
+.auth_oauth_button{
+    display: flex;
+    flex-direction: column;
+    transform: translateY(-1rem);
+}
+
+.auth_oauth_button img{
+    width: 200px;
+    height: 45px;
+    margin-bottom: 5px;
+}
+
 .form_group{
     display: flex;
     justify-content: space-between;

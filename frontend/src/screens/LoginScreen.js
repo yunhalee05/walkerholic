@@ -5,8 +5,10 @@ import { useDispatch } from 'react-redux'
 import {Link} from 'react-router-dom'
 import { login } from '../_actions/AuthActions'
 import { GET_AUTH_FOLLOWS } from '../_constants/AuthConstants'
-import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, NAVER_AUTH_URL, KAKAO_AUTH_URL, ACCESS_TOKEN } from '../utils/SocialLogin';
-
+import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, NAVER_AUTH_URL, KAKAO_AUTH_URL } from '../utils/SocialLogin';
+import kakao from '../images/kakao.png'
+import google from '../images/google.png'
+import naver from '../images/naver.png'
 
 function LoginScreen(props) {
 
@@ -35,10 +37,6 @@ function LoginScreen(props) {
                 <div className="auth_message">
                     Welcome to walkerholic!
                 </div>
-                
-                <button><a href={GOOGLE_AUTH_URL}>Continue with Google</a></button>
-                <button><a href={KAKAO_AUTH_URL}>Continue with KAKAO</a></button>
-                <button><a href={NAVER_AUTH_URL}>Continue with NAVER</a></button>
 
                 <div className="form_group">
                     <label htmlFor="email">Email</label>
@@ -55,6 +53,12 @@ function LoginScreen(props) {
 
                 <div className="form_button" style={{margin:"2rem"}}>
                     <button>Sign in</button>
+                </div>
+
+                <div className="auth_oauth_button">
+                    <a href={GOOGLE_AUTH_URL}><img src={google} alt="" /></a>
+                    <a href={KAKAO_AUTH_URL}><img src={kakao} alt="" /></a>
+                    <a href={NAVER_AUTH_URL}><img src={naver} alt="" /></a>
                 </div>
 
                 <div className="form_switch">

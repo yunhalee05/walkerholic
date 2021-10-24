@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import Sidebar from './Sidebar'
 import egg from '../../images/egg.png'
 import Cart from '../cart/Cart'
@@ -14,6 +14,13 @@ function Header() {
 
     const auth = useSelector(state => state.auth)
     const cart = useSelector(state => state.cart)
+
+    const history = useHistory()
+
+    const handleLogout = () =>{
+        localStorage.removeItem("walkerholic_token")
+        history.push("/")
+    }
 
     return (
         <>
@@ -90,10 +97,13 @@ function Header() {
                                     </div>
                                 </div>
                             </div>
-                            }
+                        }
+                        <div className="header_content header_logout" onClick={handleLogout}>
+                            <i className="fas fa-hand-paper" style={{fontSize:"1.3rem"}}></i>
+                        </div>
                         </>
-                    :<div className="header_content">
-                        <Link to='/signin'>Login</Link>
+                    :<div className="header_content header_login">
+                        <Link to='/signin'><i className="far fa-hand-paper" style={{fontSize:"1.3rem", fontWeight:'400'}}></i></Link>
                     </div>
                }
 
