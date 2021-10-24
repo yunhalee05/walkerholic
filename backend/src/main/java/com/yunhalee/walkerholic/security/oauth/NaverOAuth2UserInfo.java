@@ -15,6 +15,7 @@ public class NaverOAuth2UserInfo extends OAuth2UserInfo{
         if (response == null) {
             return null;
         }
+        System.out.println(response);
 
         return (String) response.get("id");
     }
@@ -27,7 +28,7 @@ public class NaverOAuth2UserInfo extends OAuth2UserInfo{
             return null;
         }
 
-        return (String) response.get("nickname");
+        return (String) response.get("name");
     }
 
     @Override
@@ -54,11 +55,25 @@ public class NaverOAuth2UserInfo extends OAuth2UserInfo{
 
     @Override
     public String getFirstName() {
-        return null;
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+
+        if (response == null) {
+            return null;
+        }
+        String name = (String)response.get("name");
+
+        return name.substring(1);
     }
 
     @Override
     public String getLastName() {
-        return null;
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+
+        if (response == null) {
+            return null;
+        }
+        String name = (String)response.get("name");
+
+        return name.substring(0,1);
     }
 }

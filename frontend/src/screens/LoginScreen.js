@@ -35,7 +35,11 @@ function LoginScreen(props) {
                 <div className="auth_message">
                     Welcome to walkerholic!
                 </div>
+                
                 <button><a href={GOOGLE_AUTH_URL}>Continue with Google</a></button>
+                <button><a href={KAKAO_AUTH_URL}>Continue with KAKAO</a></button>
+                <button><a href={NAVER_AUTH_URL}>Continue with NAVER</a></button>
+
                 <div className="form_group">
                     <label htmlFor="email">Email</label>
                     <input type="email" className="form_control" value={email} onChange={e=>setEmail(e.target.value)}/>
