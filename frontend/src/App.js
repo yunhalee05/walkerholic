@@ -26,6 +26,7 @@ import UserActivityScreen from './screens/UserActivityScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import UserListScreen from './screens/UserListScreen';
 import OrderScreen from './screens/OrderScreen';
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 
 function App() {
 
@@ -60,6 +61,7 @@ function App() {
             <Route exact path="/oauth2/redirect" component={HomeScreen}/>
 
             <Route exact path="/signin" component={LoginScreen}/>
+            <Route exact path="/forgotPassword" component={ForgotPasswordScreen}/>
             <Route exact path="/signup" component={RegisterScreen}/>
             <Route exact path="/user/:id" component={ProfileScreen}/>
             <Route exact path="/userlist" component={UserListScreen}/>
@@ -74,9 +76,7 @@ function App() {
             <Route exact path="/activities/user/:userId" component={UserActivityScreen}/>
 
             <Route exact path="/products" component={ProductScreen}/>
-            <Route exact path="/products/search/:keyword" component={ProductScreen}/>
             <Route exact path="/products/:seller" component={ProductScreen}/>
-            <Route exact path="/products/:seller/:keyword" component={ProductScreen}/>
             <Route exact path="/product/:id" component={ProductDetailScreen}/>
             <Route exact path="/placeorder/:id" component={PlaceOrderScreen}/>
             <Route exact path="/productlist" component={ProductListScreen}/>

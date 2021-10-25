@@ -9,17 +9,24 @@ import com.yunhalee.walkerholic.entity.Level;
 import com.yunhalee.walkerholic.entity.Role;
 import com.yunhalee.walkerholic.entity.User;
 import com.yunhalee.walkerholic.exception.UserEmailAlreadyExistException;
+import com.yunhalee.walkerholic.exception.UserNotFoundException;
 import com.yunhalee.walkerholic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,12 +40,12 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private void encodePassword(User user){
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-    }
-
     public static final int USER_LIST_PER_PAGE = 10;
+
+    private final JavaMailSender mailSender;
+
+    @Value("${spring.mail.username}")
+    private String sender;
 
 
     private void saveProfileFile(MultipartFile multipartFile, User user, boolean isNew) throws IOException {
@@ -169,5 +176,47 @@ public class UserService {
         List<UserSearchDTO> userSearchDTOS = new ArrayList<>();
         users.forEach(user -> userSearchDTOS.add(new UserSearchDTO(user)));
         return userSearchDTOS;
+    }
+
+    public String sendForgotPassword(String email) {
+        User user = userRepository.findByEmail(email);
+
+        if(user==null){
+            throw new UserNotFoundException("User not found with email : " + email);
+        }else{
+            String tempPassword = getTempPassword();
+            user.setPassword(passwordEncoder.encode(tempPassword));
+            userRepository.save(user);
+
+//            MimeMessage message = mailSender.createMimeMessage();
+//            MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
+//            helper.setTo(email);
+//            helper.setFrom(sender);
+//            helper.setSubject(user.getFullname()+" : New Temporary Password is here!");
+//            helper.setText("Hello" + user.getFirstname() + "! We send your temporary password here. \nBut this is not secured so please change password once you sign into our site. \nPassword : " + tempPassword);
+//            mailSender.send(message);
+
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(email);
+            message.setFrom(sender);
+            message.setSubject(user.getFullname()+" : New Temporary Password is here!");
+            message.setText("Hello" + user.getFirstname() + "! We send your temporary password here. \nBut this is not secured so please change password once you sign into our site. \nPassword : " + tempPassword);
+            mailSender.send(message);
+            return "Temporary password sent to your email.";
+        }
+    }
+
+    public String getTempPassword(){
+        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+        String str = "";
+
+        int idx = 0;
+        for (int i = 0; i < 10; i++) {
+            idx = (int) (charSet.length * Math.random());
+            str += charSet[idx];
+        }
+        return str;
     }
 }

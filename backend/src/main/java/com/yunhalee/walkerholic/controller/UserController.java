@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -58,6 +59,11 @@ public class UserController {
     @GetMapping("/user/search/{keyword}")
     public ResponseEntity<?> searchUser(@PathVariable("keyword")String keyword){
         return new ResponseEntity<List<UserSearchDTO>>(userService.searchUser(keyword),HttpStatus.OK);
+    }
+
+    @PostMapping("/user/forgotPassword/{email}")
+    public ResponseEntity<?> sendForgotPassword(@PathVariable("email")String email) {
+        return new ResponseEntity<String>(userService.sendForgotPassword(email),HttpStatus.OK);
     }
 
 

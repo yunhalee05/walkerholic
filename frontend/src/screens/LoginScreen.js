@@ -51,19 +51,21 @@ function LoginScreen(props) {
                     </small>
                 </div>
 
+                <div className="form_switch" style={{marginTop:"1rem"}}>
+                    <div style={{width:"40%"}}><Link to="/signup">Create Account</Link></div>
+                    <div>&nbsp; &nbsp; | &nbsp; &nbsp;</div>
+                    <div style={{width:"40%"}}><Link to="/forgotPassword">Forgot Password</Link></div>
+                </div>
+
                 <div className="form_button" style={{margin:"2rem"}}>
                     <button>Sign in</button>
                 </div>
+
 
                 <div className="auth_oauth_button">
                     <a href={GOOGLE_AUTH_URL}><img src={google} alt="" /></a>
                     <a href={KAKAO_AUTH_URL}><img src={kakao} alt="" /></a>
                     <a href={NAVER_AUTH_URL}><img src={naver} alt="" /></a>
-                </div>
-
-                <div className="form_switch">
-                    <div>Don't you have an account yet? </div>
-                    <div><Link to="/signup">Register Now!</Link></div>
                 </div>
             </form>
             

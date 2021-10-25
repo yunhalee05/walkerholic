@@ -167,10 +167,11 @@ function RegisterScreen() {
                     <button>Sign up</button>
                 </div>
 
-                <div className="form_switch">
+                <div className="form_switch" style={{marginTop:"1rem"}}>
                     <div>Already have an acoount? </div>
-                    <div><Link to="/signin">Login Now!</Link></div>
+                    <div style={{width:"100px"}}><Link to="/signin">Go For Login</Link></div>
                 </div>
+
             </form>
         </div>
     )
