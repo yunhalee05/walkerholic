@@ -1,31 +1,39 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import PostCard from '../components/posts/PostCard'
 import PostThumb from '../components/PostThumb'
-import { getHomePost } from '../_actions/PostActions'
+import { getHomePost, getSearchPosts } from '../_actions/PostActions'
 
-function PostsScreen() {
+function PostsScreen(props) {
+
+    const keyword = props.match.params.keyword
 
     const home = useSelector(state => state.home)
 
     const [page, setPage] = useState(1)
+    const [sort, setSort] = useState('popular')
 
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getHomePost(1))
-    }, [dispatch])
+        if(keyword){
+            dispatch(getSearchPosts(1, sort, keyword))
+        }else{
+            dispatch(getHomePost(1, sort))
+        }
+    }, [dispatch, keyword, sort])
     
     return (
         <>
+        <div className="product_sort">
+            <span>SORT BY : </span>
+            <select value={sort} onChange={e=>setSort(e.target.value)}>
+                <option value="newest">Newest</option>
+                <option value="popular">Most Popular</option>
+            </select>
+        </div>
         {
             (home.loading===false && home.posts) &&
             <div className="post_screen">
-                {/* {
-                    home.posts.map((post,index)=>(
-                        <PostCard post={post} key={index}/>
-                    ))
-                } */}
             {
                 home.posts &&
                 <PostThumb posts ={home.posts}/>

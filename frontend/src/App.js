@@ -65,6 +65,7 @@ function App() {
             <Route exact path="/userlist" component={UserListScreen}/>
 
             <Route exact path="/posts" component={PostsScreen}/>
+            <Route exact path="/posts/search/:keyword" component={PostsScreen}/>
             <Route exact path="/posts/discover" component={DiscoverScreen}/>
             <Route exact path="/posts/user/:id" component={PostScreen}/>
             <Route exact path="/post/:id" component={PostDetailScreen}/>
@@ -73,7 +74,9 @@ function App() {
             <Route exact path="/activities/user/:userId" component={UserActivityScreen}/>
 
             <Route exact path="/products" component={ProductScreen}/>
+            <Route exact path="/products/search/:keyword" component={ProductScreen}/>
             <Route exact path="/products/:seller" component={ProductScreen}/>
+            <Route exact path="/products/:seller/:keyword" component={ProductScreen}/>
             <Route exact path="/product/:id" component={ProductDetailScreen}/>
             <Route exact path="/placeorder/:id" component={PlaceOrderScreen}/>
             <Route exact path="/productlist" component={ProductListScreen}/>

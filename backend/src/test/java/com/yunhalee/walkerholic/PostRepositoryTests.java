@@ -156,10 +156,51 @@ public class PostRepositoryTests {
         //then
         Integer priorLikeSize = posts.get(0).getLikePosts().size();
         for(int i = 1; i<posts.size(); i++){
-            assertThat(posts.get(i).getLikePosts().size()).isLessThan(priorLikeSize);
+            assertThat(posts.get(i).getLikePosts().size()).isLessThanOrEqualTo(priorLikeSize);
             priorLikeSize = posts.get(i).getLikePosts().size();
         }
     }
+
+    @Test
+    public void getPostsByKeywordOrderByCreatedAt(){
+        //given
+        Integer page = 1;
+        String sort = "newest";
+        String keyword = "t";
+
+        //when
+        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
+        Page<Post> postPage = postRepository.findByKeyword(pageable, keyword);
+        List<Post> posts = postPage.getContent();
+
+        //then
+        posts.forEach(post -> assertThat(post.getTitle().contains(keyword)));
+        posts.forEach(post -> System.out.println(post.getTitle()));
+    }
+
+    @Test
+    public void getPostsByKeywordOrderByLikePostsSize(){
+        //given
+        Integer page = 1;
+        String sort = "likeposts";
+        String keyword = "t";
+
+        //when
+        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
+        Page<Post> postPage = postRepository.findByLikePostSizeAndKeyword(pageable, keyword);
+        List<Post> posts = postPage.getContent();
+
+        //then
+        Integer priorLikeSize = posts.get(0).getLikePosts().size();
+        for(int i = 1; i<posts.size(); i++){
+            assertThat(posts.get(i).getLikePosts().size()).isLessThanOrEqualTo(priorLikeSize);
+            priorLikeSize = posts.get(i).getLikePosts().size();
+        }
+        posts.forEach(post -> assertThat(post.getTitle().contains(keyword)));
+        posts.forEach(post -> System.out.println(post.getTitle()));
+    }
+
+
 
 
     @Test

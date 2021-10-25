@@ -137,6 +137,19 @@ public class UserRepositoryTests {
     }
 
     @Test
+    public void getUserByKeyword(){
+        //given
+        String keyword = "lee";
+
+        //when
+        List<User> users = userRepository.findByKeyword(keyword);
+
+        //then
+        assertThat(users.size()).isGreaterThan(0);
+        users.forEach(user -> System.out.println(user.getFirstname()+ user.getLastname()));
+    }
+
+    @Test
     public void deleteUser(){
         //given
         Integer id = 1;

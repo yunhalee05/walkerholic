@@ -130,9 +130,13 @@ public class PostService {
         return randomPosts;
     }
 
-    public HashMap<String, Object> getHomePosts(Integer page){
+    public HashMap<String, Object> getHomePosts(Integer page, String sort){
         Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
         Page<Post> pagePost = postRepository.findByLikePostSize(pageable);
+
+        if(sort.equals("newest")){
+            pagePost = postRepository.findByCreateAt(pageable);
+        }
         List<Post> posts = pagePost.getContent();
         List<UserPostDTO> userPostDTOList = new ArrayList<>();
         posts.forEach(post -> userPostDTOList.add(new UserPostDTO(post)));
@@ -176,5 +180,25 @@ public class PostService {
 
         postRepository.deleteById(id);
         return "Post Deleted Successfully.";
+    }
+
+    public HashMap<String, Object> getSearchPosts(Integer page, String sort, String keyword) {
+        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
+        Page<Post> postPage = postRepository.findByLikePostSizeAndKeyword(pageable, keyword);
+
+        if(sort.equals("newest")) {
+            postPage = postRepository.findByKeyword(pageable, keyword);
+        }
+
+        List<Post> posts = postPage.getContent();
+        List<UserPostDTO> userPostDTOS = new ArrayList<>();
+        posts.forEach(post -> userPostDTOS.add(new UserPostDTO(post)));
+
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("posts", userPostDTOS);
+        response.put("totalElement", postPage.getTotalElements());
+        response.put("totalPage", postPage.getTotalPages());
+
+        return response;
     }
 }

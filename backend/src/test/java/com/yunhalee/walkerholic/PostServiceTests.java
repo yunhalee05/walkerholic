@@ -11,6 +11,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -134,16 +137,17 @@ public class PostServiceTests {
     public void getHomePosts(){
         //given
         Integer page = 1;
+        String sort = "popular";
 
         //when
-        HashMap<String, Object> response = postService.getHomePosts(page);
-        List<PostDTO> postDTOS = (List<PostDTO>) response.get("posts");
+        HashMap<String, Object> response = postService.getHomePosts(page, sort);
+        List<UserPostDTO> userPostDTOS = (List<UserPostDTO>) response.get("posts");
 
         //then
-        Integer priorLikes = postDTOS.get(0).getPostLikes().size();
-        for(int i = 1; i<postDTOS.size(); i++){
-            assertThat(postDTOS.get(i).getPostLikes().size()).isLessThan(priorLikes);
-            priorLikes = postDTOS.get(i).getPostLikes().size();
+        Integer priorLikeSize = postRepository.findById(userPostDTOS.get(0).getId()).get().getLikePosts().size();
+        for(int i = 1; i<userPostDTOS.size(); i++){
+            assertThat(postRepository.findById(userPostDTOS.get(i).getId()).get().getLikePosts().size()).isLessThanOrEqualTo(priorLikeSize);
+            priorLikeSize = postRepository.findById(userPostDTOS.get(i).getId()).get().getLikePosts().size();
         }
     }
 
@@ -162,6 +166,27 @@ public class PostServiceTests {
         for (PostDTO postDTO : postDTOS) {
             assertThat(followings).contains(postRepository.findById(postDTO.getId()).get().getUser().getId());
         }
+    }
+
+    @Test
+    public void getPostsByKeyword(){
+        //given
+        Integer page = 1;
+        String sort = "likeposts";
+        String keyword = "t";
+
+        //when
+        HashMap<String, Object> response = postService.getSearchPosts(page, sort, keyword);
+        List<UserPostDTO> userPostDTOS = (List<UserPostDTO>) response.get("posts");
+
+        //then
+        Integer priorLikeSize = postRepository.findById(userPostDTOS.get(0).getId()).get().getLikePosts().size();
+        for(int i = 1; i<userPostDTOS.size(); i++){
+            assertThat(postRepository.findById(userPostDTOS.get(i).getId()).get().getLikePosts().size()).isLessThanOrEqualTo(priorLikeSize);
+            priorLikeSize = postRepository.findById(userPostDTOS.get(i).getId()).get().getLikePosts().size();
+        }
+        userPostDTOS.forEach(post -> assertThat(post.getTitle().contains(keyword)));
+        userPostDTOS.forEach(post -> System.out.println(post.getTitle()));
     }
 
     @Test

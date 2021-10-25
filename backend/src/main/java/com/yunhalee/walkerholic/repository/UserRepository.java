@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,5 +22,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "SELECT DISTINCT u FROM User u ",
         countQuery = "SELECT count(DISTINCT u) FROM User u")
     Page<User> findAllUsers(Pageable pageable);
+
+    @Query(value = "SELECT DISTINCT u FROM User u WHERE u.firstname LIKE %:keyword% OR u.lastname LIKE %:keyword%")
+    List<User> findByKeyword(String keyword);
 
 }

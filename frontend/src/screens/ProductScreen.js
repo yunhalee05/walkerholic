@@ -12,11 +12,11 @@ import { RESET_SELLER } from '../_constants/ProductConstants'
 function ProductScreen(props) {
 
     const sellerId = props.match.params.seller
+    const keyword = props.location.search.substr(9)
 
     const [page, setPage] = useState(1)
     const [category, setCategory] = useState('')
     const [sort, setSort] = useState('')
-    const [keyword, setKeyword] = useState('')
     
     const dispatch = useDispatch()
 

@@ -3,6 +3,7 @@ package com.yunhalee.walkerholic.controller;
 import com.yunhalee.walkerholic.dto.UserDTO;
 import com.yunhalee.walkerholic.dto.UserListDTO;
 import com.yunhalee.walkerholic.dto.UserRegisterDTO;
+import com.yunhalee.walkerholic.dto.UserSearchDTO;
 import com.yunhalee.walkerholic.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -52,6 +53,11 @@ public class UserController {
     public ResponseEntity<?> deleteuser(@PathVariable("id")String id){
         Integer userId = Integer.parseInt(id);
         return new ResponseEntity<Integer>(userService.deleteUser(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/user/search/{keyword}")
+    public ResponseEntity<?> searchUser(@PathVariable("keyword")String keyword){
+        return new ResponseEntity<List<UserSearchDTO>>(userService.searchUser(keyword),HttpStatus.OK);
     }
 
 

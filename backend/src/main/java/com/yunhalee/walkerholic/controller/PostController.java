@@ -55,15 +55,21 @@ public class PostController {
         return new ResponseEntity<HashMap<String, Object>>(postService.getPostsByFollowings(pageNumber, userId), HttpStatus.OK);
     }
 
-    @GetMapping("/posts/home/{page}")
-    public HashMap<String, Object> getHomePosts(@PathVariable("page")String page){
+    @GetMapping("/posts/home/{page}/{sort}")
+    public HashMap<String, Object> getHomePosts(@PathVariable("page")String page, @PathVariable("sort")String sort){
         Integer pageNumber = Integer.parseInt(page);
-        return postService.getHomePosts(pageNumber);
+        return postService.getHomePosts(pageNumber, sort);
     }
 
     @DeleteMapping("/post/{id}")
     public String deletePost(@PathVariable("id")String id){
         Integer postId = Integer.parseInt(id);
         return postService.deletePost(postId);
+    }
+
+    @GetMapping("/posts/search/{page}/{sort}/{keyword}")
+    public ResponseEntity<?> getSearchPosts(@PathVariable("page")String page, @PathVariable(value = "keyword")String keyword, @PathVariable("sort")String sort){
+        Integer pageNumber = Integer.parseInt(page);
+        return new ResponseEntity<HashMap<String, Object>>(postService.getSearchPosts(pageNumber, sort, keyword), HttpStatus.OK);
     }
 }

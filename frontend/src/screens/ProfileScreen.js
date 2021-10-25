@@ -78,7 +78,7 @@ function ProfileScreen(props) {
 
                             <div className="profile_button_container">
                                 {
-                                    auth.user.id !== profile.user.id
+                                    auth.user?.id !== profile.user?.id
                                     ?
                                         <div className="profile_follow_button">
                                             {

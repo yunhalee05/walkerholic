@@ -4,6 +4,7 @@ import com.yunhalee.walkerholic.FileUploadUtils;
 import com.yunhalee.walkerholic.dto.UserDTO;
 import com.yunhalee.walkerholic.dto.UserListDTO;
 import com.yunhalee.walkerholic.dto.UserRegisterDTO;
+import com.yunhalee.walkerholic.dto.UserSearchDTO;
 import com.yunhalee.walkerholic.entity.Level;
 import com.yunhalee.walkerholic.entity.Role;
 import com.yunhalee.walkerholic.entity.User;
@@ -163,4 +164,10 @@ public class UserService {
     }
 
 
+    public List<UserSearchDTO> searchUser(String keyword) {
+        List<User> users= userRepository.findByKeyword(keyword);
+        List<UserSearchDTO> userSearchDTOS = new ArrayList<>();
+        users.forEach(user -> userSearchDTOS.add(new UserSearchDTO(user)));
+        return userSearchDTOS;
+    }
 }

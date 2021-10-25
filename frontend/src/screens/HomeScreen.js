@@ -42,7 +42,7 @@ function HomeScreen(props) {
         dispatch(getProducts(1)).then(res=>
             setProducts(res)
         )
-        dispatch(getHomePost(1)).then(res=>{
+        dispatch(getHomePost(1, 'popular')).then(res=>{
             setPosts(res)
         })
         setIsLoad(false)

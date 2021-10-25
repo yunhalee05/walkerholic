@@ -23,16 +23,89 @@
     margin-right: 5px;
 }
 
+
+/* SearchBar */
 .header_search{
-    width: 19rem;
+    width: 20rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+
+.header_search select{
+    font-size: 11px;
 }
 
 .header_search input{
-    width: 16rem;
+    width: 11rem;
     border: none;
     border-bottom: 1px solid gray;
 }
 
+.header_search_eraser{
+    position: absolute;
+    top: 5px;
+    left: 17.5rem;
+}
+
+.header_search_error{
+    position: absolute;
+    font-size: 11px;
+    top: 30px;
+    left: 30%;
+    color: crimson;
+}
+
+.header_search_users{
+    position: absolute;
+    top: 40px;
+    left: 31%;
+    width: 11rem;
+    max-height: 13rem;
+    background: white;
+    overflow: scroll;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    border-radius: 0 0 3px 3px;
+}
+
+.header_search_user{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 96%;
+    height: 60px;
+    margin: 3px;
+    border: 1px solid #e3e3e3;
+    box-shadow: 2px 1px #e3e3e3;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.header_search_user_image{
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.header_search_user_image img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.header_search_user_name{
+    margin-left: 5px;
+    font-size: 12px;
+}
+
+
+/* Menu */
 .header_menu{
     display: flex;
 }

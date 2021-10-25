@@ -83,7 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .disable()
                 .authorizeRequests()
-                    .antMatchers("/authenticate", "/signin","/signup","/user/check_email","/user/register","/company/companylist","/team/teamlist","/user/userlist" ,"/company/check_name","/company/save","/team/check_name","/team/save","/user/addTeam","/user/deleteTeam","/team/delete","/product/**")
+                    .antMatchers("/authenticate", "/signin","/signup","/user/check_email","/user/register","/company/companylist","/team/teamlist","/user/userlist" ,"/company/check_name","/company/save","/team/check_name","/team/save","/user/addTeam","/user/deleteTeam","/team/delete","/product/**", "/user/search/**","/posts/search/**")
                     .permitAll()
                 .anyRequest()
 //                    .authenticated()

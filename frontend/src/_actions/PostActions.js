@@ -1,5 +1,5 @@
 import axios from "axios"
-import { CREATE_POST_FAIL, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, DELETE_POST_FAIL, DELETE_POST_REQUEST, DELETE_POST_SUCCESS, GET_DISCOVER_POSTS_FAIL, GET_DISCOVER_POSTS_REQUEST, GET_DISCOVER_POSTS_SUCCESS, GET_FOLLOWINGS_POSTS_FAIL, GET_FOLLOWINGS_POSTS_REQUEST, GET_FOLLOWINGS_POSTS_SUCCESS, GET_HOME_POST_FAIL, GET_HOME_POST_REQUEST, GET_HOME_POST_SUCCESS, GET_POST_FAIL, GET_POST_REQUEST, GET_POST_SUCCESS, LIKE_POST_FAIL, LIKE_POST_REQUEST, LIKE_POST_SUCCESS, UNLIKE_POST_FAIL, UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS } from "../_constants/PostConstants"
+import { CREATE_POST_FAIL, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, DELETE_POST_FAIL, DELETE_POST_REQUEST, DELETE_POST_SUCCESS, GET_DISCOVER_POSTS_FAIL, GET_DISCOVER_POSTS_REQUEST, GET_DISCOVER_POSTS_SUCCESS, GET_FOLLOWINGS_POSTS_FAIL, GET_FOLLOWINGS_POSTS_REQUEST, GET_FOLLOWINGS_POSTS_SUCCESS, GET_HOME_POST_FAIL, GET_HOME_POST_REQUEST, GET_HOME_POST_SUCCESS, GET_POST_FAIL, GET_POST_REQUEST, GET_POST_SUCCESS, GET_SEARCH_POST_FAIL, GET_SEARCH_POST_REQUEST, GET_SEARCH_POST_SUCCESS, LIKE_POST_FAIL, LIKE_POST_REQUEST, LIKE_POST_SUCCESS, UNLIKE_POST_FAIL, UNLIKE_POST_REQUEST, UNLIKE_POST_SUCCESS } from "../_constants/PostConstants"
 
 export const getDiscoverPosts = (page, id) =>async(dispatch, getState)=>{
 
@@ -124,20 +124,24 @@ export const getPost = (id) =>async(dispatch, getState)=>{
     }
 }
 
-export const getHomePost = (page) =>async(dispatch, getState)=>{
+export const getHomePost = (page, sort) =>async(dispatch, getState)=>{
 
     dispatch({
         type:GET_HOME_POST_REQUEST
     })
 
     try{
-        const res = await axios.get(`/posts/home/${page}`)
+        const res = await axios.get(`/posts/home/${page}/${sort}`)
 
         dispatch({
             type:GET_HOME_POST_SUCCESS,
-            payload:res.data
+            payload:{
+                posts:res.data.posts,
+                totalElement:res.data.totalElement,
+                totalPage:res.data.totalPage,
+                page:page
+            }
         })
-
         return res.data.posts
 
     }catch(error){
@@ -211,3 +215,31 @@ export const unlikePost = (postId, id) =>async(dispatch, getState)=>{
     }
 }
 
+export const getSearchPosts = (page, sort, keyword) =>async(dispatch, getState)=>{
+
+    dispatch({
+        type:GET_SEARCH_POST_REQUEST
+    })
+
+    try{
+        const res = await axios.get(`/posts/search/${page}/${sort}/${keyword}`)
+
+        dispatch({
+            type:GET_SEARCH_POST_SUCCESS,
+            payload:{
+                posts:res.data.posts,
+                totalElement:res.data.totalElement,
+                totalPage:res.data.totalPage,
+                page:page
+            }
+        })
+        console.log(res.data)
+
+    }catch(error){
+        dispatch({
+            type:GET_SEARCH_POST_FAIL,
+            payload:error.response.data
+            
+        })
+    }
+}

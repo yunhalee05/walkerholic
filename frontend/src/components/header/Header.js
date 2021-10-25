@@ -6,10 +6,10 @@ import Sidebar from './Sidebar'
 import egg from '../../images/egg.png'
 import Cart from '../cart/Cart'
 import { logout } from '../../_actions/AuthActions'
+import Searchbar from './Searchbar'
 
 function Header() {
 
-    const [keyword, setKeyword] = useState('')
     const [isOpen, setIsOpen] = useState(false)
     const [isCart, setIsCart] = useState(false)
 
@@ -38,15 +38,9 @@ function Header() {
                 <Link to='/'>walkerholic</Link>
             </div>
 
-            <div className="header_search">
-                <input type="text" value={keyword} onChange={e=>setKeyword(e.target.value)} />
-                <i class="fas fa-eraser" style={keyword.length>0 ? {transform:'translateX(-20px)'}: {color:'white'}}></i>
-                <i class="far fa-search"></i>
-            </div>
+            <Searchbar/>
 
             <div className="header_menu">
-
-
                 {
                     auth.user&& auth.user.id
                     ?<>

@@ -3,6 +3,7 @@ package com.yunhalee.walkerholic;
 import com.yunhalee.walkerholic.dto.UserDTO;
 import com.yunhalee.walkerholic.dto.UserListDTO;
 import com.yunhalee.walkerholic.dto.UserRegisterDTO;
+import com.yunhalee.walkerholic.dto.UserSearchDTO;
 import com.yunhalee.walkerholic.entity.User;
 import com.yunhalee.walkerholic.repository.UserRepository;
 import com.yunhalee.walkerholic.security.JwtTokenUtil;
@@ -199,6 +200,19 @@ public class UserServiceTests {
         for (UserListDTO userListDTO : userListDTOS) {
             System.out.println(userListDTO.getId());
         }
+    }
+
+    @Test
+    public void getUserByKeyword(){
+        //given
+        String keyword = "lee";
+
+        //when
+        List<UserSearchDTO> userSearchDTOS = userService.searchUser(keyword);
+
+        //then
+        assertNotEquals(userSearchDTOS.size(),0);
+        userSearchDTOS.forEach(userSearchDTO -> System.out.println(userSearchDTO.getFirstname()+userSearchDTO.getLastname()) );
     }
 
     @Test
