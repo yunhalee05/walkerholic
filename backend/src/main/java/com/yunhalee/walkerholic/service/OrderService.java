@@ -7,9 +7,12 @@ import com.yunhalee.walkerholic.repository.OrderRepository;
 import com.yunhalee.walkerholic.repository.ProductRepository;
 import com.yunhalee.walkerholic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,6 +28,14 @@ public class OrderService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final OrderItemRepository orderItemRepository;
+
+    private final JavaMailSender mailSender;
+
+    @Value("${spring.mail.username}")
+    private String sender;
+
+    @Value("${base-url}")
+    private String baseUrl;
 
     public static final int ORDER_LIST_PER_PAGE = 10;
 
@@ -52,6 +63,17 @@ public class OrderService {
 
         orderRepository.save(order);
 
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(userRepository.findById(orderCreateDTO.getUserId()).get().getEmail());
+        message.setFrom(sender);
+        message.setSubject(user.getFullname()+" : Created Order " + order.getId());
+        message.setText("Hello" + user.getFirstname() + "! Your order has been made successfully. " +
+                        "\n\nOrder Id :  " + order.getId() +
+                        "\nTotal Amount : " + order.getTotalAmount() +
+                        "\nPaid At : " + order.getPaidAt() +
+                        "\n\nFor more Details visit " + baseUrl + "/order/" + order.getId());
+        mailSender.send(message);
+
         return new OrderDTO(order);
     }
 
@@ -59,6 +81,18 @@ public class OrderService {
         Order order = orderRepository.findById(id).get();
         order.cancel();
         orderRepository.save(order);
+
+        SimpleMailMessage message = new SimpleMailMessage();
+        User user = order.getUser();
+        message.setTo(user.getEmail());
+        message.setFrom(sender);
+        message.setSubject(user.getFullname()+" : Cancel Order " + id);
+        message.setText("Hello" + user.getFirstname() + "! Your order has been canceled successfully. " +
+                "\n\nOrder Id :  " + order.getId() +
+                "\nTotal Amount : " + order.getTotalAmount() +
+                "\nCanceled At : " + order.getUpdatedAt() +
+                "\n\nFor more Details visit " + baseUrl + "/order/" + order.getId());
+        mailSender.send(message);
 
         return new OrderListDTO(order);
     }
