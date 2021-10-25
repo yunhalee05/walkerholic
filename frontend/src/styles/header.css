@@ -112,13 +112,11 @@
 .header_login::after{
     content: 'Login';
     display: block;
-    margin-top: 3px;
 }
 
 .header_logout::after{
     content: 'Logout';
     display: block;
-    margin-top: 3px;
 }
 
 .dropdown{

@@ -1,10 +1,11 @@
 import React from 'react'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {Link, useHistory} from 'react-router-dom'
 import Sidebar from './Sidebar'
 import egg from '../../images/egg.png'
 import Cart from '../cart/Cart'
+import { logout } from '../../_actions/AuthActions'
 
 function Header() {
 
@@ -17,8 +18,10 @@ function Header() {
 
     const history = useHistory()
 
+    const dispatch = useDispatch()
+
     const handleLogout = () =>{
-        localStorage.removeItem("walkerholic_token")
+        dispatch(logout())
         history.push("/")
     }
 
@@ -45,7 +48,7 @@ function Header() {
 
 
                 {
-                    auth.user 
+                    auth.user&& auth.user.id
                     ?<>
                         {
                             cart.success &&

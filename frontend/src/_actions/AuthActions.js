@@ -1,4 +1,4 @@
-import { AUTH_FAIL, AUTH_REQUEST, AUTH_SUCCESS, LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, REGISTER_FAIL, REGISTER_REQUEST, REGISTER_SUCCESS } from "../_constants/AuthConstants"
+import { AUTH_FAIL, AUTH_REQUEST, AUTH_SUCCESS, LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_FAIL, LOGOUT_REQUEST, LOGOUT_SUCCESS, REGISTER_FAIL, REGISTER_REQUEST, REGISTER_SUCCESS } from "../_constants/AuthConstants"
 import axios from "axios"
 
 export const register = (bodyFormData) =>async(dispatch, getState)=>{
@@ -88,3 +88,25 @@ export const auth = (token) =>async(dispatch, getState)=>{
     }
 }
 
+
+export const logout = () =>async(dispatch, getState)=>{
+
+    dispatch({
+        type:LOGOUT_REQUEST
+    })
+
+    try{
+        dispatch({
+            type:LOGOUT_SUCCESS
+        })
+
+        localStorage.removeItem("walkerholic_token")
+
+    }catch(error){
+        dispatch({
+            type:LOGOUT_FAIL,
+            payload:error.response.data
+            
+        })
+    }
+}
