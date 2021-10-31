@@ -155,6 +155,7 @@
     border-radius: 20px;
     /* background-color: #f9f5ff; */
     position: relative;
+    cursor: pointer;
 }
 
 .activityuser_card_status{

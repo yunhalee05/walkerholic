@@ -84,13 +84,16 @@ export const getProduct = (id) =>async(dispatch, getState)=>{
     }
 }
 export const getProductList = (page, sort) =>async(dispatch, getState)=>{
+    const {auth : {token}} = getState()
 
     dispatch({
         type:GET_PRODUCT_LIST_REQUEST
     })
 
     try{
-        const res = await axios.get(`/productlist/${page}/${sort}`)
+        const res = await axios.get(`/productlist/${page}/${sort}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:GET_PRODUCT_LIST_SUCCESS,
@@ -107,13 +110,16 @@ export const getProductList = (page, sort) =>async(dispatch, getState)=>{
     }
 }
 export const getSellerProductList = (page, sort, id) =>async(dispatch, getState)=>{
+    const {auth : {token}} = getState()
 
     dispatch({
         type:GET_PRODUCT_LIST_REQUEST
     })
 
     try{
-        const res = await axios.get(`/productlist/${page}/${sort}/${id}`)
+        const res = await axios.get(`/productlistBySeller/${page}/${sort}/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:GET_PRODUCT_LIST_SUCCESS,
@@ -153,13 +159,16 @@ export const getSellerProductList = (page, sort, id) =>async(dispatch, getState)
 //     }
 // }
 export const editProduct = (bodyFormData) =>async(dispatch, getState)=>{
+    const {auth : {token}} = getState()
 
     dispatch({
         type:EDIT_PRODUCT_REQUEST
     })
 
     try{
-        const res = await axios.post('/product/save',bodyFormData)
+        const res = await axios.post('/product/save',bodyFormData,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:EDIT_PRODUCT_SUCCESS,
@@ -177,13 +186,16 @@ export const editProduct = (bodyFormData) =>async(dispatch, getState)=>{
 }
 
 export const createProduct = (bodyFormData) =>async(dispatch, getState)=>{
+    const {auth : {token}} = getState()
 
     dispatch({
         type:CREATE_PRODUCT_REQUEST
     })
 
     try{
-        const res = await axios.post('/product/save',bodyFormData)
+        const res = await axios.post('/product/save',bodyFormData,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:CREATE_PRODUCT_SUCCESS,

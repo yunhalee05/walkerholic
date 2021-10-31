@@ -50,12 +50,16 @@ export const getActivity = (id) =>async(dispatch, getState)=>{
 
 export const saveActivity = (bodyFormData) =>async(dispatch, getState)=>{
 
+    const {auth : {token}} = getState()
+
     dispatch({
         type:CREATE_ACTIVITY_REQUEST
     })
 
     try{
-        const res = await axios.post('/activity/save',bodyFormData)
+        const res = await axios.post('/activity/save',bodyFormData,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:CREATE_ACTIVITY_SUCCESS,
@@ -72,13 +76,16 @@ export const saveActivity = (bodyFormData) =>async(dispatch, getState)=>{
 }
 
 export const deleteActivity = (id) =>async(dispatch, getState)=>{
+    const {auth : {token}} = getState()
 
     dispatch({
         type:DELETE_ACTIVITY_REQUEST
     })
 
     try{
-        const res = await axios.delete(`/activity/${id}`)
+        await axios.delete(`/deleteActivity/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:DELETE_ACTIVITY_SUCCESS,
@@ -99,13 +106,17 @@ export const deleteActivity = (id) =>async(dispatch, getState)=>{
 export const getUserActivities = (page) =>async(dispatch, getState)=>{
 
     const {auth :{user}} = getState()
+    const {auth :{token}} = getState()
+
 
     dispatch({
         type:GET_USER_ACTIVITIES_REQUEST
     })
 
     try{
-        const res = await axios.get(`/userActivities/${page}/${user.id}`)
+        const res = await axios.get(`/userActivities/${page}/${user.id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:GET_USER_ACTIVITIES_SUCCESS,
@@ -124,13 +135,16 @@ export const getUserActivities = (page) =>async(dispatch, getState)=>{
 export const createUserActivity = ({userActivityDTO}) =>async(dispatch, getState)=>{
 
     const {auth :{user}} = getState()
+    const {auth :{token}} = getState()
 
     dispatch({
         type:CREATE_USER_ACTIVITY_REQUEST
     })
 
     try{
-        const res = await axios.post(`/userActivity/save/${user.id}`, userActivityDTO)
+        const res = await axios.post(`/userActivity/save/${user.id}`, userActivityDTO,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:CREATE_USER_ACTIVITY_SUCCESS,
@@ -151,13 +165,16 @@ export const createUserActivity = ({userActivityDTO}) =>async(dispatch, getState
 export const editUserActivity = ({userActivityDTO}) =>async(dispatch, getState)=>{
 
     const {auth :{user}} = getState()
+    const {auth :{token}} = getState()
 
     dispatch({
         type:EDIT_USER_ACTIVITY_REQUEST
     })
 
     try{
-        const res = await axios.post(`/userActivity/save/${user.id}`, userActivityDTO)
+        const res = await axios.post(`/userActivity/save/${user.id}`, userActivityDTO,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:EDIT_USER_ACTIVITY_SUCCESS,
@@ -178,13 +195,16 @@ export const editUserActivity = ({userActivityDTO}) =>async(dispatch, getState)=
 export const deleteUserActivity = (id, score, finished) =>async(dispatch, getState)=>{
 
     const {auth :{user}} = getState()
+    const {auth :{token}} = getState()
 
     dispatch({
         type:DELETE_USER_ACTIVITY_REQUEST
     })
 
     try{
-        const res = await axios.delete(`/userActivity/delete/${id}/${user.id}`)
+        const res = await axios.delete(`/userActivity/delete/${id}/${user.id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:DELETE_USER_ACTIVITY_SUCCESS,

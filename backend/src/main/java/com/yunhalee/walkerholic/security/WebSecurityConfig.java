@@ -83,11 +83,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .disable()
                 .authorizeRequests()
-                    .antMatchers("/authenticate", "/signin","/signup","/user/check_email","/user/register","/company/companylist","/team/teamlist","/user/userlist" ,"/company/check_name","/company/save","/team/check_name","/team/save","/user/addTeam","/user/deleteTeam","/team/delete","/product/**", "/user/search/**","/posts/search/**")
-                    .permitAll()
+                    .antMatchers("/authenticate", "/signin","/signup","/user/check_email","/user/register","/activities","/activity/**","/posts/home/**","/posts/search/**", "/categories", "/levels", "/user/forgotPassword/**","/product/**", "/user/search/**","/posts/search/**")
+                        .permitAll()
+                    .antMatchers("/activity/save","/deleteActivity/**","/orderlist/**","/productlist/**","/userlist/**","/user/delete/**").hasAnyAuthority("ADMIN")
+                    .antMatchers("/orderlistBySeller/**","/order/deliver/**","/productlistBySeller/**","/product/save").hasAnyAuthority("ADMIN","SELLER")
+                    .antMatchers("/userActivities/**","/userActivity/**","/follow/**","/unfollow/**","/cartItems/**","/createCart/**","/addToCart/**","/updateQty/**","/deleteOrderItem/**","/orderlistByUser/**","/payOrder","/payOrder/**","/getOrder/**","/order/cancel/**").hasAnyAuthority("ADMIN","SELLER","USER")
                 .anyRequest()
-//                    .authenticated()
-                    .permitAll()
+                    .authenticated()
+//                    .permitAll()
                     .and()
                 .exceptionHandling()
                     .authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -116,6 +119,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/profileUploads/**","/messageUploads/**","/productUploads/**","/activityUploads/**", "/js/**","/webjars/**");
+        web.ignoring().antMatchers("/profileUploads/**","/messageUploads/**","/productUploads/**","/activityUploads/**","/postUploads/**", "/js/**","/webjars/**");
     }
 }

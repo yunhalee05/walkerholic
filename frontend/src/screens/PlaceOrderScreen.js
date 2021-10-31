@@ -12,6 +12,7 @@ function PlaceOrderScreen(props) {
     const id = props.match.params.id
 
     const cart = useSelector(state => state.cart)
+    const auth = useSelector(state => state.auth)
     const history = useHistory()
 
     const [err, setErr] = useState({})
@@ -38,7 +39,9 @@ function PlaceOrderScreen(props) {
     }, [sdkReady])
 
     const addPaypalScript = async () =>{
-        const {data} = await axios.get('/paypal');
+        const {data} = await axios.get('/paypal',{
+            headers : {Authorization : `Bearer ${auth.token}`}
+        });
         const script = document.createElement('script');
         script.type = "text/javascript";
         script.src = `http://www.paypal.com/sdk/js?client-id=${data}`

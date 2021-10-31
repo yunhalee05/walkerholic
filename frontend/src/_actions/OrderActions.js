@@ -4,13 +4,16 @@ import { ADD_TO_CART_FAIL, ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, CANCEL_ORDE
 export const getCart = (id) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
+    const {auth : {token}} = getState()
 
     dispatch({
         type:GET_CARTITEMS_REQUEST
     })
 
     try{
-        const res = await axios.get(`/cartItems/${id}`)
+        const res = await axios.get(`/cartItems/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:GET_CARTITEMS_SUCCESS,
@@ -31,13 +34,17 @@ export const getCart = (id) =>async(dispatch, getState)=>{
 export const createCart = () =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
+    const {auth : {token}} = getState()
+
 
     dispatch({
         type:CREATE_CART_REQUEST
     })
 
     try{
-        const res = await axios.post(`/createCart/${user.id}`)
+        const res = await axios.post(`/createCart/${user.id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:CREATE_CART_SUCCESS,
@@ -59,7 +66,9 @@ export const createCart = () =>async(dispatch, getState)=>{
 export const addCart = (qty, productId, orderId) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
+    const {auth : {token}} = getState()
     const {cart : {orderItems}} = getState()
+
     var orderItem={};
 
     if(orderItems){
@@ -94,7 +103,9 @@ export const addCart = (qty, productId, orderId) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post(`/addToCart/${orderId}`, orderItem)
+        const res = await axios.post(`/addToCart/${orderId}`, orderItem,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:ADD_TO_CART_SUCCESS,
@@ -116,6 +127,7 @@ export const addCart = (qty, productId, orderId) =>async(dispatch, getState)=>{
 export const updateQty = (id, qty) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
+    const {auth : {token}} = getState()
 
     dispatch({
         type:UPDATE_ORDERITEM_QTY_REQUEST
@@ -123,7 +135,9 @@ export const updateQty = (id, qty) =>async(dispatch, getState)=>{
 
 
     try{
-        await axios.post(`/updateQty/${id}?qty=${qty}`,null)
+        await axios.post(`/updateQty/${id}?qty=${qty}`,null,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:UPDATE_ORDERITEM_QTY_SUCCESS,
@@ -148,6 +162,7 @@ export const updateQty = (id, qty) =>async(dispatch, getState)=>{
 export const deleteOrderItem = (id) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
+    const {auth : {token}} = getState()
 
     dispatch({
         type:DELETE_ORDERITEM_REQUEST
@@ -155,7 +170,9 @@ export const deleteOrderItem = (id) =>async(dispatch, getState)=>{
 
 
     try{
-        await axios.delete(`/deleteOrderItem/${id}`)
+        await axios.delete(`/deleteOrderItem/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:DELETE_ORDERITEM_SUCCESS,
@@ -178,6 +195,7 @@ export const deleteOrderItem = (id) =>async(dispatch, getState)=>{
 export const getOrderList = (page) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
+    const {auth : {token}} = getState()
 
     dispatch({
         type:GET_ORDER_LIST_REQUEST
@@ -185,7 +203,9 @@ export const getOrderList = (page) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.get(`/orderlist/${page}`)
+        const res = await axios.get(`/orderlist/${page}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:GET_ORDER_LIST_SUCCESS,
@@ -206,6 +226,7 @@ export const getOrderList = (page) =>async(dispatch, getState)=>{
 export const getOrderListBySeller = (page,id) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
+    const {auth : {token}} = getState()
 
     dispatch({
         type:GET_ORDER_LIST_REQUEST
@@ -213,7 +234,40 @@ export const getOrderListBySeller = (page,id) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.get(`/orderlist/${page}/${id}`)
+        const res = await axios.get(`/orderlistBySeller/${page}/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
+
+        dispatch({
+            type:GET_ORDER_LIST_SUCCESS,
+            payload: res.data
+        })
+
+
+    }catch(error){
+        dispatch({
+            type:GET_ORDER_LIST_FAIL,
+            payload:error.response.data
+            
+        })
+        // console.log(error)
+    }
+}
+
+export const getOrderListByUser = (page,userId) =>async(dispatch, getState)=>{
+
+    const {auth : {user}} = getState()
+    const {auth : {token}} = getState()
+
+    dispatch({
+        type:GET_ORDER_LIST_REQUEST
+    })
+
+
+    try{
+        const res = await axios.get(`/orderlistByUser/${page}/${userId}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:GET_ORDER_LIST_SUCCESS,
@@ -234,6 +288,7 @@ export const getOrderListBySeller = (page,id) =>async(dispatch, getState)=>{
 export const createOrder = (orderCreateDTO) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
+    const {auth : {token}} = getState()
 
     dispatch({
         type:CREATE_ORDER_REQUEST
@@ -241,7 +296,9 @@ export const createOrder = (orderCreateDTO) =>async(dispatch, getState)=>{
 
 
     try{
-        await axios.post('/payOrder', orderCreateDTO)
+        await axios.post('/payOrder', orderCreateDTO,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
         dispatch({
             type:CREATE_ORDER_SUCCESS
         })
@@ -260,6 +317,7 @@ export const createOrder = (orderCreateDTO) =>async(dispatch, getState)=>{
 export const getOrder = (id) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
+    const {auth : {token}} = getState()
 
     dispatch({
         type:GET_ORDER_REQUEST
@@ -267,7 +325,10 @@ export const getOrder = (id) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.get(`/order/${id}`)
+        const res = await axios.get(`/getOrder/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
+
         dispatch({
             type:GET_ORDER_SUCCESS,
             payload:res.data
@@ -286,6 +347,7 @@ export const getOrder = (id) =>async(dispatch, getState)=>{
 export const cancelOrder = (id) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
+    const {auth : {token}} = getState()
 
     dispatch({
         type:CANCEL_ORDER_REQUEST
@@ -293,7 +355,9 @@ export const cancelOrder = (id) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.post(`/order/cancel/${id}`)
+        const res = await axios.post(`/order/cancel/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
         dispatch({
             type:CANCEL_ORDER_SUCCESS,
             payload:res.data
@@ -313,6 +377,7 @@ export const cancelOrder = (id) =>async(dispatch, getState)=>{
 export const deliverOrder = (id) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
+    const {auth : {token}} = getState()
 
     dispatch({
         type:DELIVER_ORDER_REQUEST
@@ -320,7 +385,9 @@ export const deliverOrder = (id) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.post(`/order/deliver/${id}`)
+        const res = await axios.post(`/order/deliver/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
         dispatch({
             type:DELIVER_ORDER_SUCCESS,
             payload:res.data

@@ -4,13 +4,16 @@ import { FOLLOW_FAIL, FOLLOW_REQUEST, FOLLOW_SUCCESS, UNFOLLOW_FAIL, UNFOLLOW_RE
 export const follow = (id) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
+    const {auth : {token}} = getState()
 
     dispatch({
         type:FOLLOW_REQUEST
     })
 
     try{
-        const res = await axios.post(`/follow/${user.id}/${id}`,null)
+        const res = await axios.post(`/follow/${user.id}/${id}`,null,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         const followed = {id:res.data.id, user:{id:user.id, fullname:user.firstname+user.lastname,imageUrl:user.imageUrl }}
         console.log(res)
@@ -35,12 +38,16 @@ export const follow = (id) =>async(dispatch, getState)=>{
 
 export const unfollow = (id) =>async(dispatch, getState)=>{
 
+    const {auth : {token}} = getState()
+
     dispatch({
         type:UNFOLLOW_REQUEST
     })
 
     try{
-        await axios.delete(`/unfollow/${id}`)
+        await axios.delete(`/unfollow/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:UNFOLLOW_SUCCESS,

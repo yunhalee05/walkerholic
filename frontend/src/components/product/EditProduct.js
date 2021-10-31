@@ -153,7 +153,7 @@ function EditProduct({product, setIsEdit, isEdit}) {
                 </div>
 
                 <div className="form_group">
-                    <label htmlFor="stock">Stock</label>
+                    <label htmlFor="price">Price</label>
                     <input type="number" step="0.01" className="form_control" value={price} onChange={e=>setPrice(e.target.value)} />
                 </div>
 

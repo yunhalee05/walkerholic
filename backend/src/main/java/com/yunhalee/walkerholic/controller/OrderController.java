@@ -36,7 +36,7 @@ public class OrderController {
         return orderService.deliverOrder(orderId);
     }
 
-    @GetMapping("/order/{id}")
+    @GetMapping("/getOrder/{id}")
     public OrderDTO getOrder(@PathVariable("id") String id) {
         Integer orderId = Integer.parseInt(id);
         return orderService.getOrder(orderId);
@@ -67,7 +67,7 @@ public class OrderController {
         return new ResponseEntity<HashMap<String,Object>>(orderService.getOrderList(pageNumber),HttpStatus.OK);
     }
 
-    @GetMapping("/orderlist/{page}/{id}")
+    @GetMapping("/orderlistBySeller/{page}/{id}")
     public ResponseEntity<?> getOrderListBySeller(@PathVariable("page")String page,@PathVariable("id")String id){
         Integer pageNumber = Integer.parseInt(page);
         Integer sellerId = Integer.parseInt(id);

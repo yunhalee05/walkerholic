@@ -16,7 +16,11 @@ function PostDetailScreen(props) {
     }, [dispatch, id])
     return (
         <div className="post_screen">
-            <PostCard post={post.post}/>
+            {
+                post.loading ===false && 
+                    <PostCard post={post.post}/>
+
+            }
         </div>
     )
 }

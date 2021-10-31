@@ -2,7 +2,7 @@ import axios from "axios"
 import { CREATE_REVIEW_FAIL, CREATE_REVIEW_REQUEST, CREATE_REVIEW_SUCCESS, DELETE_REVIEW_FAIL, DELETE_REVIEW_REQUEST, DELETE_REVIEW_SUCCESS, EDIT_REVIEW_FAIL, EDIT_REVIEW_REQUEST, EDIT_REVIEW_SUCCESS } from "../_constants/ReviewConstants"
 
 export const createReview = (rating, comment, productId) =>async(dispatch, getState)=>{
-
+    const {auth : {token}} = getState()
     const {auth : {user}} = getState()
 
     dispatch({
@@ -17,7 +17,9 @@ export const createReview = (rating, comment, productId) =>async(dispatch, getSt
     }
 
     try{
-        const res = await axios.post('/review/save',reviewCreateDTO)
+        const res = await axios.post('/review/save',reviewCreateDTO,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         console.log(res)
         dispatch({
@@ -35,7 +37,7 @@ export const createReview = (rating, comment, productId) =>async(dispatch, getSt
 }
 
 export const editReview = (reviewCreateDTO) =>async(dispatch, getState)=>{
-
+    const {auth : {token}} = getState()
     const {auth : {user}} = getState()
 
     dispatch({
@@ -43,7 +45,9 @@ export const editReview = (reviewCreateDTO) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/review/save',reviewCreateDTO)
+        const res = await axios.post('/review/save',reviewCreateDTO,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         console.log(res)
         dispatch({
@@ -60,7 +64,7 @@ export const editReview = (reviewCreateDTO) =>async(dispatch, getState)=>{
     }
 }
 export const deleteReview = (id) =>async(dispatch, getState)=>{
-
+    const {auth : {token}} = getState()
     const {auth : {user}} = getState()
 
     dispatch({
@@ -69,7 +73,9 @@ export const deleteReview = (id) =>async(dispatch, getState)=>{
 
     try{
         
-        await axios.delete(`/review/delete/${id}`)
+        await axios.delete(`/review/delete/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:DELETE_REVIEW_SUCCESS,

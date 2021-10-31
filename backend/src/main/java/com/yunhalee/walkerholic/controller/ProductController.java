@@ -67,7 +67,7 @@ public class ProductController {
         return new ResponseEntity<HashMap<String, Object>>(productService.getAllProductList(pageNumber,sort),HttpStatus.OK);
     }
 
-    @GetMapping("/productlist/{page}/{sort}/{id}")
+    @GetMapping("/productlistBySeller/{page}/{sort}/{id}")
     public ResponseEntity<?> getProductListBySeller(@PathVariable("page")String page, @PathVariable("sort")String sort, @PathVariable("id")String id){
         Integer pageNumber = Integer.parseInt(page);
         Integer sellerId = Integer.parseInt(id);

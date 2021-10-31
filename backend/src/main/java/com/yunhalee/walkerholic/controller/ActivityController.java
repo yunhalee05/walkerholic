@@ -37,7 +37,7 @@ public class ActivityController {
         return activityService.getActivities();
     }
 
-    @DeleteMapping("/activity/{id}")
+    @DeleteMapping("/deleteActivity/{id}")
     public String deleteActivity(@PathVariable("id")String id){
         Integer activityId = Integer.parseInt(id);
         return activityService.deleteActivity(activityId);

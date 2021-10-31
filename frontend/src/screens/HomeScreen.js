@@ -25,7 +25,9 @@ function HomeScreen(props) {
         if(token){
             localStorage.setItem("walkerholic_token", token)
             dispatch(auth(token)).then(async(id)=>{
-                const res1 = await axios.get(`/follows/${id}`)
+                const res1 = await axios.get(`/follows/${id}`,{
+                    headers : {Authorization : `Bearer ${token}`}
+                })
                 dispatch({
                   type:GET_AUTH_FOLLOWS,
                   payload:res1.data

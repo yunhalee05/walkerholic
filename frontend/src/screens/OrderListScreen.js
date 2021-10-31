@@ -3,11 +3,13 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { cancelOrder, deliverOrder, getOrderList, getOrderListBySeller } from '../_actions/OrderActions'
+import { cancelOrder, deliverOrder, getOrderList, getOrderListBySeller, getOrderListByUser } from '../_actions/OrderActions'
 
 function OrderListScreen(props) {
 
     const id = props.match.params.id
+    const userId = props.match.params.userId
+
     const [page, setPage] = useState(1)
 
     const auth = useSelector(state => state.auth)
@@ -31,6 +33,8 @@ function OrderListScreen(props) {
     useEffect(() => {
         if(id){
             dispatch(getOrderListBySeller(page, id))
+        }else if(userId){
+            dispatch(getOrderListByUser(page, userId))
         }else{
             dispatch(getOrderList(page))
         }

@@ -3,12 +3,16 @@ import { CREATE_POST_FAIL, CREATE_POST_REQUEST, CREATE_POST_SUCCESS, DELETE_POST
 
 export const getDiscoverPosts = (page, id) =>async(dispatch, getState)=>{
 
+    const {auth : {token}} = getState()
+
     dispatch({
         type:GET_DISCOVER_POSTS_REQUEST
     })
 
     try{
-        const res = await axios.get(`/posts/discover/${page}/${id}`)
+        const res = await axios.get(`/posts/discover/${page}/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:GET_DISCOVER_POSTS_SUCCESS,
@@ -26,12 +30,16 @@ export const getDiscoverPosts = (page, id) =>async(dispatch, getState)=>{
 }
 export const getFollowingsPosts = (page, id) =>async(dispatch, getState)=>{
 
+    const {auth : {token}} = getState()
+
     dispatch({
         type:GET_FOLLOWINGS_POSTS_REQUEST
     })
 
     try{
-        const res = await axios.get(`/posts/follow/${page}/${id}`)
+        const res = await axios.get(`/posts/follow/${page}/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:GET_FOLLOWINGS_POSTS_SUCCESS,
@@ -53,13 +61,16 @@ export const getFollowingsPosts = (page, id) =>async(dispatch, getState)=>{
 }
 
 export const createPost = (bodyFormData) =>async(dispatch, getState)=>{
+    const {auth : {token}} = getState()
 
     dispatch({
         type:CREATE_POST_REQUEST
     })
 
     try{
-        const res = await axios.post('/post/save', bodyFormData)
+        const res = await axios.post('/post/save', bodyFormData,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:CREATE_POST_SUCCESS,
@@ -77,13 +88,16 @@ export const createPost = (bodyFormData) =>async(dispatch, getState)=>{
 }
 
 export const deletePost = (id) =>async(dispatch, getState)=>{
+    const {auth : {token}} = getState()
 
     dispatch({
         type:DELETE_POST_REQUEST
     })
 
     try{
-        await axios.delete(`/post/${id}`)
+        await axios.delete(`/post/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:DELETE_POST_SUCCESS,
@@ -101,13 +115,16 @@ export const deletePost = (id) =>async(dispatch, getState)=>{
 }
 
 export const getPost = (id) =>async(dispatch, getState)=>{
+    const {auth : {token}} = getState()
 
     dispatch({
         type:GET_POST_REQUEST
     })
 
     try{
-        const res = await axios.get(`/post/${id}`)
+        const res = await axios.get(`/post/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
         dispatch({
             type:GET_POST_SUCCESS,
@@ -153,6 +170,7 @@ export const getHomePost = (page, sort) =>async(dispatch, getState)=>{
     }
 }
 export const likePost = (postId) =>async(dispatch, getState)=>{
+    const {auth : {token}} = getState()
 
     const {auth: {user}} = getState()
 
@@ -161,7 +179,9 @@ export const likePost = (postId) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post(`/likePost/${postId}/${user.id}`, null)
+        const res = await axios.post(`/likePost/${postId}/${user.id}`, null,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
         console.log(res)
 
         const likePost = {id:res.data.id, userId:res.data.user.id, fullname:res.data.user.fullname, imageUrl:res.data.user.imageUrl}
@@ -186,6 +206,7 @@ export const likePost = (postId) =>async(dispatch, getState)=>{
 }
 
 export const unlikePost = (postId, id) =>async(dispatch, getState)=>{
+    const {auth : {token}} = getState()
 
     const {auth: {user}} = getState()
 
@@ -194,7 +215,9 @@ export const unlikePost = (postId, id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.delete(`/unlikePost/${id}`)
+        const res = await axios.delete(`/unlikePost/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
         console.log(res)
 
         dispatch({

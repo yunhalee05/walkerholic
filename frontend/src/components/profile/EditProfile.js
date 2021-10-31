@@ -65,7 +65,9 @@ function EditProfile({setIsEdit}) {
         bodyFormData.append('multipartFile', imageUrl)
 
         dispatch(editProfile(bodyFormData)).then(async(id)=>{
-            const res = await axios.get(`/follows/${id}`)
+            const res = await axios.get(`/follows/${id}`,{
+                headers : {Authorization : `Bearer ${auth.token}`}
+            })
             dispatch({
               type:GET_AUTH_FOLLOWS,
               payload:res.data
