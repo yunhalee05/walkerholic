@@ -62,23 +62,23 @@ export const postReducer = (state={}, action)=>{
     switch(action.type){
 
         case GET_POST_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case GET_POST_SUCCESS:
-            return {...state, loading:false, post:action.payload}
+            return {...state, loading:false, post:action.payload, error:""}
         case GET_POST_FAIL:
             return {...state, loading:false, error:action.payload}  
             
         case LIKE_POST_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case LIKE_POST_SUCCESS:
-            return {...state, loading:false, post:state.post.id===action.payload.postId && {...state.post, postLikes:[...state.post.postLikes, action.payload.likePost]}}
+            return {...state, loading:false, post:state.post.id===action.payload.postId && {...state.post, postLikes:[...state.post.postLikes, action.payload.likePost]}, error:""}
         case LIKE_POST_FAIL:
             return {...state, loading:false, error:action.payload}
 
         case UNLIKE_POST_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case UNLIKE_POST_SUCCESS:
-            return {...state, loading:false, post:state.post.id===action.payload.postId && {...state.post, postLikes:state.post.postLikes.filter(like=>like.id!==action.payload.likeId)}}
+            return {...state, loading:false, post:state.post.id===action.payload.postId && {...state.post, postLikes:state.post.postLikes.filter(like=>like.id!==action.payload.likeId)}, error:""}
         case UNLIKE_POST_FAIL:
             return {...state, loading:false, error:action.payload}
         
@@ -91,30 +91,30 @@ export const homeReducer = (state={}, action)=>{
     switch(action.type){
     
         case GET_HOME_POST_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case GET_HOME_POST_SUCCESS:
-            return {...state, loading:false, posts:action.payload.page===1? action.payload.posts :[...state.posts,...action.payload.posts], totalElement:action.payload.totalElement, totalPage:action.payload.totalPage}
+            return {...state, loading:false, posts:action.payload.page===1? action.payload.posts :[...state.posts,...action.payload.posts], totalElement:action.payload.totalElement, totalPage:action.payload.totalPage, error:""}
         case GET_HOME_POST_FAIL:
             return {...state, loading:false, error:action.payload}
         
         case GET_SEARCH_POST_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case GET_SEARCH_POST_SUCCESS:
-            return {...state, loading:false, posts:action.payload.page===1? action.payload.posts :[...state.posts,...action.payload.posts], totalElement:action.payload.totalElement, totalPage:action.payload.totalPage}
+            return {...state, loading:false, posts:action.payload.page===1? action.payload.posts :[...state.posts,...action.payload.posts], totalElement:action.payload.totalElement, totalPage:action.payload.totalPage, error:""}
         case GET_SEARCH_POST_FAIL:
             return {...state, loading:false, error:action.payload}
 
         case LIKE_POST_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case LIKE_POST_SUCCESS:
-            return {...state, loading:false, posts:state.posts.map(post=>post.id===action.payload.postId ? {...post, postLikes:[...post.postLikes, action.payload.likePost]}:post)}
+            return {...state, loading:false, posts:state.posts.map(post=>post.id===action.payload.postId ? {...post, postLikes:[...post.postLikes, action.payload.likePost]}:post), error:""}
         case LIKE_POST_FAIL:
             return {...state, loading:false, error:action.payload}
 
         case UNLIKE_POST_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case UNLIKE_POST_SUCCESS:
-            return {...state, loading:false, posts:state.posts.map(post=>post.id===action.payload.postId? {...post, postLikes:post.postLikes.filter(like=>like.id!==action.payload.likeId)}:post)}
+            return {...state, loading:false, posts:state.posts.map(post=>post.id===action.payload.postId? {...post, postLikes:post.postLikes.filter(like=>like.id!==action.payload.likeId)}:post), error:""}
         case UNLIKE_POST_FAIL:
             return {...state, loading:false, error:action.payload}
 

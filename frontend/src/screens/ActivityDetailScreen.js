@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getActivity } from '../_actions/ActivityActions'
 import earth from '../images/earth.svg'
 import ActivityUserCard from '../components/activity/ActivityUserCard'
+import Error from '../components/Error'
+import Loading from '../components/Loading'
 
 
 function ActivityDetailScreen(props) {
@@ -19,6 +21,12 @@ function ActivityDetailScreen(props) {
 
     return (
         <div className="activity_detail">
+            {
+                activity.error && <Error error = {activity.error}/>
+            }
+            {
+                activity.Loading && <Loading/>
+            }
             {
                 activity.activity?.id &&
                 <>

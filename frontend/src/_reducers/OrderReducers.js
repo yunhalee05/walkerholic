@@ -4,52 +4,52 @@ export const cartReducer = (state={}, action)=>{
     switch(action.type){
     
         case GET_CARTITEMS_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case GET_CARTITEMS_SUCCESS:
-            return {...state, loading:false, success:true, ...action.payload}
+            return {...state, loading:false, success:true, ...action.payload, error:""}
         case GET_CARTITEMS_FAIL:
             return {...state, loading:false, error:action.payload}
 
         case CREATE_CART_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case CREATE_CART_SUCCESS:
-            return {...state, loading:false, id:action.payload}
+            return {...state, loading:false, id:action.payload, error:""}
         case CREATE_CART_FAIL:
             return {...state, loading:false, error:action.payload}
 
         case ADD_TO_CART_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case ADD_TO_CART_SUCCESS:
             if(state.orderItems.filter(o=>o.id===action.payload.id).length===1){
-                return {...state, loading:false, orderItems:state.orderItems.map(o=>o.id===action.payload.id? action.payload : o)}
+                return {...state, loading:false, orderItems:state.orderItems.map(o=>o.id===action.payload.id? action.payload : o), error:""}
             }else{
-                return {...state, loading:false, orderItems:[...state.orderItems, action.payload]}
+                return {...state, loading:false, orderItems:[...state.orderItems, action.payload], error:""}
             }
         case ADD_TO_CART_FAIL:
             return {...state, loading:false, error:action.payload}
 
         
         case UPDATE_ORDERITEM_QTY_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case UPDATE_ORDERITEM_QTY_SUCCESS:
-            return {...state, loading:false, orderItems:state.orderItems.map(o=>o.id===action.payload.id? {...o, qty:action.payload.qty}:o)}
+            return {...state, loading:false, orderItems:state.orderItems.map(o=>o.id===action.payload.id? {...o, qty:action.payload.qty}:o), error:""}
         case UPDATE_ORDERITEM_QTY_FAIL:
             return {...state, loading:false, error:action.payload} 
         
         case DELETE_ORDERITEM_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case DELETE_ORDERITEM_SUCCESS:
-            return {...state, loading:false, orderItems:state.orderItems.filter(o=>o.id!==action.payload)}
+            return {...state, loading:false, orderItems:state.orderItems.filter(o=>o.id!==action.payload), error:""}
         case DELETE_ORDERITEM_FAIL:
             return {...state, loading:false, error:action.payload}
     
         case CHECKOUT:
-            return {...state, checkout:true}
+            return {...state, checkout:true, error:""}
 
         case CREATE_ORDER_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case CREATE_ORDER_SUCCESS:
-            return {...state, loading:false, orderItems:[], id:null, checkout:false }
+            return {...state, loading:false, orderItems:[], id:null, checkout:false , error:""}
         case CREATE_ORDER_FAIL:
             return {...state, loading:false, error:action.payload}
 
@@ -62,9 +62,9 @@ export const cartReducer = (state={}, action)=>{
 export const orderReducer = (state={}, action)=>{
     switch(action.type){
         case GET_ORDER_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case GET_ORDER_SUCCESS:
-            return {...state, loading:false, ...action.payload}
+            return {...state, loading:false, ...action.payload, error:""}
         case GET_ORDER_FAIL:
             return {...state, loading:false, error:action.payload}
 

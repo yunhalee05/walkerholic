@@ -2,13 +2,16 @@ import axios from 'axios'
 import React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link,useHistory} from 'react-router-dom'
 import { login } from '../_actions/AuthActions'
 import { GET_AUTH_FOLLOWS } from '../_constants/AuthConstants'
 import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL, NAVER_AUTH_URL, KAKAO_AUTH_URL } from '../utils/SocialLogin';
 import kakao from '../images/kakao.png'
 import google from '../images/google.png'
 import naver from '../images/naver.png'
+import { useEffect } from 'react'
+import Error from '../components/Error'
+import Loading from '../components/Loading'
 
 function LoginScreen(props) {
 
@@ -18,25 +21,37 @@ function LoginScreen(props) {
     const auth = useSelector(state => state.auth)
 
     const dispatch = useDispatch()
+    const history = useHistory()
+
+    useEffect(() => {
+        if(auth.user && auth.user.id){
+            history.push('/')
+        }
+    }, [auth.user])
+
     const handleSubmit = (e)=>{
         e.preventDefault();
 
         dispatch(login({email, password})).then(async(id)=>{
             const res = await axios.get(`/follows/${id}`,{
                 headers : {Authorization : `Bearer ${auth.token}`}
-
             })
             dispatch({
               type:GET_AUTH_FOLLOWS,
               payload:res.data
             })
-            props.history.push('/')
         })
         
     }
 
     return (
         <div className="auth" style={{marginTop:"20%"}}>
+            {
+                auth.error && <Error error = {auth.error}/>
+            }
+            {
+                auth.Loading && <Loading/>
+            }
             <form onSubmit={handleSubmit}>
                 <div className="auth_message">
                     Welcome to walkerholic!

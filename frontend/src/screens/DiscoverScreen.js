@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Error from '../components/Error'
+import Loading from '../components/Loading'
 import PostThumb from '../components/PostThumb'
 import { getDiscoverPosts } from '../_actions/PostActions'
 
@@ -29,6 +31,12 @@ function DiscoverScreen() {
             <div style={{fontSize:'2.4rem', fontWeight:'800',textAlign:'center' , marginTop:'2rem', marginBottom:"2rem"}}>
                 Find Co-Earthsavers!
             </div>
+            {
+                discover.error && <Error error = {discover.error}/>
+            }
+            {
+                discover.Loading && <Loading/>
+            }
             {
                 discover.posts &&
                 <PostThumb posts ={discover.posts}/>

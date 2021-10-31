@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Error from '../components/Error'
+import Loading from '../components/Loading'
 import EditPost from '../components/posts/EditPost'
 import PostCard from '../components/posts/PostCard'
 import { getFollowingsPosts } from '../_actions/PostActions'
@@ -29,6 +31,13 @@ function PostScreen() {
     
     return (
         <>
+        {
+            posts.error && <Error error = {posts.error}/>
+        }
+        {
+            posts.Loading && <Loading/>
+        }
+
         {
             posts.loading ===false && 
             <div className="post_screen">

@@ -6,7 +6,7 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { auth } from './_actions/AuthActions';
 import axios from 'axios';
 import { GET_AUTH_FOLLOWS } from './_constants/AuthConstants';
@@ -36,7 +36,9 @@ function App() {
     if(localStorage.getItem("walkerholic_token")){
       const token = localStorage.getItem("walkerholic_token").replace(/\"/gi, "")
       dispatch(auth(token)).then(async(id)=>{
-        const res1 = await axios.get(`/follows/${id}`)
+        const res1 = await axios.get(`/follows/${id}`,{
+          headers : {Authorization : `Bearer ${token}`}
+        })
         dispatch({
           type:GET_AUTH_FOLLOWS,
           payload:res1.data

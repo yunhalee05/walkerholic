@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteProduct, getProductList, getSellerProductList } from '../_actions/ProductActions'
 import Rating from '../components/product/Rating'
 import EditProduct from '../components/product/EditProduct'
+import Error from '../components/Error'
+import Loading from '../components/Loading'
 
 function ProductListScreen(props) {
 
@@ -43,6 +45,13 @@ function ProductListScreen(props) {
 
     return (
         <div className="list">
+            {
+                list.error && <Error error = {list.error}/>
+            }
+            {
+                list.Loading && <Loading/>
+            }
+            
             <div className="list_title">
                 Products .
             </div>

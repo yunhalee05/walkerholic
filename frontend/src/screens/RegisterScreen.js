@@ -1,11 +1,14 @@
 import React from 'react'
 import { useState } from 'react'
-import {Link} from 'react-router-dom'
+import {Link,useHistory} from 'react-router-dom'
 import { checkProfileImage } from '../utils/CheckImage'
 import { checkRegisterFormValid } from '../utils/CheckFormValid'
 import Earth from '../images/earth.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { register } from '../_actions/AuthActions'
+import { useEffect } from 'react'
+import Error from '../components/Error'
+import Loading from '../components/Loading'
 
 
 function RegisterScreen() {
@@ -25,7 +28,16 @@ function RegisterScreen() {
 
     const [err, setErr] = useState({})
 
+    const auth = useSelector(state => state.auth)
+    const history = useHistory()
+
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        if(auth.user && auth.user.id){
+            history.push('/')
+        }
+    }, [auth.user])
     
     
     const changeProfileImage = (e) =>{
@@ -66,6 +78,13 @@ function RegisterScreen() {
 
     return (
         <div className="auth">
+            {
+                auth.error && <Error error = {auth.error}/>
+            }
+            {
+                auth.Loading && <Loading/>
+            }
+
             <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="auth_message" style={{marginBottom:"1rem"}}>
                         Be with us!

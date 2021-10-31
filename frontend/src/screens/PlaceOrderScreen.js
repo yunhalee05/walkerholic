@@ -6,6 +6,8 @@ import { useHistory } from 'react-router'
 import {checkAddressFormValid} from '../utils/CheckFormValid'
 import {PayPalButton} from 'react-paypal-button-v2';
 import { createOrder } from '../_actions/OrderActions'
+import Loading from '../components/Loading'
+import Error from '../components/Error'
 
 function PlaceOrderScreen(props) {
 
@@ -94,6 +96,13 @@ function PlaceOrderScreen(props) {
 
     return (
         <>
+        {
+            cart.error && <Error error = {cart.error}/>
+        }
+        {
+            cart.Loading && <Loading/>
+        }
+    
         {
             cart.loading ===false &&
             <div className="placeorder">

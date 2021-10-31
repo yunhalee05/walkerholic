@@ -6,6 +6,8 @@ import Rating from '../components/product/Rating'
 import ReviewCard from '../components/product/ReviewCard'
 import { addCart, createCart } from '../_actions/OrderActions'
 import ProductReview from '../components/product/ProductReview'
+import Error from '../components/Error'
+import Loading from '../components/Loading'
  
 function ProductDetailScreen(props) {
 
@@ -60,6 +62,13 @@ function ProductDetailScreen(props) {
 
     return (
         <>
+        {
+            products.error && <Error error = {products.error}/>
+        }
+        {
+            products.Loading && <Loading/>
+        }
+
         {products.loading===false &&
 
         <div className="productdetail">

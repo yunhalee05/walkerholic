@@ -3,6 +3,8 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Error from '../components/Error'
+import Loading from '../components/Loading'
 import { cancelOrder, deliverOrder, getOrderList, getOrderListBySeller, getOrderListByUser } from '../_actions/OrderActions'
 
 function OrderListScreen(props) {
@@ -42,6 +44,12 @@ function OrderListScreen(props) {
 
     return (
         <div className="list">
+            {
+                list.error && <Error error = {list.error}/>
+            }
+            {
+                list.Loading && <Loading/>
+            }
             <div className="list_title">
                 Orders .
             </div>

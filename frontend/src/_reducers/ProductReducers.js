@@ -5,50 +5,50 @@ export const productsReducer = (state={}, action)=>{
     switch(action.type){
     
         case GET_PRODUCTS_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case GET_PRODUCTS_SUCCESS:
-            return {...state, loading:false, products:action.payload.products, totalElement:action.payload.totalElement, totalPage:action.payload.totalPage}
+            return {...state, loading:false, products:action.payload.products, totalElement:action.payload.totalElement, totalPage:action.payload.totalPage, error:""}
         case GET_PRODUCTS_FAIL:
             return {...state, loading:false, error:action.payload}
 
         case GET_SELLER_PRODUCTS_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case GET_SELLER_PRODUCTS_SUCCESS:
-            return {...state, loading:false, products:action.payload.products, totalElement:action.payload.totalElement, totalPage:action.payload.totalPage , seller:action.payload.seller}
+            return {...state, loading:false, products:action.payload.products, totalElement:action.payload.totalElement, totalPage:action.payload.totalPage , seller:action.payload.seller, error:""}
         case GET_SELLER_PRODUCTS_FAIL:
             return {...state, loading:false, error:action.payload}
 
         case RESET_SELLER:
-            return {...state, seller:{}}
+            return {...state, seller:{}, error:""}
     
         case GET_PRODUCT_REQUEST:
-            return {...state, loading:true}
+            return {...state, loading:true, error:""}
         case GET_PRODUCT_SUCCESS:
-            return {...state, loading:false, product:action.payload}
+            return {...state, loading:false, product:action.payload, error:""}
         case GET_PRODUCT_FAIL:
             return {...state, loading:false, error:action.payload}
 
         case CREATE_REVIEW_REQUEST:
-            return {...state, reviewloading:true}
+            return {...state, reviewloading:true, error:""}
         case CREATE_REVIEW_SUCCESS:
             if(state.product.id===action.payload.productId){
-                return {...state, product:{...state.product,productReviews:[...state.product.productReviews,action.payload]}}
+                return {...state, product:{...state.product,productReviews:[...state.product.productReviews,action.payload]}, error:""}
             }
-            return {...state, reviewloading:false, product:action.payload}
+            return {...state, reviewloading:false, product:action.payload, error:""}
         case CREATE_REVIEW_FAIL:
             return {...state, reviewloading:false, error:action.payload}
         
         case EDIT_REVIEW_REQUEST:
-            return {...state, reviewloading:true}
+            return {...state, reviewloading:true, error:""}
         case EDIT_REVIEW_SUCCESS:
-            return {...state, product:{...state.product, productReviews:state.product.productReviews.map(review=>review.id===action.payload.id ? action.payload : review)}}
+            return {...state, product:{...state.product, productReviews:state.product.productReviews.map(review=>review.id===action.payload.id ? action.payload : review)}, error:""}
         case EDIT_REVIEW_FAIL:
             return {...state, reviewloading:false, error:action.payload}
         
         case DELETE_REVIEW_REQUEST:
-            return {...state, reviewloading:true}
+            return {...state, reviewloading:true, error:""}
         case DELETE_REVIEW_SUCCESS:
-            return {...state, product:{...state.product, productReviews:state.product.productReviews.filter(review=>review.id!==action.payload)}}
+            return {...state, product:{...state.product, productReviews:state.product.productReviews.filter(review=>review.id!==action.payload)}, error:""}
         case DELETE_REVIEW_FAIL:
             return {...state, reviewloading:false, error:action.payload}
         

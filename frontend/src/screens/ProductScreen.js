@@ -2,6 +2,8 @@ import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Error from '../components/Error'
+import Loading from '../components/Loading'
 import Category from '../components/product/Category'
 import ProductCard from '../components/product/ProductCard'
 import SellerCard from '../components/product/SellerCard'
@@ -37,6 +39,13 @@ function ProductScreen(props) {
 
     return (
         <div className="productscreen">
+            {
+                products.error && <Error error = {products.error}/>
+            }
+            {
+                products.Loading && <Loading/>
+            }
+
             {   
                 products.products &&
                 <div>

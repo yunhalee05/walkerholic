@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Main from '../images/Main.jpg'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../_actions/ProductActions';
 import ProductCard from '../components/home/ProductCard';
 import { Link } from 'react-router-dom';
@@ -10,12 +10,18 @@ import { auth } from '../_actions/AuthActions';
 import axios from 'axios';
 import { GET_AUTH_FOLLOWS } from '../_constants/AuthConstants';
 import { getCart } from '../_actions/OrderActions';
+import Error from '../components/Error';
+import Loading from '../components/Loading';
 
 function HomeScreen(props) {
 
     const [products, setProducts] = useState([])
     const [posts, setPosts] = useState([])
     const [isLoad, setIsLoad] = useState(true)
+
+    const postsErr = useSelector(state => state.home.error)
+    const productsErr = useSelector(state => state.products.error)
+    const authErr = useSelector(state => state.auth.error)
 
     const token = props.location.search.substr(7)
 
@@ -52,6 +58,12 @@ function HomeScreen(props) {
 
     return (
         <div className="home">
+            {
+                (postsErr || productsErr || authErr)&& <Error error = {postsErr.error+ productsErr + authErr}/>
+            }
+            {
+                isLoad && <Loading/>
+            }
             <div className="home_main">
                 <div className="home_maintitle">
                     Save<br/><span style={{backgroundColor:"#b59760", fontStyle:"italic"}}>&nbsp;our&nbsp;</span><br/>planet

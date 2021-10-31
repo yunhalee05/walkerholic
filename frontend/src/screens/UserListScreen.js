@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteUser, getUserList } from '../_actions/UserActions'
 import {levelIconShow} from '../utils/MediaShow'
+import Error from '../components/Error'
+import Loading from '../components/Loading'
 
 function UserListScreen() {
 
@@ -27,6 +29,13 @@ function UserListScreen() {
 
     return (
         <div className="list">
+            {
+                list.error && <Error error = {list.error}/>
+            }
+            {
+                list.Loading && <Loading/>
+            }
+
             <div className="list_title">
                 Users .
             </div>

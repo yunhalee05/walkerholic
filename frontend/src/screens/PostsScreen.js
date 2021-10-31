@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Error from '../components/Error'
+import Loading from '../components/Loading'
 import PostThumb from '../components/PostThumb'
 import { getHomePost, getSearchPosts } from '../_actions/PostActions'
 
@@ -31,6 +33,13 @@ function PostsScreen(props) {
                 <option value="popular">Most Popular</option>
             </select>
         </div>
+        {
+            home.error && <Error error = {home.error}/>
+        }
+        {
+            home.Loading && <Loading/>
+        }
+
         {
             (home.loading===false && home.posts) &&
             <div className="post_screen">

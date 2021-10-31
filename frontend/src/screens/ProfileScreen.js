@@ -8,6 +8,8 @@ import PostThumb from '../components/PostThumb'
 import FollowModal from '../components/profile/FollowModal'
 import Seller from '../images/Seller.svg'
 import { follow, unfollow } from '../_actions/FollowActions'
+import Loading from '../components/Loading'
+import Error from '../components/Error'
 
 function ProfileScreen(props) {
 
@@ -38,6 +40,13 @@ function ProfileScreen(props) {
 
     return (
         <>
+        {
+            profile.error && <Error error = {profile.error}/>
+        }
+        {
+            profile.Loading && <Loading/>
+        }
+
         {  (profile.loading ===false && profile.user.id) &&
         
             <div className="profile">

@@ -1,6 +1,8 @@
 import React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Error from '../components/Error'
+import Loading from '../components/Loading'
 import { getOrder } from '../_actions/OrderActions'
 
 function OrderScreen(props) {
@@ -17,6 +19,12 @@ function OrderScreen(props) {
 
     return (
         <div>
+            {
+                order.error && <Error error = {order.error}/>
+            }
+            {
+                order.Loading && <Loading/>
+            }
             {
                 order.loading===false &&
 

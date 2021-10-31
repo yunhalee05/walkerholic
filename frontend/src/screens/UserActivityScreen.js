@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import EditUserActivity from '../components/activity/EditUserActivity'
 import UserActivityCard from '../components/activity/UserActivityCard'
+import Error from '../components/Error'
+import Loading from '../components/Loading'
 import { levelDescriptionIconShow } from '../utils/MediaShow'
 import { getUserActivities } from '../_actions/ActivityActions'
 
@@ -27,6 +29,13 @@ function UserActivityScreen() {
 
     return (
         <div className="useractivity">
+            {
+                activity.error && <Error error = {activity.error}/>
+            }
+            {
+                activity.Loading && <Loading/>
+            }
+
             {
                 auth.user &&
                 <div className="useractivity_title">
