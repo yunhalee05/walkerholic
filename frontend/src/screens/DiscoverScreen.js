@@ -32,7 +32,7 @@ function DiscoverScreen() {
                 Find Co-Earthsavers!
             </div>
             {
-                discover.error && <Error error = {discover.error}/>
+                discover.error && discover.error.message && <Error error = {discover.error.message}/>
             }
             {
                 discover.Loading && <Loading/>

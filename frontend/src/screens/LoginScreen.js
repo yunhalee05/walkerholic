@@ -47,7 +47,7 @@ function LoginScreen(props) {
     return (
         <div className="auth" style={{marginTop:"20%"}}>
             {
-                auth.error && <Error error = {auth.error}/>
+                auth.error && auth.error.message && <Error error = {auth.error.message}/>
             }
             {
                 auth.Loading && <Loading/>

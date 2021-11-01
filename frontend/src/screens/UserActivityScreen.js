@@ -30,7 +30,7 @@ function UserActivityScreen() {
     return (
         <div className="useractivity">
             {
-                activity.error && <Error error = {activity.error}/>
+                activity.error && activity.error.message && <Error error = {activity.error.message}/>
             }
             {
                 activity.Loading && <Loading/>

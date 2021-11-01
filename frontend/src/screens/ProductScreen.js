@@ -40,7 +40,7 @@ function ProductScreen(props) {
     return (
         <div className="productscreen">
             {
-                products.error && <Error error = {products.error}/>
+                products.error && products.error.message && <Error error = {products.error.message}/>
             }
             {
                 products.Loading && <Loading/>

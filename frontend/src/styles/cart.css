@@ -1,6 +1,6 @@
 .cartscreen{
     position: fixed;
-    left: calc(100vw - 30rem);
+    left: calc(100% - 30rem);
     margin: 0;
     padding: 0;
     width: 30rem;

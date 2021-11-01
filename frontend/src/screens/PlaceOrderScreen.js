@@ -97,7 +97,7 @@ function PlaceOrderScreen(props) {
     return (
         <>
         {
-            cart.error && <Error error = {cart.error}/>
+            cart.error && cart.error.message && <Error error = {cart.error.message}/>
         }
         {
             cart.Loading && <Loading/>
@@ -148,7 +148,7 @@ function PlaceOrderScreen(props) {
                                 ? sdkReady 
                                     ?<PayPalButton amount={total} onSuccess = {successPaymentHandler} onError={onError}></PayPalButton>
                                     : <span>Loading...</span>
-                                : <span>checkAddress First</span>
+                                : <span style={{color:"#787878", textTransform:"uppercase", fontWeight:"800", textAlign:"center"}}>Check Your Address First</span>
                             }
                             {
                                 err.payment &&

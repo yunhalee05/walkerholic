@@ -28,7 +28,7 @@ export const followingPostsReducer = (state={posts:[]}, action)=>{
         case CREATE_POST_REQUEST:
             return {...state, loading:true}
         case CREATE_POST_SUCCESS:
-            return {...state, loading:false, posts:[...state.posts, action.payload]}
+            return {...state, loading:false, posts:[action.payload,...state.posts]}
         case CREATE_POST_FAIL:
             return {...state, loading:false, error:action.payload}
         
@@ -71,14 +71,14 @@ export const postReducer = (state={}, action)=>{
         case LIKE_POST_REQUEST:
             return {...state, loading:true, error:""}
         case LIKE_POST_SUCCESS:
-            return {...state, loading:false, post:state.post.id===action.payload.postId && {...state.post, postLikes:[...state.post.postLikes, action.payload.likePost]}, error:""}
+            return {...state, loading:false, post:state.post?.id===action.payload.postId && {...state.post, postLikes:[...state.post.postLikes, action.payload.likePost]}, error:""}
         case LIKE_POST_FAIL:
             return {...state, loading:false, error:action.payload}
 
         case UNLIKE_POST_REQUEST:
             return {...state, loading:true, error:""}
         case UNLIKE_POST_SUCCESS:
-            return {...state, loading:false, post:state.post.id===action.payload.postId && {...state.post, postLikes:state.post.postLikes.filter(like=>like.id!==action.payload.likeId)}, error:""}
+            return {...state, loading:false, post:state.post?.id===action.payload.postId && {...state.post, postLikes:state.post.postLikes.filter(like=>like.id!==action.payload.likeId)}, error:""}
         case UNLIKE_POST_FAIL:
             return {...state, loading:false, error:action.payload}
         
@@ -87,7 +87,7 @@ export const postReducer = (state={}, action)=>{
     }
 }
 
-export const homeReducer = (state={}, action)=>{
+export const homeReducer = (state={page:1}, action)=>{
     switch(action.type){
     
         case GET_HOME_POST_REQUEST:
@@ -104,19 +104,19 @@ export const homeReducer = (state={}, action)=>{
         case GET_SEARCH_POST_FAIL:
             return {...state, loading:false, error:action.payload}
 
-        case LIKE_POST_REQUEST:
-            return {...state, loading:true, error:""}
-        case LIKE_POST_SUCCESS:
-            return {...state, loading:false, posts:state.posts.map(post=>post.id===action.payload.postId ? {...post, postLikes:[...post.postLikes, action.payload.likePost]}:post), error:""}
-        case LIKE_POST_FAIL:
-            return {...state, loading:false, error:action.payload}
+        // case LIKE_POST_REQUEST:
+        //     return {...state, loading:true, error:""}
+        // case LIKE_POST_SUCCESS:
+        //     return {...state, loading:false, posts:state.posts.map(post=>post.id===action.payload.postId ? {...post, postLikes:[...post.postLikes, action.payload.likePost]}:post), error:""}
+        // case LIKE_POST_FAIL:
+        //     return {...state, loading:false, error:action.payload}
 
-        case UNLIKE_POST_REQUEST:
-            return {...state, loading:true, error:""}
-        case UNLIKE_POST_SUCCESS:
-            return {...state, loading:false, posts:state.posts.map(post=>post.id===action.payload.postId? {...post, postLikes:post.postLikes.filter(like=>like.id!==action.payload.likeId)}:post), error:""}
-        case UNLIKE_POST_FAIL:
-            return {...state, loading:false, error:action.payload}
+        // case UNLIKE_POST_REQUEST:
+        //     return {...state, loading:true, error:""}
+        // case UNLIKE_POST_SUCCESS:
+        //     return {...state, loading:false, posts:state.posts.map(post=>post.id===action.payload.postId? {...post, postLikes:post.postLikes.filter(like=>like.id!==action.payload.likeId)}:post), error:""}
+        // case UNLIKE_POST_FAIL:
+        //     return {...state, loading:false, error:action.payload}
 
         
 

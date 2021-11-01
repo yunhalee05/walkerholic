@@ -24,8 +24,9 @@ export const getCart = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_CARTITEMS_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
         // console.log(error)
     }
@@ -42,7 +43,7 @@ export const createCart = () =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post(`/createCart/${user.id}`,{
+        const res = await axios.post(`/createCart/${user.id}`,null,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -56,8 +57,9 @@ export const createCart = () =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:CREATE_CART_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
         // console.log(error)
     }
@@ -116,8 +118,9 @@ export const addCart = (qty, productId, orderId) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:ADD_TO_CART_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
         // console.log(error)
     }
@@ -151,8 +154,9 @@ export const updateQty = (id, qty) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:UPDATE_ORDERITEM_QTY_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
         // console.log(error)
     }
@@ -183,8 +187,9 @@ export const deleteOrderItem = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:DELETE_ORDERITEM_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
         // console.log(error)
     }
@@ -216,8 +221,9 @@ export const getOrderList = (page) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_ORDER_LIST_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
         // console.log(error)
     }
@@ -247,8 +253,9 @@ export const getOrderListBySeller = (page,id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_ORDER_LIST_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
         // console.log(error)
     }
@@ -278,8 +285,9 @@ export const getOrderListByUser = (page,userId) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_ORDER_LIST_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
         // console.log(error)
     }
@@ -307,8 +315,9 @@ export const createOrder = (orderCreateDTO) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:CREATE_ORDER_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
         // console.log(error)
     }
@@ -323,6 +332,8 @@ export const getOrder = (id) =>async(dispatch, getState)=>{
         type:GET_ORDER_REQUEST
     })
 
+    console.log(token)
+    console.log(id)
 
     try{
         const res = await axios.get(`/getOrder/${id}`,{
@@ -338,8 +349,9 @@ export const getOrder = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_ORDER_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
         // console.log(error)
     }
@@ -367,8 +379,9 @@ export const cancelOrder = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:CANCEL_ORDER_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
         // console.log(error)
     }
@@ -398,8 +411,9 @@ export const deliverOrder = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:DELIVER_ORDER_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
         console.log(error)
     }

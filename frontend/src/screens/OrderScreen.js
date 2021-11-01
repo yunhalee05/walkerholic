@@ -20,7 +20,7 @@ function OrderScreen(props) {
     return (
         <div>
             {
-                order.error && <Error error = {order.error}/>
+                order.error && order.error.message && <Error error = {order.error.message}/>
             }
             {
                 order.Loading && <Loading/>

@@ -30,7 +30,7 @@ function UserListScreen() {
     return (
         <div className="list">
             {
-                list.error && <Error error = {list.error}/>
+                list.error && list.error.message && <Error error = {list.error.message}/>
             }
             {
                 list.Loading && <Loading/>

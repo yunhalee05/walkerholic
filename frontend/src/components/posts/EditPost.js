@@ -108,10 +108,15 @@ function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
             bodyFormData.append("content", content)
             bodyFormData.append("userId", auth.user.id)
             images.forEach(image=> bodyFormData.append("multipartFile", image))
-            deletedImages.forEach(image=>bodyFormData.append("deletedImages",image))
+            // deletedImages.forEach(image=>bodyFormData.append("deletedImages",image))
         }
 
         dispatch(createPost(bodyFormData))
+        if(post){
+            setIsEdit(false)
+        }else{
+            setIsCreate(false)
+        }
 
     }
 

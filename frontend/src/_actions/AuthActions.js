@@ -22,8 +22,9 @@ export const register = (bodyFormData) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:REGISTER_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -54,8 +55,9 @@ export const login = ({email, password}) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:LOGIN_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -82,8 +84,9 @@ export const auth = (token) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:AUTH_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -105,8 +108,9 @@ export const logout = () =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:LOGOUT_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }

@@ -90,3 +90,6 @@ body button:hover{
 
 /* List */
 @import url('./styles/list.css');
+
+/* About */
+@import url('./styles/about.css');

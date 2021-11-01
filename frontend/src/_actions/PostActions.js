@@ -23,8 +23,9 @@ export const getDiscoverPosts = (page, id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_DISCOVER_POSTS_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -55,7 +56,9 @@ export const getFollowingsPosts = (page, id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_FOLLOWINGS_POSTS_FAIL,
-            payload:error.response.data
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message
         })
     }
 }
@@ -81,7 +84,9 @@ export const createPost = (bodyFormData) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:CREATE_POST_FAIL,
-            payload:error.response.data
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message
             
         })
     }
@@ -108,7 +113,9 @@ export const deletePost = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:DELETE_POST_FAIL,
-            payload:error.response.data
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message
             
         })
     }
@@ -135,7 +142,9 @@ export const getPost = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_POST_FAIL,
-            payload:error.response.data
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message
             
         })
     }
@@ -147,6 +156,7 @@ export const getHomePost = (page, sort) =>async(dispatch, getState)=>{
         type:GET_HOME_POST_REQUEST
     })
 
+    // console.log(page)
     try{
         const res = await axios.get(`/posts/home/${page}/${sort}`)
 
@@ -164,7 +174,9 @@ export const getHomePost = (page, sort) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_HOME_POST_FAIL,
-            payload:error.response.data
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message
             
         })
     }
@@ -182,9 +194,8 @@ export const likePost = (postId) =>async(dispatch, getState)=>{
         const res = await axios.post(`/likePost/${postId}/${user.id}`, null,{
             headers : {Authorization : `Bearer ${token}`}
         })
-        console.log(res)
 
-        const likePost = {id:res.data.id, userId:res.data.user.id, fullname:res.data.user.fullname, imageUrl:res.data.user.imageUrl}
+        const likePost = {id:res.data.id, userId:res.data.user.id, fullname:res.data.user.fullname, imageUrl:res.data.user.imageUrl? res.data.user.imageUrl : ""}
 
         
         dispatch({
@@ -199,9 +210,11 @@ export const likePost = (postId) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:LIKE_POST_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message
         })
+
     }
 }
 
@@ -218,7 +231,6 @@ export const unlikePost = (postId, id) =>async(dispatch, getState)=>{
         const res = await axios.delete(`/unlikePost/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
-        console.log(res)
 
         dispatch({
             type:UNLIKE_POST_SUCCESS,
@@ -232,7 +244,9 @@ export const unlikePost = (postId, id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:UNLIKE_POST_FAIL,
-            payload:error.response.data
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message
             
         })
     }
@@ -261,7 +275,9 @@ export const getSearchPosts = (page, sort, keyword) =>async(dispatch, getState)=
     }catch(error){
         dispatch({
             type:GET_SEARCH_POST_FAIL,
-            payload:error.response.data
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message
             
         })
     }

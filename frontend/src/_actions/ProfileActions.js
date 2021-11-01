@@ -35,8 +35,9 @@ export const getProfile = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_PROFILE_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -64,8 +65,9 @@ export const editProfile = (bodyFormData) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:EDIT_PROFILE_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }

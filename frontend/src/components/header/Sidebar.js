@@ -60,7 +60,7 @@ function Sidebar({isOpen,setIsOpen}) {
                         </div>
                     </div>
                     <div className="sidebar_item">
-                        <div className="sidebar_item_name" onClick={()=>handlePage()}>
+                        <div className="sidebar_item_name" onClick={()=>handlePage('about')}>
                             {/* <Link>About</Link> */}
                             <span className="sidebar_page">About</span>
                         </div>

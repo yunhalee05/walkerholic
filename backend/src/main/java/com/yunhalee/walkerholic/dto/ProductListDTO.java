@@ -26,6 +26,8 @@ public class ProductListDTO {
 
     private List<String> imagesUrl;
 
+    private String description;
+
     public ProductListDTO(Product product){
         this.id = product.getId();
         this.name = product.getName();
@@ -35,5 +37,6 @@ public class ProductListDTO {
         this.price = product.getPrice();
         this.average = product.getAverage();
         this.imagesUrl = product.getImagesUrl();
+        this.description = product.getDescription();
     }
 }

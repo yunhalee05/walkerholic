@@ -41,7 +41,7 @@ function ProfileScreen(props) {
     return (
         <>
         {
-            profile.error && <Error error = {profile.error}/>
+            profile.error && profile.error.message && <Error error = {profile.error.message}/>
         }
         {
             profile.Loading && <Loading/>

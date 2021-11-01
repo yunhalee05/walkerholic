@@ -26,8 +26,9 @@ export const getProducts = (page, sort, category,keyword) =>async(dispatch, getS
     }catch(error){
         dispatch({
             type:GET_PRODUCTS_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -78,8 +79,9 @@ export const getProduct = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_PRODUCT_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -104,8 +106,9 @@ export const getProductList = (page, sort) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_PRODUCT_LIST_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -130,8 +133,9 @@ export const getSellerProductList = (page, sort, id) =>async(dispatch, getState)
     }catch(error){
         dispatch({
             type:GET_PRODUCT_LIST_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -179,8 +183,9 @@ export const editProduct = (bodyFormData) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:EDIT_PRODUCT_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -206,8 +211,9 @@ export const createProduct = (bodyFormData) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:CREATE_PRODUCT_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }

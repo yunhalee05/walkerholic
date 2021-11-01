@@ -47,9 +47,11 @@ public class PostService {
         }
     }
 
-    private void savePostImage(Post post, List<MultipartFile> multipartFiles){
+    private List<PostImage> savePostImage(Post post, List<MultipartFile> multipartFiles){
+        List<PostImage> postImageList = new ArrayList<>();
         multipartFiles.forEach(multipartFile -> {
             PostImage postImage = new PostImage();
+
             try{
                 String fileName = System.currentTimeMillis() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
                 String uploadDir = "postUploads/" + post.getId();
@@ -58,12 +60,14 @@ public class PostService {
                 FileUploadUtils.saveFile(uploadDir,fileName,multipartFile);
                 postImage.setFilePath("/postUploads/" + post.getId() + "/" + fileName);
                 postImage.setPost(post);
-                postImageRepository.save(postImage);
+                PostImage postImage1 = postImageRepository.save(postImage);
+                postImageList.add(postImage1);
 
             }catch (IOException ex){
                 new IOException("Could not save file : " + multipartFile.getOriginalFilename());
             }
         });
+        return postImageList;
     }
 
     public PostDTO savePost(PostCreateDTO postCreateDTO, List<MultipartFile> multipartFiles, List<String> deletedImages){
@@ -71,11 +75,14 @@ public class PostService {
             Post existingPost = postRepository.findById(postCreateDTO.getId()).get();
             existingPost.setTitle(postCreateDTO.getTitle());
             existingPost.setContent(postCreateDTO.getContent());
-            if(multipartFiles!=null){
-                savePostImage(existingPost, multipartFiles);
-            }
             if(deletedImages!=null && deletedImages.size()!=0){
                 deletePostImage(deletedImages);
+            }
+            if(multipartFiles!=null){
+                List<PostImage> postImageList = savePostImage(existingPost, multipartFiles);
+                postRepository.save(existingPost);
+                return new PostDTO(existingPost, postImageList);
+
             }
             postRepository.save(existingPost);
             return new PostDTO(existingPost);
@@ -88,7 +95,9 @@ public class PostService {
             post.setUser(user);
             postRepository.save(post);
             if(multipartFiles!=null){
-                savePostImage(post,multipartFiles);
+                List<PostImage> postImageList = savePostImage(post,multipartFiles);
+                postRepository.save(post);
+                return new PostDTO(post, postImageList);
             }
             postRepository.save(post);
             return new PostDTO(post);
@@ -155,7 +164,7 @@ public class PostService {
         follows.forEach(follow -> followings.add(follow.getId()));
         followings.add(userId);
 
-        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE, Sort.by("createdAt"));
+        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE, Sort.by("createdAt").descending());
 
         Page<Post> pagePost = postRepository.findByFollowings(pageable, followings);
         List<Post> posts = pagePost.getContent();

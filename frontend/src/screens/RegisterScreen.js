@@ -79,7 +79,7 @@ function RegisterScreen() {
     return (
         <div className="auth">
             {
-                auth.error && <Error error = {auth.error}/>
+                auth.error && auth.error.message && <Error error = {auth.error.message}/>
             }
             {
                 auth.Loading && <Loading/>

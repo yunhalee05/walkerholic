@@ -19,9 +19,9 @@ function HomeScreen(props) {
     const [posts, setPosts] = useState([])
     const [isLoad, setIsLoad] = useState(true)
 
-    const postsErr = useSelector(state => state.home.error)
-    const productsErr = useSelector(state => state.products.error)
-    const authErr = useSelector(state => state.auth.error)
+    const postsErr = useSelector(state => state.home.error?.message)
+    const productsErr = useSelector(state => state.products.error?.message)
+    const authErr = useSelector(state => state.auth.error?.message)
 
     const token = props.location.search.substr(7)
 
@@ -59,7 +59,7 @@ function HomeScreen(props) {
     return (
         <div className="home">
             {
-                (postsErr || productsErr || authErr)&& <Error error = {postsErr.error+ productsErr + authErr}/>
+                (postsErr || productsErr || authErr)&& <Error error = {postsErr+ productsErr + authErr}/>
             }
             {
                 isLoad && <Loading/>

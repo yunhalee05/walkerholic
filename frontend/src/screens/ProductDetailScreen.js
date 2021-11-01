@@ -8,6 +8,7 @@ import { addCart, createCart } from '../_actions/OrderActions'
 import ProductReview from '../components/product/ProductReview'
 import Error from '../components/Error'
 import Loading from '../components/Loading'
+import basicProfile from '../images/basicProfile.svg'
  
 function ProductDetailScreen(props) {
 
@@ -63,13 +64,13 @@ function ProductDetailScreen(props) {
     return (
         <>
         {
-            products.error && <Error error = {products.error}/>
+            products.error && products.error.message && <Error error = {products.error.message}/>
         }
         {
             products.Loading && <Loading/>
         }
 
-        {products.loading===false &&
+        { (products.loading===false && products.product) &&
 
         <div className="productdetail">
             <div className="productdetail_container">
@@ -86,16 +87,31 @@ function ProductDetailScreen(props) {
                         </div>
                         <Rating rating={product.average}/>
                     </div>
-                    <div className="productdetail_cart">
-                        <div style={{border:"1px solid #dbdbdb", padding:"10px", borderRadius:"10px"}}>
-                            <span><i className="fas fa-minus" onClick={()=>handleQty("minus")}></i></span>
-                            <input  type="number" value={qty} onChange={(e)=>handleQty(e.target.value)}/>
-                            <span><i className="fas fa-plus" onClick={()=>handleQty("plus")}></i></span>
-                        </div>
-                        <div>
-                            <button onClick={handleAddToCart}>Add to Cart</button>
-                        </div>
-                    </div>
+
+                    {
+                            product.stock > 0 
+                            ?<div className="productdetail_cart">
+                                <div style={{border:"1px solid #dbdbdb", padding:"10px", borderRadius:"10px"}}>
+                                    <span><i className="fas fa-minus" onClick={()=>handleQty("minus")}></i></span>
+                                    <input  type="number" value={qty} onChange={(e)=>handleQty(e.target.value)}/>
+                                    <span><i className="fas fa-plus" onClick={()=>handleQty("plus")}></i></span>
+                                </div>
+                                <div>
+                                    <button onClick={handleAddToCart}>Add to Cart</button>
+                                </div>
+                            </div>
+                            :
+                            <div className="productdetail_cart_outofstock">
+                                <div style={{border:"1px solid #dbdbdb", padding:"10px", borderRadius:"10px"}}>
+                                    <span><i className="fas fa-minus"></i></span>
+                                    <input  type="number" value={0} />
+                                    <span><i className="fas fa-plus" ></i></span>
+                                </div>
+                                <div className="productdetail_outofstock">
+                                    <button>Out of Stock</button>
+                                </div>
+                            </div>
+                    }
                     <hr />
                     <div className="productdetail_description">
                         <div style={{display:"flex", justifyContent:"space-between",alignItems:"center"}}>
@@ -106,9 +122,12 @@ function ProductDetailScreen(props) {
                             showDescription &&
                             <div>
                                 <div className="productdetail_seller">
-                                    {product.user.fullname}
+                                    <div className="productdetail_seller_image">
+                                        <img src={product.user.imageUrl ? product.user.imageUrl :basicProfile} alt="userIconImage" />
+                                    </div>
+                                    <div>{product.user.fullname}</div>
                                 </div>
-                                <div>{product.description}</div>
+                                <div style={{color:"#5c5c5c"}}>{product.description}</div>
                             </div>
                         }
                     </div>

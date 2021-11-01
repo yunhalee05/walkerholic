@@ -38,6 +38,16 @@ public class PostDTO {
         this.createdAt = post.getCreatedAt();
     }
 
+    public PostDTO(Post post, List<com.yunhalee.walkerholic.entity.PostImage> postImageList) {
+        this.id = post.getId();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.user = new PostUser(post.getUser());
+        this.postLikes = PostLike.likeList(post.getLikePosts());
+        this.postImages = PostImage.imageList(postImageList);
+        this.createdAt = post.getCreatedAt();
+    }
+
     @Getter
     static class PostUser{
         private Integer id;

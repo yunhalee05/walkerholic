@@ -32,7 +32,7 @@ function PostScreen() {
     return (
         <>
         {
-            posts.error && <Error error = {posts.error}/>
+            posts.error &&posts.error.message && <Error error = {posts.error.message}/>
         }
         {
             posts.Loading && <Loading/>

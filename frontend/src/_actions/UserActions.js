@@ -23,8 +23,9 @@ export const getUserList = (page, sort) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_USER_LIST_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -51,8 +52,9 @@ export const deleteUser = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:DELETE_USER_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }

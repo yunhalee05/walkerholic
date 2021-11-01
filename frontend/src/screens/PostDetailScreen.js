@@ -19,14 +19,14 @@ function PostDetailScreen(props) {
     return (
         <div className="post_screen">
             {
-                post.error && <Error error = {post.error}/>
+                post.error && post.error.message && <Error error = {post.error.message}/>
             }
             {
                 post.Loading && <Loading/>
             }
 
             {
-                post.loading ===false && 
+                (post.loading ===false && post.post) &&
                     <PostCard post={post.post}/>
 
             }

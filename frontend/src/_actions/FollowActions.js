@@ -30,8 +30,9 @@ export const follow = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:FOLLOW_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -58,8 +59,9 @@ export const unfollow = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:UNFOLLOW_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }

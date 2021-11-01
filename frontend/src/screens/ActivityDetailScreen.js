@@ -22,7 +22,7 @@ function ActivityDetailScreen(props) {
     return (
         <div className="activity_detail">
             {
-                activity.error && <Error error = {activity.error}/>
+                activity.error && activity.error.message && <Error error = {activity.error.message}/>
             }
             {
                 activity.Loading && <Loading/>

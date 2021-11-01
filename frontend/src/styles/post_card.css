@@ -56,6 +56,17 @@
     font-size: 1.2rem;
 }
 
+.read_more{
+    color: #8f8f8f;
+    font-weight: 800;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.read_more:hover{
+    color: #a3432f;
+}
+
 /* Card Footer */
 .cardfooter{
     margin: 4rem 0 3rem 0;

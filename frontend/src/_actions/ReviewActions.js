@@ -30,8 +30,9 @@ export const createReview = (rating, comment, productId) =>async(dispatch, getSt
     }catch(error){
         dispatch({
             type:CREATE_REVIEW_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -58,8 +59,9 @@ export const editReview = (reviewCreateDTO) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:EDIT_REVIEW_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -85,8 +87,9 @@ export const deleteReview = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:DELETE_REVIEW_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }

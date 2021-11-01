@@ -26,7 +26,7 @@ function ActivityScreen() {
                 <button onClick={()=>setIsCreate(!isCreate)}>Create Activity</button>
             </div>
             {
-                activity.error && <Error error = {activity.error}/>
+                activity.error && activity.error.message && <Error error = {activity.error.message}/>
             }
             {
                 activity.Loading && <Loading/>

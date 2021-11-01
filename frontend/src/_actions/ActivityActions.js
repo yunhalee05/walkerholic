@@ -18,8 +18,9 @@ export const getActivities = () =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_ACTIVITIES_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message
         })
     }
 }
@@ -42,8 +43,9 @@ export const getActivity = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_ACTIVITY_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message
         })
     }
 }
@@ -69,8 +71,9 @@ export const saveActivity = (bodyFormData) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:CREATE_ACTIVITY_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -95,8 +98,9 @@ export const deleteActivity = (id) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:DELETE_ACTIVITY_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -126,8 +130,9 @@ export const getUserActivities = (page) =>async(dispatch, getState)=>{
     }catch(error){
         dispatch({
             type:GET_USER_ACTIVITIES_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -156,8 +161,9 @@ export const createUserActivity = ({userActivityDTO}) =>async(dispatch, getState
     }catch(error){
         dispatch({
             type:CREATE_USER_ACTIVITY_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -186,8 +192,9 @@ export const editUserActivity = ({userActivityDTO}) =>async(dispatch, getState)=
     }catch(error){
         dispatch({
             type:EDIT_USER_ACTIVITY_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
@@ -218,8 +225,9 @@ export const deleteUserActivity = (id, score, finished) =>async(dispatch, getSta
     }catch(error){
         dispatch({
             type:DELETE_USER_ACTIVITY_FAIL,
-            payload:error.response.data
-            
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
         })
     }
 }
