@@ -108,7 +108,9 @@ function EditProduct({product, setIsEdit, isEdit}) {
     }
 
     const imageTypeCheck = (image)=>{ 
-        const type = image.slice(image.indexOf(".")+1).toLowerCase(); 
+        // const type = image.slice(image.indexOf(".")+1).toLowerCase(); 
+        const type = image.substring(image.length-3, image.length).toLowerCase(); 
+
         if(type === "jpg" || type === "png" || type === "jpeg" || type === "gif" || type === "bmp"){ 
             return "image"
         }else if(type === "mp4" || type === "avi" || type === "wmv" || type === "mov" ){

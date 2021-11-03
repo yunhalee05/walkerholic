@@ -1,5 +1,6 @@
 package com.yunhalee.walkerholic.service;
 
+import com.yunhalee.walkerholic.AmazonS3Utils;
 import com.yunhalee.walkerholic.FileUploadUtils;
 import com.yunhalee.walkerholic.dto.*;
 import com.yunhalee.walkerholic.entity.Category;
@@ -10,6 +11,7 @@ import com.yunhalee.walkerholic.repository.ProductImageRepository;
 import com.yunhalee.walkerholic.repository.ProductRepository;
 import com.yunhalee.walkerholic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,10 +40,17 @@ public class ProductService {
 
     public static final int PRODUCT_LIST_PER_PAGE = 10;
 
+    private final AmazonS3Utils amazonS3Utils;
+
+    @Value("${AWS_S3_BUCKET_URL}")
+    private String AWS_S3_BUCKET_URL;
+
     private void deleteProductImage(List<String> deletedImages){
         for (String deletedImage : deletedImages) {
             productImageRepository.deleteByFilePath(deletedImage);
-            FileUploadUtils.deleteFile(deletedImage);
+//            FileUploadUtils.deleteFile(deletedImage);
+            String fileName = deletedImage.substring(AWS_S3_BUCKET_URL.length()+1);
+            amazonS3Utils.deleteFile(fileName);
         }
     }
 
@@ -49,12 +58,15 @@ public class ProductService {
         multipartFiles.forEach(multipartFile -> {
             ProductImage productImage = new ProductImage();
             try{
-                String fileName = System.currentTimeMillis() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
+//                String fileName = System.currentTimeMillis() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
                 String uploadDir = "productUploads/" + product.getId();
 
+//                productImage.setName(fileName);
+//                FileUploadUtils.saveFile(uploadDir,fileName,multipartFile);
+                String imageUrl = amazonS3Utils.uploadFile(uploadDir, multipartFile);
+                String fileName = imageUrl.substring(AWS_S3_BUCKET_URL.length()+uploadDir.length()+2);
                 productImage.setName(fileName);
-                FileUploadUtils.saveFile(uploadDir,fileName,multipartFile);
-                productImage.setFilePath("/productUploads/" + product.getId() + "/" + fileName);
+                productImage.setFilePath(imageUrl);
                 productImage.setProduct(product);
                 productImageRepository.save(productImage);
                 product.addProductImage(productImage);

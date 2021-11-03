@@ -1,5 +1,6 @@
 package com.yunhalee.walkerholic.service;
 
+import com.yunhalee.walkerholic.AmazonS3Utils;
 import com.yunhalee.walkerholic.FileUploadUtils;
 import com.yunhalee.walkerholic.dto.UserDTO;
 import com.yunhalee.walkerholic.dto.UserListDTO;
@@ -47,17 +48,22 @@ public class UserService {
     @Value("${spring.mail.username}")
     private String sender;
 
+    private final AmazonS3Utils amazonS3Utils;
+
 
     private void saveProfileFile(MultipartFile multipartFile, User user, boolean isNew) throws IOException {
         try{
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+//            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             String uploadDir = "profileUploads/" + user.getId();
 
             if (!isNew) {
-                FileUploadUtils.cleanDir(uploadDir);
+//                FileUploadUtils.cleanDir(uploadDir);
+                amazonS3Utils.removeFolder(uploadDir);
             }
-            FileUploadUtils.saveFile(uploadDir,fileName,multipartFile);
-            user.setImageUrl("/profileUploads/" + user.getId() + "/" + fileName);
+//            FileUploadUtils.saveFile(uploadDir,fileName,multipartFile);
+            String imageUrl = amazonS3Utils.uploadFile(uploadDir, multipartFile);
+//            user.setImageUrl("/profileUploads/" + user.getId() + "/" + fileName);
+            user.setImageUrl(imageUrl);
 
         }catch (IOException ex){
             new IOException("Could not save file : " + multipartFile.getOriginalFilename());

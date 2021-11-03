@@ -1,5 +1,6 @@
 package com.yunhalee.walkerholic.service;
 
+import com.yunhalee.walkerholic.AmazonS3Utils;
 import com.yunhalee.walkerholic.FileUploadUtils;
 import com.yunhalee.walkerholic.dto.PostCreateDTO;
 import com.yunhalee.walkerholic.dto.PostDTO;
@@ -13,6 +14,7 @@ import com.yunhalee.walkerholic.repository.PostImageRepository;
 import com.yunhalee.walkerholic.repository.PostRepository;
 import com.yunhalee.walkerholic.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,10 +42,17 @@ public class PostService {
 
     public static final int POST_PER_PAGE = 9;
 
+    private final AmazonS3Utils amazonS3Utils;
+
+    @Value("${AWS_S3_BUCKET_URL}")
+    private String AWS_S3_BUCKET_URL;
+
     private void deletePostImage(List<String> deletedImages){
         for (String deletedImage : deletedImages) {
             postImageRepository.deleteByFilePath(deletedImage);
-            FileUploadUtils.deleteFile(deletedImage);
+//            FileUploadUtils.deleteFile(deletedImage);
+            String fileName = deletedImage.substring(AWS_S3_BUCKET_URL.length()+1);
+            amazonS3Utils.deleteFile(fileName);
         }
     }
 
@@ -53,12 +62,15 @@ public class PostService {
             PostImage postImage = new PostImage();
 
             try{
-                String fileName = System.currentTimeMillis() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
+//                String fileName = System.currentTimeMillis() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
                 String uploadDir = "postUploads/" + post.getId();
 
+//                postImage.setName(fileName);
+//                FileUploadUtils.saveFile(uploadDir,fileName,multipartFile);
+                String imageUrl = amazonS3Utils.uploadFile(uploadDir, multipartFile);
+                String fileName = imageUrl.substring(AWS_S3_BUCKET_URL.length()+uploadDir.length()+2);
                 postImage.setName(fileName);
-                FileUploadUtils.saveFile(uploadDir,fileName,multipartFile);
-                postImage.setFilePath("/postUploads/" + post.getId() + "/" + fileName);
+                postImage.setFilePath(imageUrl);
                 postImage.setPost(post);
                 PostImage postImage1 = postImageRepository.save(postImage);
                 postImageList.add(postImage1);

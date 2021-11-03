@@ -19,10 +19,10 @@ function EditProfile({setIsEdit}) {
     const [email, setEmail] = useState(auth.user.email)
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [description, setDescription] = useState(auth.user.description)
-    const [phoneNumber, setPhoneNumber] = useState(auth.user.phoneNumber)
+    const [description, setDescription] = useState(auth.user.description? auth.user.description:'')
+    const [phoneNumber, setPhoneNumber] = useState(auth.user.phoneNumber? auth.user.phoneNumber :'')
     const [isSeller, setIsSeller] = useState(auth.user.seller)
-    const [imageUrl, setImageUrl] = useState('')
+    const [imageUrl, setImageUrl] = useState(auth.user.imageUrl?auth.user.imageUrl :null)
 
     const [typePass, setTypePass] = useState(false)
     const [cpTypePass, setCpTypePass] = useState(false)
@@ -31,7 +31,7 @@ function EditProfile({setIsEdit}) {
 
     const dispatch = useDispatch()
 
-    const changeProfileImage = (e) =>{
+    const changeProfileImage = async(e) =>{
         const file = e.target.files[0]
         const err = checkProfileImage(file)
         if(err) return window.alert(err)
@@ -85,7 +85,7 @@ function EditProfile({setIsEdit}) {
 
                 <div style={{width:"100%", height:"150px" , display:"flex", justifyContent:"center", marginTop:"2rem", marginBottom:"2rem"}}>
                     <div className="form_group_image" >
-                        <img id="preview" src={Earth} alt="profileImage" />
+                        <img id="preview" src={imageUrl ? imageUrl : Earth} alt="profileImage" />
                         <span>
                             <i class="far fa-images" ></i>
                             <input type="file" name="file" id="file_up" accept="image/*" onChange={changeProfileImage}/>

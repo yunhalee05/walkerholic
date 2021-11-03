@@ -90,7 +90,7 @@ function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
     const handleSubmit = (e) =>{
         e.preventDefault();
 
-        if(images.length===0){
+        if(images.length===0 && originalImages.length===0){
             return window.alert("Please add your photo.")
         }
         const bodyFormData = new FormData()
@@ -121,7 +121,9 @@ function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
     }
 
     const imageTypeCheck = (image)=>{ 
-        const type = image.slice(image.indexOf(".")+1).toLowerCase(); 
+        // const type = image.slice(image.indexOf(".")+1).toLowerCase(); 
+        const type = image.substring(image.length-3, image.length).toLowerCase(); 
+
         if(type === "jpg" || type === "png" || type === "jpeg" || type === "gif" || type === "bmp"){ 
             return "image"
         }else if(type === "mp4" || type === "avi" || type === "wmv" || type === "mov" ){
