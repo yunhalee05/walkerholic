@@ -20,10 +20,10 @@ public class MainController {
     @Value("${paypal_client_id}")
     private String PAYPAL_CLIENT_ID;
 
-    @GetMapping("/")
-    public String viewHomePage(){
-        return "";
-    }
+//    @GetMapping("/")
+//    public String viewHomePage(){
+//        return "";
+//    }
 
     @GetMapping("/levels")
     public List<LevelDTO> getLevels(){

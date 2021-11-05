@@ -37,3 +37,9 @@ build/
 .mvn
 .idea
 application.properties
+/frontend
+/activityUploads
+/postUploads
+/messageUploads
+/productUploads
+/profileUploads
