@@ -72,6 +72,23 @@
           </ul>
       </li>
       <li>
+        <h3>✔️ Amazon S3 </h3> 
+          <ul>
+            <li>
+              <h4>Challenge : </h4>
+              <p>
+                사용자가 등록하려는 이미지를 MultipartFile타입으로 서버측에서 받아 파일을 보관할 때, 업로드 양이 증가함에 따라 업로드 폴더와 같은 로컬 저장소가 아닌 원격으로 이미지를 업로드하는 것이 요구되었습니다. 
+              </p>
+            </li>
+            <li>
+              <h4>Solution : </h4>
+              <p>
+                AWS S3를 이용하여 버킷을 생성하고 AmazonS3Utils을 만들어 amazonS3Client를 이용한 원격으로의 파일업로드, 파일 삭제, 폴더 삭제 등의 기능을 구현하였습니다.  
+              </p>
+            </li>
+          </ul>
+      </li>
+      <li>
         <h3>✔️ JavaMailSender (Simple Mail Message)</h3> 
           <ul>
             <li>
@@ -200,7 +217,13 @@
           한번에 방대한 양의 데이터를 한번에 요구하는 것(서버 부하)을 방지하기 위해서 repository에서 countQuery를 이용하여 pagination기능을 구현하였습니다.
           Sort기능은 @Query 어노테이션에서 ORDER BY를 사용하거나 Pageable을 생성시에 Sort.by기능을 사용하여 기준을 정해 정렬된 데이터를 순서대로 가져오도록 설정헤 원하는 순서대로 데이터를 확인할 수 있도록 하였습니다.
         </p>
-      </li>      
+      </li>     
+      <li>
+        <h3>✔️ Heroku Deployment </h3> 
+        <p>
+           frontend-maven-plugins를 이용하여 스프링부트와 리액트를 동시에 실행시키는 .jar파일을 생성한 뒤 헤로쿠를 통한 배포를 구현하였습니다. 
+        </p>
+      </li>           
       <li>
         <h3>✔️ Infinite Scrolling</h3> 
         <p>
