@@ -30,7 +30,7 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    public static OrderItem createOrderItem(Product product,Integer qty){
+    public static OrderItem createOrderItem(Product product, Integer qty) {
         OrderItem orderItem = new OrderItem();
         orderItem.setProduct(product);
         orderItem.setQty(qty);
@@ -39,11 +39,9 @@ public class OrderItem {
         return orderItem;
     }
 
-    public void cancel(){
+    public void cancel() {
         getProduct().addStock(qty);
     }
-
-
 
 
 }

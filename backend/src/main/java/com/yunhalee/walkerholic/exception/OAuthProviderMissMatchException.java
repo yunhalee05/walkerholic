@@ -1,6 +1,6 @@
 package com.yunhalee.walkerholic.exception;
 
-public class OAuthProviderMissMatchException extends RuntimeException{
+public class OAuthProviderMissMatchException extends RuntimeException {
 
     public OAuthProviderMissMatchException(String message) {
         super(message);

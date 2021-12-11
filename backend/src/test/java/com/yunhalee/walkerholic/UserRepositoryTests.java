@@ -35,7 +35,7 @@ public class UserRepositoryTests {
     public static final int USER_LIST_PER_PAGE = 10;
 
     @Test
-    public void createUser(){
+    public void createUser() {
         //given
         String firstName = "testFirstName";
         String lastName = "testLastName";
@@ -66,7 +66,7 @@ public class UserRepositoryTests {
     }
 
     @Test
-    public void updateUser(){
+    public void updateUser() {
         //given
         Integer id = 1;
         String firstName = "testUpdateFirstName";
@@ -99,7 +99,7 @@ public class UserRepositoryTests {
     }
 
     @Test
-    public void getUserByEmail(){
+    public void getUserByEmail() {
         //given
         String email = "test@example.com";
 
@@ -123,12 +123,12 @@ public class UserRepositoryTests {
     }
 
     @Test
-    public void getAllUsers(){
+    public void getAllUsers() {
         //given
         Integer page = 1;
 
         //when
-        Pageable pageable = PageRequest.of(page-1,USER_LIST_PER_PAGE);
+        Pageable pageable = PageRequest.of(page - 1, USER_LIST_PER_PAGE);
         Page<User> userPage = userRepository.findAllUsers(pageable);
         List<User> users = userPage.getContent();
 
@@ -137,7 +137,7 @@ public class UserRepositoryTests {
     }
 
     @Test
-    public void getUserByKeyword(){
+    public void getUserByKeyword() {
         //given
         String keyword = "lee";
 
@@ -146,11 +146,11 @@ public class UserRepositoryTests {
 
         //then
         assertThat(users.size()).isGreaterThan(0);
-        users.forEach(user -> System.out.println(user.getFirstname()+ user.getLastname()));
+        users.forEach(user -> System.out.println(user.getFirstname() + user.getLastname()));
     }
 
     @Test
-    public void deleteUser(){
+    public void deleteUser() {
         //given
         Integer id = 1;
 

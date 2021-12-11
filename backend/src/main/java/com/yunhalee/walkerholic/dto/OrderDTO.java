@@ -57,7 +57,8 @@ public class OrderDTO {
     }
 
     @Getter
-    static class OrderUser{
+    static class OrderUser {
+
         private Integer id;
         private String fullname;
         private String imageUrl;
@@ -70,7 +71,8 @@ public class OrderDTO {
     }
 
     @Getter
-    static class OrderItem{
+    static class OrderItem {
+
         private Integer id;
         private Integer qty;
 
@@ -81,7 +83,8 @@ public class OrderDTO {
         private String productBrand;
         private String productImageUrl;
 
-        static List<OrderItem> listItems(Set<com.yunhalee.walkerholic.entity.OrderItem> orderItems){
+        static List<OrderItem> listItems(
+            Set<com.yunhalee.walkerholic.entity.OrderItem> orderItems) {
             List<OrderItem> orderItemList = new ArrayList<>();
             orderItems.forEach(orderItem -> orderItemList.add(new OrderItem(orderItem)));
             return orderItemList;

@@ -92,39 +92,39 @@ public class User {
     }
 
     @Transient
-    public String getFullname(){
-        return this.firstname+this.lastname;
+    public String getFullname() {
+        return this.firstname + this.lastname;
     }
 
     @Transient
-    public Integer getScore(){
+    public Integer getScore() {
         Integer score = 0;
         for (UserActivity activity : this.activities) {
-            if(activity.getStatus() == ActivityStatus.FINISHED) {
+            if (activity.getStatus() == ActivityStatus.FINISHED) {
                 score += activity.getActivity().getScore();
             }
         }
         return score;
     }
 
-//    비지니스 로직
-    public void addUserActivity(UserActivity userActivity){
+    //    비지니스 로직
+    public void addUserActivity(UserActivity userActivity) {
         Integer score = this.getScore();
-        score+=userActivity.getActivity().getScore();
+        score += userActivity.getActivity().getScore();
         for (Level level : Level.values()) {
-            if(level.getMin()<= score && level.getMax()>=score){
+            if (level.getMin() <= score && level.getMax() >= score) {
                 this.level = level;
-                return ;
+                return;
             }
         }
     }
 
-    public void deleteUserActivity(){
+    public void deleteUserActivity() {
         Integer score = this.getScore();
         for (Level level : Level.values()) {
-            if(level.getMin()<= score && level.getMax()>=score){
+            if (level.getMin() <= score && level.getMax() >= score) {
                 this.level = level;
-                return ;
+                return;
             }
         }
     }

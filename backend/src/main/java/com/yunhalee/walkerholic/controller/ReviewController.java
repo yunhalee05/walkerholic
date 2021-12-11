@@ -16,15 +16,14 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/review/save")
-    public ResponseEntity<?> saveReview(@RequestBody ReviewCreateDTO reviewCreateDTO){
-        return new ResponseEntity<ReviewDTO>(reviewService.saveReview(reviewCreateDTO), HttpStatus.OK);
+    public ResponseEntity<?> saveReview(@RequestBody ReviewCreateDTO reviewCreateDTO) {
+        return new ResponseEntity<ReviewDTO>(reviewService.saveReview(reviewCreateDTO),
+            HttpStatus.OK);
     }
 
     @DeleteMapping("/review/delete/{id}")
-    public ResponseEntity<?> deleteReview(@PathVariable("id")String id){
+    public ResponseEntity<?> deleteReview(@PathVariable("id") String id) {
         Integer reviewId = Integer.parseInt(id);
-        return new ResponseEntity<Integer>(reviewService.deleteReview(reviewId),HttpStatus.OK);
+        return new ResponseEntity<Integer>(reviewService.deleteReview(reviewId), HttpStatus.OK);
     }
-
-
 }

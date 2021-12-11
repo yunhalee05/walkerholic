@@ -15,14 +15,15 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
-                .allowedMethods(
-                        HttpMethod.GET.name(),
-                        HttpMethod.POST.name(),
-                        HttpMethod.PUT.name(),
-                        HttpMethod.DELETE.name()
-                );
+            .allowedOrigins("http://localhost:3000")
+            .allowedMethods(
+                HttpMethod.GET.name(),
+                HttpMethod.POST.name(),
+                HttpMethod.PUT.name(),
+                HttpMethod.DELETE.name()
+            );
     }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         uploadFolder("profileUploads", registry);
@@ -32,11 +33,11 @@ public class WebConfig implements WebMvcConfigurer {
         uploadFolder("activityUploads", registry);
     }
 
-    private void uploadFolder(String dirName, ResourceHandlerRegistry registry){
+    private void uploadFolder(String dirName, ResourceHandlerRegistry registry) {
         Path photosDir = Paths.get(dirName);
         String photospath = photosDir.toFile().getAbsolutePath();
 
-        registry.addResourceHandler("/"+dirName+"/**")
-                .addResourceLocations("file:" + photospath + "/");
+        registry.addResourceHandler("/" + dirName + "/**")
+            .addResourceLocations("file:" + photospath + "/");
     }
 }

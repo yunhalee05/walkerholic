@@ -49,7 +49,8 @@ public class PostDTO {
     }
 
     @Getter
-    static class PostUser{
+    static class PostUser {
+
         private Integer id;
         private String fullname;
         private String email;
@@ -66,19 +67,20 @@ public class PostDTO {
     }
 
     @Getter
-    static class PostLike{
+    static class PostLike {
+
         private Integer id;
         private Integer userId;
         private String fullname;
         private String imageUrl;
 
-        static List<PostLike> likeList(Set<LikePost> likePosts){
+        static List<PostLike> likeList(Set<LikePost> likePosts) {
             List<PostLike> postLikeList = new ArrayList<>();
             likePosts.forEach(likePost -> postLikeList.add(new PostLike(likePost)));
             return postLikeList;
         }
 
-        public PostLike(LikePost likePost){
+        public PostLike(LikePost likePost) {
             this.id = likePost.getId();
             this.userId = likePost.getUser().getId();
             this.fullname = likePost.getUser().getFullname();
@@ -88,11 +90,13 @@ public class PostDTO {
     }
 
     @Getter
-    static class PostImage{
+    static class PostImage {
+
         private Integer id;
         private String imageUrl;
 
-        static List<PostImage> imageList(List<com.yunhalee.walkerholic.entity.PostImage> postImages){
+        static List<PostImage> imageList(
+            List<com.yunhalee.walkerholic.entity.PostImage> postImages) {
             List<PostImage> postImageList = new ArrayList<>();
             postImages.forEach(postImage -> postImageList.add(new PostImage(postImage)));
             return postImageList;

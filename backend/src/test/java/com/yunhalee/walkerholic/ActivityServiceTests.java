@@ -29,7 +29,7 @@ public class ActivityServiceTests {
     ActivityRepository activityRepository;
 
     @Test
-    public void createActivity(){
+    public void createActivity() {
         //given
         String name = "testActivity";
         Integer score = 1;
@@ -37,22 +37,24 @@ public class ActivityServiceTests {
 
         ActivityCreateDTO activityCreateDTO = new ActivityCreateDTO(name, score, description);
         MultipartFile multipartFile = new MockMultipartFile("uploaded-file",
-                "sampleFile.txt",
-                "text/plain",
-                "This is the file content".getBytes());
+            "sampleFile.txt",
+            "text/plain",
+            "This is the file content".getBytes());
         //when
-        ActivityCreateDTO activityCreateDTO1 = activityService.saveActivity(activityCreateDTO, multipartFile);
+        ActivityCreateDTO activityCreateDTO1 = activityService
+            .saveActivity(activityCreateDTO, multipartFile);
 
         //then
         assertNotNull(activityCreateDTO1.getId());
         assertEquals(name, activityCreateDTO1.getName());
         assertEquals(score, activityCreateDTO1.getScore());
         assertEquals(description, activityCreateDTO1.getDescription());
-        assertEquals("/activityUploads/" + activityCreateDTO1.getId() + "/" + "sampleFile.txt", activityCreateDTO1.getImageUrl());
+        assertEquals("/activityUploads/" + activityCreateDTO1.getId() + "/" + "sampleFile.txt",
+            activityCreateDTO1.getImageUrl());
     }
 
     @Test
-    public void updateActivity(){
+    public void updateActivity() {
         //given
         Integer id = 1;
         String originalName = activityRepository.findById(id).get().getName();
@@ -60,17 +62,18 @@ public class ActivityServiceTests {
         String name = "testUpdateActivity";
         Integer score = 1;
         String description = "This is test Activity.";
-        ActivityCreateDTO activityCreateDTO = new ActivityCreateDTO(id,name, score, description);
+        ActivityCreateDTO activityCreateDTO = new ActivityCreateDTO(id, name, score, description);
 
         //when
-        ActivityCreateDTO activityCreateDTO1 = activityService.saveActivity(activityCreateDTO, null);
+        ActivityCreateDTO activityCreateDTO1 = activityService
+            .saveActivity(activityCreateDTO, null);
 
         //then
         assertNotEquals(originalName, activityCreateDTO1.getName());
     }
 
     @Test
-    public void getActivity(){
+    public void getActivity() {
         //given
         Integer id = 1;
 
@@ -82,7 +85,7 @@ public class ActivityServiceTests {
     }
 
     @Test
-    public void getActivities(){
+    public void getActivities() {
         //given
 
         //when
@@ -93,7 +96,7 @@ public class ActivityServiceTests {
     }
 
     @Test
-    public void deleteActivity(){
+    public void deleteActivity() {
         //given
         Integer id = 1;
 

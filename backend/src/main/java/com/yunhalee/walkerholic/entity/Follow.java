@@ -28,7 +28,7 @@ public class Follow {
     private User toUser;
 
     //비지니스 로직
-    public static Follow follow(User fromUser, User toUser){
+    public static Follow follow(User fromUser, User toUser) {
         Follow follow = new Follow();
         follow.setFromUser(fromUser);
         follow.setToUser(toUser);

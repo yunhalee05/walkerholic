@@ -14,18 +14,19 @@ import java.util.NoSuchElementException;
 public class FileUploadUtils {
 
     //폴더에 사진을 저장
-    public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) throws IOException {
+    public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile)
+        throws IOException {
         Path uploadPath = Paths.get(uploadDir);
 
         //폴더가 존재하지 않는다면 생성해준다.
-        if(!Files.exists(uploadPath)){
+        if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
 
-        try(InputStream inputStream = multipartFile.getInputStream()){
+        try (InputStream inputStream = multipartFile.getInputStream()) {
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-        }catch(IOException ex){
+        } catch (IOException ex) {
             throw new IOException("Could not save file : " + fileName, ex);
         }
     }
@@ -34,40 +35,40 @@ public class FileUploadUtils {
     public static void cleanDir(String dir) throws IOException {
         Path dirPath = Paths.get(dir);
 
-        try{
-            Files.list(dirPath).forEach(file->{
-                if(!Files.isDirectory(file)){
-                    try{
+        try {
+            Files.list(dirPath).forEach(file -> {
+                if (!Files.isDirectory(file)) {
+                    try {
                         Files.delete(file);
-                    }catch(IOException ex1){
+                    } catch (IOException ex1) {
                         System.out.println("Could not delete this file : " + file);
                     }
                 }
             });
-        }catch(IOException ex2){
+        } catch (IOException ex2) {
             System.out.println("Could not list directory : " + dirPath);
         }
     }
 
     //폴더 삭제하기
-    public static void deleteDir(String dir){
+    public static void deleteDir(String dir) {
         Path dirPath = Paths.get(dir);
-        if(Files.exists(dirPath)){
-            try{
+        if (Files.exists(dirPath)) {
+            try {
                 cleanDir(dir);
                 Files.delete(dirPath);
-            }catch (IOException e){
+            } catch (IOException e) {
                 System.out.println("Could not delete directory : " + dir);
             }
         }
     }
 
     //파일 삭제하기
-    public static void deleteFile(String filePath){
+    public static void deleteFile(String filePath) {
         File file = new File(filePath);
-        if(file.exists()){
+        if (file.exists()) {
             file.delete();
-        }else{
+        } else {
             System.out.println("File does not exist. : " + filePath);
         }
     }

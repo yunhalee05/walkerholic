@@ -38,7 +38,7 @@ public class AmazonS3UtilsTests {
 
 
     @Test
-    public void testListFolder(){
+    public void testListFolder() {
         //given
         String folderName = "postUploads";
 
@@ -52,7 +52,7 @@ public class AmazonS3UtilsTests {
     }
 
     @Test
-    public void testGetValue(){
+    public void testGetValue() {
         System.out.println(bucket);
     }
 
@@ -61,9 +61,9 @@ public class AmazonS3UtilsTests {
         //given
         String folderName = "testUploads";
         MultipartFile multipartFile = new MockMultipartFile("uploaded-file",
-                "sampleFile.txt",
-                "text/plain",
-                "This is the file content".getBytes()) {
+            "sampleFile.txt",
+            "text/plain",
+            "This is the file content".getBytes()) {
         };
 
         //when
@@ -79,9 +79,9 @@ public class AmazonS3UtilsTests {
         //given
         String folderName = "testUploads";
         MultipartFile multipartFile = new MockMultipartFile("uploaded-file",
-                "sampleFile.txt",
-                "text/plain",
-                "This is the file content".getBytes()) {
+            "sampleFile.txt",
+            "text/plain",
+            "This is the file content".getBytes()) {
         };
         amazonS3Utils.uploadFile(folderName, multipartFile);
 
@@ -101,9 +101,9 @@ public class AmazonS3UtilsTests {
         //given
         String folderName = "testUploads";
         MultipartFile multipartFile = new MockMultipartFile("uploaded-file",
-                "sampleFile.txt",
-                "text/plain",
-                "This is the file content".getBytes()) {
+            "sampleFile.txt",
+            "text/plain",
+            "This is the file content".getBytes()) {
         };
         amazonS3Utils.uploadFile(folderName, multipartFile);
 
@@ -112,7 +112,7 @@ public class AmazonS3UtilsTests {
         List<String> list = amazonS3Utils.listFolder(folderName);
 
         //then
-        assertEquals(list.size(),0);
+        assertEquals(list.size(), 0);
     }
 
 }

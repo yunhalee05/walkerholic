@@ -16,7 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Product extends BaseTimeEntity{
+public class Product extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,50 +53,50 @@ public class Product extends BaseTimeEntity{
     @OrderBy("createdAt DESC")
     private Set<Review> reviews = new HashSet<>();
 
-    public void addReview(Review review){
+    public void addReview(Review review) {
         reviews.add(review);
         review.setProduct(this);
 
-        Integer sum = reviews.stream().mapToInt(reviews->reviews.getRating()).sum();
-        this.average = (float)(Math.round(sum/(long)reviews.size()*100)/100.0);
+        Integer sum = reviews.stream().mapToInt(reviews -> reviews.getRating()).sum();
+        this.average = (float) (Math.round(sum / (long) reviews.size() * 100) / 100.0);
     }
 
-    public void editReview(Integer preRating, Integer postRating){
-        Integer sum = reviews.stream().mapToInt(reviews->reviews.getRating()).sum();
+    public void editReview(Integer preRating, Integer postRating) {
+        Integer sum = reviews.stream().mapToInt(reviews -> reviews.getRating()).sum();
         sum = (sum - preRating + postRating);
-        this.average = (float)(Math.round(sum/(long)reviews.size()*100)/100.0);
+        this.average = (float) (Math.round(sum / (long) reviews.size() * 100) / 100.0);
     }
 
-    public void deleteReview(Integer rating){
-        Integer sum = reviews.stream().mapToInt(reviews->reviews.getRating()).sum();
+    public void deleteReview(Integer rating) {
+        Integer sum = reviews.stream().mapToInt(reviews -> reviews.getRating()).sum();
         sum -= rating;
-        this.average = (float)(Math.round(sum/(long)(reviews.size()-1)*100)/100.0);
+        this.average = (float) (Math.round(sum / (long) (reviews.size() - 1) * 100) / 100.0);
     }
 
     //비지니스 로직
-    public void addStock(Integer qty){
+    public void addStock(Integer qty) {
         this.stock += qty;
     }
 
-    public void removeStock(Integer qty){
+    public void removeStock(Integer qty) {
         Integer restStock = this.stock - qty;
-        if(restStock <0){
+        if (restStock < 0) {
             throw new NotEnoughStockException("Stock is not enough.");
         }
         this.stock = restStock;
     }
 
-    public void addProductImage(ProductImage productImage){
+    public void addProductImage(ProductImage productImage) {
         this.productImages.add(productImage);
     }
 
     @Transient
-    public String getMainImageUrl(){
+    public String getMainImageUrl() {
         return this.productImages.get(0).getFilePath();
     }
 
     @Transient
-    public List<String> getImagesUrl(){
+    public List<String> getImagesUrl() {
         List<String> imagesUrl = new ArrayList<>();
         this.productImages.forEach(productImage -> imagesUrl.add(productImage.getFilePath()));
         return imagesUrl;

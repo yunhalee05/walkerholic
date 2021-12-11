@@ -1,4 +1,5 @@
 package com.yunhalee.walkerholic.security;
+
 import java.io.Serializable;
 
 public class JwtResponse implements Serializable {

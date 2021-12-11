@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
@@ -39,15 +40,17 @@ public class OrderServiceTests {
     OrderItemRepository orderItemRepository;
 
     @Test
-    public void createOrder(){
+    public void createOrder() {
         //given
-        AddressDTO addressDTO = new AddressDTO("testAddress", "testCountry", "testCity","testZipcode","testAddress");
+        AddressDTO addressDTO = new AddressDTO("testAddress", "testCountry", "testCity",
+            "testZipcode", "testAddress");
         String paymentMethod = "testPaymentMethod";
         Integer orderItemId = 1;
         Integer userId = 1;
         List<OrderItemCreateDTO> orderItems = new ArrayList<>();
         orderItems.add(new OrderItemCreateDTO(orderItemRepository.findById(orderItemId).get()));
-        OrderCreateDTO orderCreateDTO = new OrderCreateDTO(paymentMethod, addressDTO, orderItems, userId);
+        OrderCreateDTO orderCreateDTO = new OrderCreateDTO(paymentMethod, addressDTO, orderItems,
+            userId);
 
         //when
         OrderDTO orderDTO = orderService.createOrder(orderCreateDTO);
@@ -55,13 +58,13 @@ public class OrderServiceTests {
         //then
         assertNotNull(orderDTO.getId());
         assertEquals(orderDTO.getPaymentMethod(), paymentMethod);
-        assertNotEquals(orderDTO.getOrderItems().size(),0);
+        assertNotEquals(orderDTO.getOrderItems().size(), 0);
         assertNotNull(orderDTO.getUser());
-        assertEquals(orderDTO.getAddress().getName(),"testAddress");
+        assertEquals(orderDTO.getAddress().getName(), "testAddress");
     }
 
     @Test
-    public void createCart(){
+    public void createCart() {
         //given
         Integer userId = 1;
 
@@ -71,11 +74,11 @@ public class OrderServiceTests {
         //then
         assertNotNull(orderId);
         assertEquals(orderRepository.findById(orderId).get().getOrderStatus(), OrderStatus.CART);
-        assertEquals(orderRepository.findById(orderId).get().getUser().getId(),userId);
+        assertEquals(orderRepository.findById(orderId).get().getUser().getId(), userId);
     }
 
     @Test
-    public void addToCart(){
+    public void addToCart() {
         //given
         Integer orderId = 1;
         Integer qty = 2;
@@ -89,19 +92,22 @@ public class OrderServiceTests {
         assertNotNull(orderItemDTO.getId());
         assertEquals(orderItemDTO.getProductId(), productId);
         assertEquals(orderItemDTO.getQty(), qty);
-        List<Integer> productIds = orderRepository.findById(orderId).get().getOrderItems().stream().map(orderItem -> orderItem.getProduct().getId()).collect(Collectors.toList());
+        List<Integer> productIds = orderRepository.findById(orderId).get().getOrderItems().stream()
+            .map(orderItem -> orderItem.getProduct().getId()).collect(Collectors.toList());
         assertThat(productIds).contains(productId);
     }
 
     @Test
-    public void payOrder(){
+    public void payOrder() {
         //given
         Integer orderId = 1;
         String paymentMethod = "testPaymentMethod";
         Float shipping = 2.00f;
-        AddressDTO addressDTO = new AddressDTO("testAddress", "testCountry", "testCity","testZipcode","testAddress");
+        AddressDTO addressDTO = new AddressDTO("testAddress", "testCountry", "testCity",
+            "testZipcode", "testAddress");
 
-        OrderCreateDTO orderCreateDTO = new OrderCreateDTO(orderId, paymentMethod, shipping, addressDTO);
+        OrderCreateDTO orderCreateDTO = new OrderCreateDTO(orderId, paymentMethod, shipping,
+            addressDTO);
 
         //when
         orderService.payOrder(orderCreateDTO);
@@ -117,19 +123,24 @@ public class OrderServiceTests {
     }
 
     @Test
-    public void cancelOrder(){
+    public void cancelOrder() {
         //given
         Integer orderId = 1;
-        List<Integer> originalStock = orderRepository.findById(orderId).get().getOrderItems().stream().map(orderItem -> orderItem.getProduct().getStock()).collect(Collectors.toList());
-        List<Integer> qty = orderRepository.findById(orderId).get().getOrderItems().stream().map(orderItem -> orderItem.getQty()).collect(Collectors.toList());
+        List<Integer> originalStock = orderRepository.findById(orderId).get().getOrderItems()
+            .stream().map(orderItem -> orderItem.getProduct().getStock())
+            .collect(Collectors.toList());
+        List<Integer> qty = orderRepository.findById(orderId).get().getOrderItems().stream()
+            .map(orderItem -> orderItem.getQty()).collect(Collectors.toList());
 
         //when
         OrderListDTO orderListDTO = orderService.cancelOrder(orderId);
 
         //then
         assertEquals(orderListDTO.getOrderStatus(), OrderStatus.CANCEL.name());
-        List<Integer> canceledStock = orderRepository.findById(orderId).get().getOrderItems().stream().map(orderItem -> orderItem.getProduct().getStock()).collect(Collectors.toList());
-        for (int i = 0; i<originalStock.size(); i++){
+        List<Integer> canceledStock = orderRepository.findById(orderId).get().getOrderItems()
+            .stream().map(orderItem -> orderItem.getProduct().getStock())
+            .collect(Collectors.toList());
+        for (int i = 0; i < originalStock.size(); i++) {
             Set<OrderItem> orderItems = orderRepository.findById(orderId).get().getOrderItems();
             Integer recoveredStock = originalStock.get(i) + qty.get(i);
             assertEquals(recoveredStock, canceledStock.get(i));
@@ -137,7 +148,7 @@ public class OrderServiceTests {
     }
 
     @Test
-    public void deliverOrder(){
+    public void deliverOrder() {
         //given
         Integer orderId = 1;
 
@@ -150,7 +161,7 @@ public class OrderServiceTests {
     }
 
     @Test
-    public void getOrderById(){
+    public void getOrderById() {
         //given
         Integer orderId = 1;
 
@@ -162,7 +173,7 @@ public class OrderServiceTests {
     }
 
     @Test
-    public void getCartByUserId(){
+    public void getCartByUserId() {
         //given
         Integer userId = 1;
 
@@ -171,12 +182,14 @@ public class OrderServiceTests {
 
         //then
         assertNotNull(orderCartDTO.getId());
-        assertEquals(orderRepository.findById(orderCartDTO.getId()).get().getUser().getId(), userId);
-        assertEquals(orderRepository.findById(orderCartDTO.getId()).get().getOrderStatus(), OrderStatus.CART);
+        assertEquals(orderRepository.findById(orderCartDTO.getId()).get().getUser().getId(),
+            userId);
+        assertEquals(orderRepository.findById(orderCartDTO.getId()).get().getOrderStatus(),
+            OrderStatus.CART);
     }
 
     @Test
-    public void getOrders(){
+    public void getOrders() {
         //given
         Integer page = 1;
 
@@ -189,7 +202,7 @@ public class OrderServiceTests {
     }
 
     @Test
-    public void getOrdersBySellerId(){
+    public void getOrdersBySellerId() {
         //given
         Integer sellerId = 1;
         Integer page = 1;
@@ -200,13 +213,15 @@ public class OrderServiceTests {
 
         //then
         for (OrderListDTO orderListDTO : orderListDTOS) {
-            List<Integer> sellerIds = orderRepository.findById(orderListDTO.getId()).get().getOrderItems().stream().map(orderItem -> orderItem.getProduct().getUser().getId()).collect(Collectors.toList());
+            List<Integer> sellerIds = orderRepository.findById(orderListDTO.getId()).get()
+                .getOrderItems().stream().map(orderItem -> orderItem.getProduct().getUser().getId())
+                .collect(Collectors.toList());
             assertThat(sellerIds).contains(sellerId);
         }
     }
 
     @Test
-    public void getOrdersByUserId(){
+    public void getOrdersByUserId() {
         //given
         Integer userId = 1;
         Integer page = 1;
@@ -217,10 +232,10 @@ public class OrderServiceTests {
 
         //then
         for (OrderListDTO orderListDTO : orderListDTOS) {
-            assertEquals(orderRepository.findById(orderListDTO.getId()).get().getUser().getId(), userId);
+            assertEquals(orderRepository.findById(orderListDTO.getId()).get().getUser().getId(),
+                userId);
         }
     }
-
 
 
 }

@@ -20,15 +20,15 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     Order findCartItemsByUserId(OrderStatus orderStatus, Integer id);
 
     @Query(value = "SELECT DISTINCT o FROM Order o LEFT JOIN FETCH o.orderItems i LEFT JOIN FETCH i.product p LEFT JOIN FETCH p.user u LEFT JOIN FETCH o.user WHERE u.id=:id AND o.orderStatus!=:orderStatus ORDER BY o.createdAt",
-            countQuery = "SELECT count(DISTINCT o) FROM Order o")
+        countQuery = "SELECT count(DISTINCT o) FROM Order o")
     Page<Order> findBySellerId(Pageable pageable, Integer id, OrderStatus orderStatus);
 
     @Query(value = "SELECT DISTINCT o FROM Order o LEFT JOIN FETCH o.orderItems i LEFT JOIN FETCH i.product p LEFT JOIN FETCH p.user u LEFT JOIN FETCH o.user s WHERE s.id=:id AND o.orderStatus!=:orderStatus ORDER BY o.createdAt",
-            countQuery = "SELECT count(DISTINCT o) FROM Order o")
+        countQuery = "SELECT count(DISTINCT o) FROM Order o")
     Page<Order> findByUserId(Pageable pageable, Integer id, OrderStatus orderStatus);
 
     @Query(value = "SELECT DISTINCT o FROM Order o LEFT JOIN FETCH o.orderItems i LEFT JOIN FETCH i.product p LEFT JOIN FETCH p.user u LEFT JOIN FETCH o.user WHERE o.orderStatus!=:orderStatus ORDER BY o.createdAt",
-            countQuery = "SELECT count(DISTINCT o) FROM Order o")
+        countQuery = "SELECT count(DISTINCT o) FROM Order o")
     Page<Order> findAll(Pageable pageable, OrderStatus orderStatus);
 
 }

@@ -7,8 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LevelDTO {
+
     private String name;
+
     private Integer min;
+
     private Integer max;
 
     public LevelDTO(Level level) {

@@ -18,7 +18,8 @@ public class FollowDTO {
     }
 
     @Getter
-    static class followUser{
+    static class followUser {
+
         private Integer id;
         private String fullname;
         private String imageUrl;

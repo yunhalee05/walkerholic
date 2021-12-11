@@ -41,7 +41,7 @@ public class PostRepositoryTests {
     public static final int POST_PER_PAGE = 9;
 
     @Test
-    public void createPost(){
+    public void createPost() {
         //given
         String content = "testPost";
         Integer postImageId = 1;
@@ -62,12 +62,13 @@ public class PostRepositoryTests {
         assertThat(post1.getId()).isNotNull();
         assertThat(post1.getContent()).isEqualTo(content);
         assertThat(post1.getUser().getId()).isEqualTo(userId);
-        List<Integer> postImageIds = post1.getPostImages().stream().map(postImage -> postImage.getId()).collect(Collectors.toList());
+        List<Integer> postImageIds = post1.getPostImages().stream()
+            .map(postImage -> postImage.getId()).collect(Collectors.toList());
         assertThat(postImageIds).contains(postImageId);
     }
 
     @Test
-    public void updatePost(){
+    public void updatePost() {
         //given
         Integer postId = 1;
         Post post = postRepository.findById(postId).get();
@@ -83,7 +84,7 @@ public class PostRepositoryTests {
     }
 
     @Test
-    public void getPostById(){
+    public void getPostById() {
         //given
         Integer id = 1;
 
@@ -95,7 +96,7 @@ public class PostRepositoryTests {
     }
 
     @Test
-    public void getPostByUserId(){
+    public void getPostByUserId() {
         //given
         Integer userId = 1;
 
@@ -109,14 +110,14 @@ public class PostRepositoryTests {
     }
 
     @Test
-    public void getPostByRandom(){
+    public void getPostByRandom() {
         //given
         Integer userId = 1;
         Integer page = 1;
 
         //when
-        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
-        Page<Post> pagePost  = postRepository.findByRandom(pageable, userId);
+        Pageable pageable = PageRequest.of(page - 1, POST_PER_PAGE);
+        Page<Post> pagePost = postRepository.findByRandom(pageable, userId);
         List<Post> posts = pagePost.getContent();
 
         //then
@@ -126,14 +127,14 @@ public class PostRepositoryTests {
     }
 
     @Test
-    public void getPostByFollowings(){
+    public void getPostByFollowings() {
         //given
         List<Integer> followings = new ArrayList<>();
         followings.add(1);
         Integer page = 1;
 
         //when
-        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
+        Pageable pageable = PageRequest.of(page - 1, POST_PER_PAGE);
         Page<Post> pagePost = postRepository.findByFollowings(pageable, followings);
         List<Post> posts = pagePost.getContent();
 
@@ -144,32 +145,32 @@ public class PostRepositoryTests {
     }
 
     @Test
-    public void getPostByLikePosts(){
+    public void getPostByLikePosts() {
         //given
         Integer page = 1;
 
         //when
-        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
+        Pageable pageable = PageRequest.of(page - 1, POST_PER_PAGE);
         Page<Post> postPage = postRepository.findByLikePostSize(pageable);
         List<Post> posts = postPage.getContent();
 
         //then
         Integer priorLikeSize = posts.get(0).getLikePosts().size();
-        for(int i = 1; i<posts.size(); i++){
+        for (int i = 1; i < posts.size(); i++) {
             assertThat(posts.get(i).getLikePosts().size()).isLessThanOrEqualTo(priorLikeSize);
             priorLikeSize = posts.get(i).getLikePosts().size();
         }
     }
 
     @Test
-    public void getPostsByKeywordOrderByCreatedAt(){
+    public void getPostsByKeywordOrderByCreatedAt() {
         //given
         Integer page = 1;
         String sort = "newest";
         String keyword = "t";
 
         //when
-        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
+        Pageable pageable = PageRequest.of(page - 1, POST_PER_PAGE);
         Page<Post> postPage = postRepository.findByKeyword(pageable, keyword);
         List<Post> posts = postPage.getContent();
 
@@ -179,20 +180,20 @@ public class PostRepositoryTests {
     }
 
     @Test
-    public void getPostsByKeywordOrderByLikePostsSize(){
+    public void getPostsByKeywordOrderByLikePostsSize() {
         //given
         Integer page = 1;
         String sort = "likeposts";
         String keyword = "t";
 
         //when
-        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
+        Pageable pageable = PageRequest.of(page - 1, POST_PER_PAGE);
         Page<Post> postPage = postRepository.findByLikePostSizeAndKeyword(pageable, keyword);
         List<Post> posts = postPage.getContent();
 
         //then
         Integer priorLikeSize = posts.get(0).getLikePosts().size();
-        for(int i = 1; i<posts.size(); i++){
+        for (int i = 1; i < posts.size(); i++) {
             assertThat(posts.get(i).getLikePosts().size()).isLessThanOrEqualTo(priorLikeSize);
             priorLikeSize = posts.get(i).getLikePosts().size();
         }
@@ -201,10 +202,8 @@ public class PostRepositoryTests {
     }
 
 
-
-
     @Test
-    public void deletePostById(){
+    public void deletePostById() {
         //given
         Integer id = 1;
         Post post = postRepository.findById(id).get();

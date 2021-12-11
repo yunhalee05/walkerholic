@@ -2,11 +2,12 @@ package com.yunhalee.walkerholic.security.oauth;
 
 import java.util.Map;
 
-public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
+public class KakaoOAuth2UserInfo extends OAuth2UserInfo {
 
     public KakaoOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);
     }
+
     @Override
     public String getId() {
         return attributes.get("id").toString();
@@ -65,6 +66,6 @@ public class KakaoOAuth2UserInfo extends OAuth2UserInfo{
         }
 
         String name = (String) properties.get("nickname");
-        return name.substring(0,1);
+        return name.substring(0, 1);
     }
 }

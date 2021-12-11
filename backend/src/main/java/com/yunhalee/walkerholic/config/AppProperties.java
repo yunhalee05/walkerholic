@@ -42,6 +42,7 @@ public class AppProperties {
         public List<String> getAuthorizedRedirectUris() {
             return authorizedRedirectUris;
         }
+
         public OAuth2 authorizedRedirectUris(List<String> authorizedRedirectUris) {
             this.authorizedRedirectUris = authorizedRedirectUris;
             return this;
@@ -51,6 +52,7 @@ public class AppProperties {
     public Auth getAuth() {
         return auth;
     }
+
     public OAuth2 getOauth2() {
         return oauth2;
     }

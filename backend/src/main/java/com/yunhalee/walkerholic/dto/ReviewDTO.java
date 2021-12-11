@@ -11,13 +11,21 @@ import java.time.LocalDateTime;
 public class ReviewDTO {
 
     private Integer id;
+
     private Integer rating;
+
     private String comment;
+
     private Integer userId;
+
     private String userFullname;
+
     private String userImageUrl;
+
     private Integer productId;
+
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
 
     public ReviewDTO(Review review) {

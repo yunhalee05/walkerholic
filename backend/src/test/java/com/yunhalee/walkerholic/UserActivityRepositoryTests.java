@@ -40,7 +40,7 @@ public class UserActivityRepositoryTests {
     public static final int USER_ACTIVITY_PER_PAGE = 10;
 
     @Test
-    public void createUserActivity(){
+    public void createUserActivity() {
         //given
         ActivityStatus activityStatus = ActivityStatus.ONGOING;
         Integer userId = 1;
@@ -64,7 +64,7 @@ public class UserActivityRepositoryTests {
     }
 
     @Test
-    public void updateUserActivity(){
+    public void updateUserActivity() {
         //given
         ActivityStatus updatedActivityStatus = ActivityStatus.FINISHED;
         Integer id = 1;
@@ -81,14 +81,14 @@ public class UserActivityRepositoryTests {
     }
 
     @Test
-    public void getByUserId(){
+    public void getByUserId() {
         //given
         Integer userId = 1;
         Integer page = 1;
 
         //when
-        Pageable pageable = PageRequest.of(page-1,USER_ACTIVITY_PER_PAGE);
-        Page<UserActivity> userActivityPage = userActivityRepository.findByUserId(pageable,userId);
+        Pageable pageable = PageRequest.of(page - 1, USER_ACTIVITY_PER_PAGE);
+        Page<UserActivity> userActivityPage = userActivityRepository.findByUserId(pageable, userId);
         List<UserActivity> userActivityList = userActivityPage.getContent();
 
         //then
@@ -98,7 +98,7 @@ public class UserActivityRepositoryTests {
     }
 
     @Test
-    public void deleteById(){
+    public void deleteById() {
         //given
         Integer id = 1;
 

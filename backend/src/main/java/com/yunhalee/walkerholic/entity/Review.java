@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Review extends BaseTimeEntity{
+public class Review extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +30,8 @@ public class Review extends BaseTimeEntity{
     @JoinColumn(name = "user_id")
     private User user;
 
-//    비지니스 로직
-    public static Review createReview(Integer rating, String comment, User user, Product product){
+    //    비지니스 로직
+    public static Review createReview(Integer rating, String comment, User user, Product product) {
         Review review = new Review();
         review.setRating(rating);
         review.setComment(comment);

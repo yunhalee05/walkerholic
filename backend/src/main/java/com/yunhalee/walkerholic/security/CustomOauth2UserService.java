@@ -31,27 +31,30 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
         System.out.println("attributes" + super.loadUser(userRequest).getAttributes());
         OAuth2User user = super.loadUser(userRequest);
 
-        try{
+        try {
             return process(userRequest, user);
-        } catch (AuthenticationException ex){
+        } catch (AuthenticationException ex) {
             throw new OAuth2AuthenticationException(ex.getMessage());
-        } catch (Exception ex){
+        } catch (Exception ex) {
             throw new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
         }
     }
 
     private OAuth2User process(OAuth2UserRequest userRequest, OAuth2User user) {
-        ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
+        ProviderType providerType = ProviderType
+            .valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
-        OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
+        OAuth2UserInfo userInfo = OAuth2UserInfoFactory
+            .getOAuth2UserInfo(providerType, user.getAttributes());
 
         User savedUser = userRepository.findByEmail(userInfo.getEmail());
 
         if (savedUser != null) {
             if (providerType != savedUser.getProviderType()) {
                 throw new OAuthProviderMissMatchException(
-                        "Looks like you're signed up with " + providerType +
-                                " account. Please use your " + savedUser.getProviderType() + " account to login."
+                    "Looks like you're signed up with " + providerType +
+                        " account. Please use your " + savedUser.getProviderType()
+                        + " account to login."
                 );
             }
             updateUser(savedUser, userInfo);
@@ -82,7 +85,7 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
             user.setFirstname(userInfo.getFirstName());
         }
 
-        if (userInfo.getLastName() != null && !user.getLastname().equals(userInfo.getLastName())){
+        if (userInfo.getLastName() != null && !user.getLastname().equals(userInfo.getLastName())) {
             user.setLastname(userInfo.getLastName());
         }
 

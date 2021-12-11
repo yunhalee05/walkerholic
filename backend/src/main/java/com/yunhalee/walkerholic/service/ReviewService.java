@@ -14,26 +14,30 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
+
     private final ReviewRepository reviewRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
-    public ReviewDTO saveReview(ReviewCreateDTO reviewCreateDTO){
-        if(reviewCreateDTO.getId()!=null){
+    public ReviewDTO saveReview(ReviewCreateDTO reviewCreateDTO) {
+        if (reviewCreateDTO.getId() != null) {
             Review existingReview = reviewRepository.findByReviewId(reviewCreateDTO.getId());
-            if(existingReview.getRating() != reviewCreateDTO.getRating()){
-                Product product = productRepository.findById(existingReview.getProduct().getId()).get();
-                product.editReview(existingReview.getRating(),reviewCreateDTO.getRating());
+            if (existingReview.getRating() != reviewCreateDTO.getRating()) {
+                Product product = productRepository.findById(existingReview.getProduct().getId())
+                    .get();
+                product.editReview(existingReview.getRating(), reviewCreateDTO.getRating());
                 productRepository.save(product);
                 existingReview.setRating(reviewCreateDTO.getRating());
             }
             existingReview.setComment(reviewCreateDTO.getComment());
             reviewRepository.save(existingReview);
             return new ReviewDTO(existingReview);
-        }else{
+        } else {
             User user = userRepository.findById(reviewCreateDTO.getUserId()).get();
             Product product = productRepository.findById(reviewCreateDTO.getProductId()).get();
-            Review review = Review.createReview(reviewCreateDTO.getRating(), reviewCreateDTO.getComment(), user,product);
+            Review review = Review
+                .createReview(reviewCreateDTO.getRating(), reviewCreateDTO.getComment(), user,
+                    product);
             product.addReview(review);
             productRepository.save(product);
             reviewRepository.save(review);
@@ -41,7 +45,7 @@ public class ReviewService {
         }
     }
 
-    public Integer deleteReview(Integer id){
+    public Integer deleteReview(Integer id) {
         Review review = reviewRepository.findById(id).get();
         Product product = productRepository.findById(review.getProduct().getId()).get();
         product.deleteReview(review.getRating());

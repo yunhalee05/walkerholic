@@ -21,18 +21,20 @@ public class MainController {
     private String PAYPAL_CLIENT_ID;
 
     @GetMapping("/levels")
-    public List<LevelDTO> getLevels(){
-        List<LevelDTO> levels = Arrays.stream(Level.values()).map(level -> new LevelDTO(level)).collect(Collectors.toList());
+    public List<LevelDTO> getLevels() {
+        List<LevelDTO> levels = Arrays.stream(Level.values()).map(level -> new LevelDTO(level))
+            .collect(Collectors.toList());
         return levels;
     }
 
     @GetMapping("/categories")
-    public List<String> getCategories(){
-        return Arrays.stream(Category.values()).map(category -> category.name()).collect(Collectors.toList());
+    public List<String> getCategories() {
+        return Arrays.stream(Category.values()).map(category -> category.name())
+            .collect(Collectors.toList());
     }
 
     @GetMapping("/paypal")
-    public String getPAYPAL_CLIENT_ID(){
+    public String getPAYPAL_CLIENT_ID() {
         return PAYPAL_CLIENT_ID;
     }
 }

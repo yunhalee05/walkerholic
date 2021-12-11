@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserActivity extends BaseTimeEntity{
+public class UserActivity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,25 +26,25 @@ public class UserActivity extends BaseTimeEntity{
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride( name = "name" , column = @Column(name = "from_name")),
-            @AttributeOverride( name = "country", column = @Column(name = "from_country")),
-            @AttributeOverride( name = "city", column = @Column(name = "from_city")),
-            @AttributeOverride( name = "zipcode", column = @Column(name = "from_zipcode")),
-            @AttributeOverride( name = "address", column = @Column(name = "from_address")),
-            @AttributeOverride( name = "latitude", column = @Column(name = "from_latitude")),
-            @AttributeOverride( name = "longitude", column = @Column(name = "from_longitude"))
+        @AttributeOverride(name = "name", column = @Column(name = "from_name")),
+        @AttributeOverride(name = "country", column = @Column(name = "from_country")),
+        @AttributeOverride(name = "city", column = @Column(name = "from_city")),
+        @AttributeOverride(name = "zipcode", column = @Column(name = "from_zipcode")),
+        @AttributeOverride(name = "address", column = @Column(name = "from_address")),
+        @AttributeOverride(name = "latitude", column = @Column(name = "from_latitude")),
+        @AttributeOverride(name = "longitude", column = @Column(name = "from_longitude"))
     })
     private Address from;
 
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride( name = "name" , column = @Column(name = "to_name")),
-            @AttributeOverride( name = "country", column = @Column(name = "to_country")),
-            @AttributeOverride( name = "city", column = @Column(name = "to_city")),
-            @AttributeOverride( name = "zipcode", column = @Column(name = "to_zipcode")),
-            @AttributeOverride( name = "address", column = @Column(name = "to_address")),
-            @AttributeOverride( name = "latitude", column = @Column(name = "to_latitude")),
-            @AttributeOverride( name = "longitude", column = @Column(name = "to_longitude"))
+        @AttributeOverride(name = "name", column = @Column(name = "to_name")),
+        @AttributeOverride(name = "country", column = @Column(name = "to_country")),
+        @AttributeOverride(name = "city", column = @Column(name = "to_city")),
+        @AttributeOverride(name = "zipcode", column = @Column(name = "to_zipcode")),
+        @AttributeOverride(name = "address", column = @Column(name = "to_address")),
+        @AttributeOverride(name = "latitude", column = @Column(name = "to_latitude")),
+        @AttributeOverride(name = "longitude", column = @Column(name = "to_longitude"))
     })
     private Address to;
 
@@ -55,7 +55,6 @@ public class UserActivity extends BaseTimeEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "activity_id")
     private Activity activity;
-
 
 
 }

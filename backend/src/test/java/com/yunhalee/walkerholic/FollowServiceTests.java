@@ -28,22 +28,24 @@ public class FollowServiceTests {
     FollowRepository followRepository;
 
     @Test
-    public void follow(){
+    public void follow() {
         //given
         Integer fromUserId = 1;
         Integer toUserId = 2;
 
         //when
-        FollowDTO followDTO = followService.follow(fromUserId,toUserId);
+        FollowDTO followDTO = followService.follow(fromUserId, toUserId);
 
         //then
         assertNotNull(followDTO.getId());
-        assertEquals(fromUserId, followRepository.findById(followDTO.getId()).get().getFromUser().getId());
-        assertEquals(toUserId, followRepository.findById(followDTO.getId()).get().getToUser().getId());
+        assertEquals(fromUserId,
+            followRepository.findById(followDTO.getId()).get().getFromUser().getId());
+        assertEquals(toUserId,
+            followRepository.findById(followDTO.getId()).get().getToUser().getId());
     }
 
     @Test
-    public void unfollow(){
+    public void unfollow() {
         //given
         Integer followId = 1;
 
@@ -55,7 +57,7 @@ public class FollowServiceTests {
     }
 
     @Test
-    public void getFollowByUserId(){
+    public void getFollowByUserId() {
         //given
         Integer id = 1;
 
@@ -76,7 +78,7 @@ public class FollowServiceTests {
     }
 
     @Test
-    public void getFollowings(){
+    public void getFollowings() {
         //given
         Integer id = 1;
 
@@ -91,9 +93,9 @@ public class FollowServiceTests {
     }
 
     @Test
-    public void getFollowers(){
+    public void getFollowers() {
         //given
-        Integer id  = 1;
+        Integer id = 1;
 
         //when
         List<FollowDTO> followers = followService.getFollowers(id);

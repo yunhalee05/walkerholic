@@ -15,14 +15,15 @@ public class LikePostController {
     private final LikePostService likePostService;
 
     @PostMapping("/likePost/{postId}/{userId}")
-    public LikePostDTO likePost(@PathVariable("postId")String postId, @PathVariable("userId")String userId){
+    public LikePostDTO likePost(@PathVariable("postId") String postId,
+        @PathVariable("userId") String userId) {
         Integer post = Integer.parseInt(postId);
         Integer user = Integer.parseInt(userId);
-        return likePostService.likePost(post,user);
+        return likePostService.likePost(post, user);
     }
 
     @DeleteMapping("/unlikePost/{id}")
-    public Integer unlikePost(@PathVariable("id")String id){
+    public Integer unlikePost(@PathVariable("id") String id) {
         Integer likePostId = Integer.parseInt(id);
         return likePostService.unlikePost(likePostId);
     }

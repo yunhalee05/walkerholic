@@ -9,13 +9,19 @@ import lombok.Setter;
 public class OrderItemDTO {
 
     private Integer id;
+
     private Integer qty;
 
     private Integer productId;
+
     private String productName;
+
     private Float productPrice;
+
     private String productDescription;
+
     private String productBrand;
+
     private String productImageUrl;
 
     public OrderItemDTO(OrderItem orderItem) {

@@ -2,7 +2,7 @@ package com.yunhalee.walkerholic.security.oauth;
 
 import java.util.Map;
 
-public class NaverOAuth2UserInfo extends OAuth2UserInfo{
+public class NaverOAuth2UserInfo extends OAuth2UserInfo {
 
     public NaverOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);
@@ -60,7 +60,7 @@ public class NaverOAuth2UserInfo extends OAuth2UserInfo{
         if (response == null) {
             return null;
         }
-        String name = (String)response.get("name");
+        String name = (String) response.get("name");
 
         return name.substring(1);
     }
@@ -72,8 +72,8 @@ public class NaverOAuth2UserInfo extends OAuth2UserInfo{
         if (response == null) {
             return null;
         }
-        String name = (String)response.get("name");
+        String name = (String) response.get("name");
 
-        return name.substring(0,1);
+        return name.substring(0, 1);
     }
 }

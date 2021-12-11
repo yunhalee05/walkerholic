@@ -40,7 +40,8 @@ public class OrderListDTO {
     }
 
     @Getter
-    static class OrderUser{
+    static class OrderUser {
+
         private Integer id;
         private String fullname;
         private String imageUrl;

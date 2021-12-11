@@ -12,7 +12,8 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+    protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(
+        MethodArgumentNotValidException e) {
         ErrorResponse errorResponse = new ErrorResponse();
         HttpStatus status = HttpStatus.BAD_REQUEST;
         errorResponse.setStatus(status.value());
@@ -22,7 +23,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    protected ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e){
+    protected ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(
+        MethodArgumentTypeMismatchException e) {
         ErrorResponse errorResponse = new ErrorResponse();
         HttpStatus status = HttpStatus.BAD_REQUEST;
         errorResponse.setStatus(status.value());
@@ -32,7 +34,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException e){
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(UserNotFoundException e) {
         ErrorResponse errorResponse = new ErrorResponse();
         HttpStatus status = HttpStatus.BAD_REQUEST;
         errorResponse.setStatus(status.value());
@@ -42,7 +44,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(UserEmailAlreadyExistException.class)
-    public ResponseEntity<ErrorResponse> handleUserEmailAlreadyExistException(UserEmailAlreadyExistException e){
+    public ResponseEntity<ErrorResponse> handleUserEmailAlreadyExistException(
+        UserEmailAlreadyExistException e) {
         ErrorResponse errorResponse = new ErrorResponse();
         HttpStatus status = HttpStatus.BAD_REQUEST;
         errorResponse.setStatus(status.value());
@@ -52,7 +55,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(NotEnoughStockException.class)
-    public ResponseEntity<ErrorResponse> handleNotEnoughStockException(NotEnoughStockException e){
+    public ResponseEntity<ErrorResponse> handleNotEnoughStockException(NotEnoughStockException e) {
         ErrorResponse errorResponse = new ErrorResponse();
         HttpStatus status = HttpStatus.BAD_REQUEST;
         errorResponse.setStatus(status.value());
@@ -63,7 +66,8 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(OAuthProviderMissMatchException.class)
-    public ResponseEntity<ErrorResponse> handleOAuthProviderMissMatchException(OAuthProviderMissMatchException e){
+    public ResponseEntity<ErrorResponse> handleOAuthProviderMissMatchException(
+        OAuthProviderMissMatchException e) {
         ErrorResponse errorResponse = new ErrorResponse();
         HttpStatus status = HttpStatus.BAD_REQUEST;
         errorResponse.setStatus(status.value());
@@ -73,7 +77,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IllegalAccessException.class)
-    protected ResponseEntity<ErrorResponse> handleIllegalAccessException(IllegalAccessException e){
+    protected ResponseEntity<ErrorResponse> handleIllegalAccessException(IllegalAccessException e) {
         ErrorResponse errorResponse = new ErrorResponse();
         HttpStatus status = HttpStatus.BAD_REQUEST;
         errorResponse.setStatus(status.value());
@@ -83,7 +87,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handleException(Exception e){
+    protected ResponseEntity<ErrorResponse> handleException(Exception e) {
         ErrorResponse errorResponse = new ErrorResponse();
         HttpStatus status = HttpStatus.NOT_FOUND;
         errorResponse.setStatus(status.value());

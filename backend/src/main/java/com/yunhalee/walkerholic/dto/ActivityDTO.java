@@ -36,7 +36,8 @@ public class ActivityDTO {
     }
 
     @Getter
-    static class ActivityUser{
+    static class ActivityUser {
+
         private Integer id;
         private String status;
         private Integer userId;
@@ -44,9 +45,10 @@ public class ActivityDTO {
         private String userFullname;
         private LocalDateTime updatedAt;
 
-        static List<ActivityUser> userActivityList(Set<UserActivity> userActivities){
+        static List<ActivityUser> userActivityList(Set<UserActivity> userActivities) {
             List<ActivityUser> activityUsers = new ArrayList<>();
-            userActivities.forEach(userActivity -> activityUsers.add(new ActivityUser(userActivity)));
+            userActivities
+                .forEach(userActivity -> activityUsers.add(new ActivityUser(userActivity)));
             return activityUsers;
         }
 

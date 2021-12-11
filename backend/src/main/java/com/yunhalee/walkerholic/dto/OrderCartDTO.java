@@ -22,12 +22,13 @@ public class OrderCartDTO {
         this.orderItems = OrderItem.listItems(order.getOrderItems());
     }
 
-    public OrderCartDTO(){
+    public OrderCartDTO() {
     }
 
 
     @Getter
-    static class OrderItem{
+    static class OrderItem {
+
         private Integer id;
         private Integer qty;
         private Integer stock;
@@ -39,7 +40,8 @@ public class OrderCartDTO {
         private String productBrand;
         private String productImageUrl;
 
-        static List<OrderItem> listItems(Set<com.yunhalee.walkerholic.entity.OrderItem> orderItems){
+        static List<OrderItem> listItems(
+            Set<com.yunhalee.walkerholic.entity.OrderItem> orderItems) {
             List<OrderItem> orderItemList = new ArrayList<>();
             orderItems.forEach(orderItem -> orderItemList.add(new OrderItem(orderItem)));
             return orderItemList;

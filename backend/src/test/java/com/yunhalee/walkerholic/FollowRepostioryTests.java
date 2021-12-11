@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class FollowRepostioryTests {
     UserRepository userRepository;
 
     @Test
-    public void getFollowByUserId(){
+    public void getFollowByUserId() {
         //given
         Integer id = 1;
 
@@ -41,7 +42,7 @@ public class FollowRepostioryTests {
     }
 
     @Test
-    public void getFollowByToUserId(){
+    public void getFollowByToUserId() {
         //given
         Integer id = 1;
 
@@ -56,7 +57,7 @@ public class FollowRepostioryTests {
     }
 
     @Test
-    public void getFollowByFromUserId(){
+    public void getFollowByFromUserId() {
         //given
         Integer id = 1;
 
@@ -71,7 +72,7 @@ public class FollowRepostioryTests {
     }
 
     @Test
-    public void createFollow(){
+    public void createFollow() {
         //given
         Integer fromUserId = 1;
         Integer toUserId = 2;
@@ -89,7 +90,7 @@ public class FollowRepostioryTests {
     }
 
     @Test
-    public void deleteFollow(){
+    public void deleteFollow() {
         //given
         Integer followId = 1;
 

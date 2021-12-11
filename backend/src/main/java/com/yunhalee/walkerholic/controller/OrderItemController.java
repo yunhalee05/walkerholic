@@ -13,7 +13,7 @@ public class OrderItemController {
     private final OrderItemService orderItemService;
 
     @PostMapping("/updateQty/{id}")
-    public void updateQty(@PathVariable("id")String id, @Param("qty") String qty){
+    public void updateQty(@PathVariable("id") String id, @Param("qty") String qty) {
         Integer orderItemId = Integer.parseInt(id);
         Integer orderItemQty = Integer.parseInt(qty);
         orderItemService.updateQty(orderItemId, orderItemQty);
@@ -21,7 +21,7 @@ public class OrderItemController {
     }
 
     @DeleteMapping("/deleteOrderItem/{id}")
-    public void deleteOrderItem(@PathVariable("id")String id){
+    public void deleteOrderItem(@PathVariable("id") String id) {
         Integer orderItemId = Integer.parseInt(id);
         orderItemService.deleteOrderItem(orderItemId);
         return;

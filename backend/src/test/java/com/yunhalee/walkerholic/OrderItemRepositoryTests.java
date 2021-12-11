@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Rollback(false)
@@ -31,7 +32,7 @@ public class OrderItemRepositoryTests {
     private OrderRepository orderRepository;
 
     @Test
-    public void createOrderItem(){
+    public void createOrderItem() {
         //given
         Integer orderId = 1;
         Integer productId = 1;
@@ -56,7 +57,7 @@ public class OrderItemRepositoryTests {
     }
 
     @Test
-    public void getOrderItem(){
+    public void getOrderItem() {
         //given
         Integer orderItemId = 1;
 
@@ -68,12 +69,12 @@ public class OrderItemRepositoryTests {
     }
 
     @Test
-    public void updateOrderItem(){
+    public void updateOrderItem() {
         //given
         Integer orderItemId = 1;
         OrderItem orderItem = orderItemRepository.findById(orderItemId).get();
         Integer originalQty = orderItem.getQty();
-        orderItem.setQty(originalQty+1);
+        orderItem.setQty(originalQty + 1);
 
         //when
         OrderItem orderItem1 = orderItemRepository.save(orderItem);
@@ -83,11 +84,10 @@ public class OrderItemRepositoryTests {
     }
 
 
-
     @Test
-    public void deleteOrderItem(){
+    public void deleteOrderItem() {
         //given
-        Integer orderItemId= 1;
+        Integer orderItemId = 1;
 
         //when
         orderItemRepository.deleteById(orderItemId);

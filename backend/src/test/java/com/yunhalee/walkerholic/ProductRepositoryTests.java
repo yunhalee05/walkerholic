@@ -41,7 +41,7 @@ public class ProductRepositoryTests {
 
 
     @Test
-    public void createProduct(){
+    public void createProduct() {
         //given
         Float price = 10.00f;
         String brand = "testBrand";
@@ -75,13 +75,13 @@ public class ProductRepositoryTests {
     }
 
     @Test
-    public void testUpdateProduct(){
+    public void testUpdateProduct() {
         //given
-        Integer id =4;
+        Integer id = 4;
         Product product = productRepository.findByProductId(id);
         Float originalPrice = product.getPrice();
 
-        product.setPrice(originalPrice+1.00f);
+        product.setPrice(originalPrice + 1.00f);
 
         //when
         Product product1 = productRepository.save(product);
@@ -89,11 +89,11 @@ public class ProductRepositoryTests {
         //then
         assertThat(product1.getId()).isEqualTo(id);
         assertThat(product1.getPrice()).isNotEqualTo(originalPrice);
-        assertThat(product1.getPrice()).isEqualTo(originalPrice+1.00f);
+        assertThat(product1.getPrice()).isEqualTo(originalPrice + 1.00f);
     }
 
     @Test
-    public void getProductById(){
+    public void getProductById() {
         //given
         Integer id = 1;
 
@@ -105,14 +105,14 @@ public class ProductRepositoryTests {
     }
 
     @Test
-    public void getProductsBySellerId(){
+    public void getProductsBySellerId() {
         //given
         Integer sellerId = 1;
         Integer page = 1;
 
         //when
-        Pageable pageable = PageRequest.of(page-1, PRODUCT_PER_PAGE);
-        Page<Product> productPage = productRepository.findByUserId(sellerId,pageable);
+        Pageable pageable = PageRequest.of(page - 1, PRODUCT_PER_PAGE);
+        Page<Product> productPage = productRepository.findByUserId(sellerId, pageable);
         List<Product> products = productPage.getContent();
 
         //then
@@ -122,15 +122,16 @@ public class ProductRepositoryTests {
     }
 
     @Test
-    public void getProductsByCategoryAndKeyword(){
+    public void getProductsByCategoryAndKeyword() {
         //given
         Category category = Category.CLOTHES;
         String keyword = "a";
         Integer page = 1;
 
         //when
-        Pageable pageable = PageRequest.of(page-1, PRODUCT_PER_PAGE);
-        Page<Product> productPage = productRepository.findAllByCategory(pageable, category, keyword);
+        Pageable pageable = PageRequest.of(page - 1, PRODUCT_PER_PAGE);
+        Page<Product> productPage = productRepository
+            .findAllByCategory(pageable, category, keyword);
         List<Product> products = productPage.getContent();
 
         //then
@@ -141,15 +142,15 @@ public class ProductRepositoryTests {
     }
 
     @Test
-    public void getProductByKeyword(){
+    public void getProductByKeyword() {
         //given
         String keyword = "a";
         Integer page = 1;
 
         //when
-        Pageable pageable = PageRequest.of(page-1, PRODUCT_PER_PAGE);
-        Page<Product> productPage = productRepository.findAllByKeyword(pageable,keyword);
-        List<Product> products= productPage.getContent();
+        Pageable pageable = PageRequest.of(page - 1, PRODUCT_PER_PAGE);
+        Page<Product> productPage = productRepository.findAllByKeyword(pageable, keyword);
+        List<Product> products = productPage.getContent();
 
         //then
         for (Product product : products) {
@@ -158,7 +159,7 @@ public class ProductRepositoryTests {
     }
 
     @Test
-    public void getProductsBySellerIdAndCategoryAndKeyword(){
+    public void getProductsBySellerIdAndCategoryAndKeyword() {
         //given
         Integer sellerId = 1;
         Category category = Category.CLOTHES;
@@ -166,9 +167,10 @@ public class ProductRepositoryTests {
         Integer page = 1;
 
         //when
-        Pageable pageable = PageRequest.of(page-1, PRODUCT_PER_PAGE);
-        Page<Product> productPage = productRepository.findAllBySellerAndCategory(pageable,sellerId,category,keyword);
-        List<Product> products= productPage.getContent();
+        Pageable pageable = PageRequest.of(page - 1, PRODUCT_PER_PAGE);
+        Page<Product> productPage = productRepository
+            .findAllBySellerAndCategory(pageable, sellerId, category, keyword);
+        List<Product> products = productPage.getContent();
 
         //then
         for (Product product : products) {
@@ -179,16 +181,17 @@ public class ProductRepositoryTests {
     }
 
     @Test
-    public void getProductsBySellerIdAndKeyword(){
+    public void getProductsBySellerIdAndKeyword() {
         //given
         Integer sellerId = 1;
         String keyword = "a";
         Integer page = 1;
 
         //when
-        Pageable pageable = PageRequest.of(page-1, PRODUCT_PER_PAGE);
-        Page<Product> productPage = productRepository.findAllBySellerAndKeyword(pageable,sellerId,keyword);
-        List<Product> products= productPage.getContent();
+        Pageable pageable = PageRequest.of(page - 1, PRODUCT_PER_PAGE);
+        Page<Product> productPage = productRepository
+            .findAllBySellerAndKeyword(pageable, sellerId, keyword);
+        List<Product> products = productPage.getContent();
 
         //then
         //then
@@ -199,14 +202,14 @@ public class ProductRepositoryTests {
     }
 
     @Test
-    public void getProducts(){
+    public void getProducts() {
         //given
         Integer page = 1;
 
         //when
-        Pageable pageable = PageRequest.of(page-1, PRODUCT_PER_PAGE);
+        Pageable pageable = PageRequest.of(page - 1, PRODUCT_PER_PAGE);
         Page<Product> productPage = productRepository.findAllProductList(pageable);
-        List<Product> products= productPage.getContent();
+        List<Product> products = productPage.getContent();
 
         //then
         assertThat(products.size()).isEqualTo(PRODUCT_PER_PAGE);
@@ -214,7 +217,7 @@ public class ProductRepositoryTests {
 
 
     @Test
-    public void deleteById(){
+    public void deleteById() {
         //given
         Integer id = 1;
 //        Product product = productRepository.findById(id).get();
@@ -228,7 +231,6 @@ public class ProductRepositoryTests {
         //then
         assertThat(productRepository.findById(id)).isNull();
     }
-
 
 
 }

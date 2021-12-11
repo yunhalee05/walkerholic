@@ -33,43 +33,47 @@ public class UserActivityServiceTests {
     UserRepository userRepository;
 
     @Test
-    public void createUserActivity(){
+    public void createUserActivity() {
         //given
         Integer activityId = 1;
         boolean finished = false;
         Integer userId = 1;
-        UserActivityCreateDTO userActivityCreateDTO = new UserActivityCreateDTO(activityId, finished);
+        UserActivityCreateDTO userActivityCreateDTO = new UserActivityCreateDTO(activityId,
+            finished);
 
         //when
-        HashMap<String, Object> response = userActivityService.saveUserActivity(userActivityCreateDTO, userId);
+        HashMap<String, Object> response = userActivityService
+            .saveUserActivity(userActivityCreateDTO, userId);
         UserActivityDTO userActivityDTO = (UserActivityDTO) response.get("activity");
 
         //then
         assertEquals(userActivityDTO.getActivityId(), activityId);
-        assertEquals(userActivityDTO.isFinished(),finished);
+        assertEquals(userActivityDTO.isFinished(), finished);
     }
 
     @Test
-    public void updateUserActivity(){
+    public void updateUserActivity() {
         //given
         Integer id = 1;
         Integer activityId = 1;
         boolean finished = true;
         Integer userId = 1;
-        UserActivityCreateDTO userActivityCreateDTO = new UserActivityCreateDTO(id, activityId, finished);
+        UserActivityCreateDTO userActivityCreateDTO = new UserActivityCreateDTO(id, activityId,
+            finished);
 
         //when
-        HashMap<String, Object> response = userActivityService.saveUserActivity(userActivityCreateDTO, userId);
+        HashMap<String, Object> response = userActivityService
+            .saveUserActivity(userActivityCreateDTO, userId);
         UserActivityDTO userActivityDTO = (UserActivityDTO) response.get("activity");
 
         //then
         assertEquals(userActivityDTO.getActivityId(), activityId);
-        assertEquals(userActivityDTO.isFinished(),finished);
+        assertEquals(userActivityDTO.isFinished(), finished);
         assertEquals(userRepository.findById(userId).get().getLevel(), Level.Bronze);
     }
 
     @Test
-    public void getUserActivitiesByUserId(){
+    public void getUserActivitiesByUserId() {
         //given
         Integer page = 1;
         Integer userId = 1;
@@ -80,12 +84,14 @@ public class UserActivityServiceTests {
 
         //then
         for (UserActivityDTO userActivityDTO : userActivityDTOS) {
-            assertEquals(userActivityRepository.findById(userActivityDTO.getId()).get().getUser().getId(), userId);
+            assertEquals(
+                userActivityRepository.findById(userActivityDTO.getId()).get().getUser().getId(),
+                userId);
         }
     }
 
     @Test
-    public void deleteUserActivity(){
+    public void deleteUserActivity() {
         //given
         Integer id = 1;
         Integer userId = 1;

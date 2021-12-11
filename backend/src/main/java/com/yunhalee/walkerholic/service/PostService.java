@@ -47,45 +47,47 @@ public class PostService {
     @Value("${AWS_S3_BUCKET_URL}")
     private String AWS_S3_BUCKET_URL;
 
-    private void deletePostImage(List<String> deletedImages){
+    private void deletePostImage(List<String> deletedImages) {
         for (String deletedImage : deletedImages) {
             postImageRepository.deleteByFilePath(deletedImage);
-            String fileName = deletedImage.substring(AWS_S3_BUCKET_URL.length()+1);
+            String fileName = deletedImage.substring(AWS_S3_BUCKET_URL.length() + 1);
             amazonS3Utils.deleteFile(fileName);
         }
     }
 
-    private List<PostImage> savePostImage(Post post, List<MultipartFile> multipartFiles){
+    private List<PostImage> savePostImage(Post post, List<MultipartFile> multipartFiles) {
         List<PostImage> postImageList = new ArrayList<>();
         multipartFiles.forEach(multipartFile -> {
             PostImage postImage = new PostImage();
 
-            try{
+            try {
                 String uploadDir = "postUploads/" + post.getId();
                 String imageUrl = amazonS3Utils.uploadFile(uploadDir, multipartFile);
-                String fileName = imageUrl.substring(AWS_S3_BUCKET_URL.length()+uploadDir.length()+2);
+                String fileName = imageUrl
+                    .substring(AWS_S3_BUCKET_URL.length() + uploadDir.length() + 2);
                 postImage.setName(fileName);
                 postImage.setFilePath(imageUrl);
                 postImage.setPost(post);
                 PostImage postImage1 = postImageRepository.save(postImage);
                 postImageList.add(postImage1);
 
-            }catch (IOException ex){
+            } catch (IOException ex) {
                 new IOException("Could not save file : " + multipartFile.getOriginalFilename());
             }
         });
         return postImageList;
     }
 
-    public PostDTO savePost(PostCreateDTO postCreateDTO, List<MultipartFile> multipartFiles, List<String> deletedImages){
-        if(postCreateDTO.getId()!=null){
+    public PostDTO savePost(PostCreateDTO postCreateDTO, List<MultipartFile> multipartFiles,
+        List<String> deletedImages) {
+        if (postCreateDTO.getId() != null) {
             Post existingPost = postRepository.findById(postCreateDTO.getId()).get();
             existingPost.setTitle(postCreateDTO.getTitle());
             existingPost.setContent(postCreateDTO.getContent());
-            if(deletedImages!=null && deletedImages.size()!=0){
+            if (deletedImages != null && deletedImages.size() != 0) {
                 deletePostImage(deletedImages);
             }
-            if(multipartFiles!=null){
+            if (multipartFiles != null) {
                 List<PostImage> postImageList = savePostImage(existingPost, multipartFiles);
                 postRepository.save(existingPost);
                 return new PostDTO(existingPost, postImageList);
@@ -93,7 +95,7 @@ public class PostService {
             }
             postRepository.save(existingPost);
             return new PostDTO(existingPost);
-        }else{
+        } else {
             Post post = new Post();
             User user = userRepository.findById(postCreateDTO.getUserId()).get();
             post.setTitle(postCreateDTO.getTitle());
@@ -101,8 +103,8 @@ public class PostService {
             post.setContent(postCreateDTO.getContent());
             post.setUser(user);
             postRepository.save(post);
-            if(multipartFiles!=null){
-                List<PostImage> postImageList = savePostImage(post,multipartFiles);
+            if (multipartFiles != null) {
+                List<PostImage> postImageList = savePostImage(post, multipartFiles);
                 postRepository.save(post);
                 return new PostDTO(post, postImageList);
             }
@@ -113,44 +115,44 @@ public class PostService {
 
     }
 
-    public PostDTO getPost(Integer id){
+    public PostDTO getPost(Integer id) {
         Post post = postRepository.findByPostId(id);
         return new PostDTO(post);
     }
 
-    public HashMap<String, Object> getUserPosts(Integer id){
+    public HashMap<String, Object> getUserPosts(Integer id) {
         List<Post> posts = postRepository.findByUserId(id);
         List<UserPostDTO> userPostDTOS = new ArrayList<>();
         posts.forEach(post -> userPostDTOS.add(new UserPostDTO(post)));
 
         List<Post> likePosts = postRepository.findByLikePostUserId(id);
         List<UserPostDTO> userLikePostDTOS = new ArrayList<>();
-        likePosts.forEach(likePost-> userLikePostDTOS.add(new UserPostDTO(likePost)));
+        likePosts.forEach(likePost -> userLikePostDTOS.add(new UserPostDTO(likePost)));
 
         HashMap<String, Object> userPosts = new HashMap<>();
         userPosts.put("posts", userPostDTOS);
-        userPosts.put("likePosts",userLikePostDTOS);
+        userPosts.put("likePosts", userLikePostDTOS);
         return userPosts;
     }
 
-    public HashMap<String, Object> getPostsByRandom(Integer page, Integer userId){
-        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
+    public HashMap<String, Object> getPostsByRandom(Integer page, Integer userId) {
+        Pageable pageable = PageRequest.of(page - 1, POST_PER_PAGE);
         Page<Post> pagePost = postRepository.findByRandom(pageable, userId);
         List<Post> posts = pagePost.getContent();
         List<UserPostDTO> userPostDTOList = new ArrayList<>();
         posts.forEach(post -> userPostDTOList.add(new UserPostDTO(post)));
         HashMap<String, Object> randomPosts = new HashMap<>();
-        randomPosts.put("posts",userPostDTOList );
+        randomPosts.put("posts", userPostDTOList);
         randomPosts.put("totalElement", pagePost.getTotalElements());
         randomPosts.put("totalPage", pagePost.getTotalPages());
         return randomPosts;
     }
 
-    public HashMap<String, Object> getHomePosts(Integer page, String sort){
-        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
+    public HashMap<String, Object> getHomePosts(Integer page, String sort) {
+        Pageable pageable = PageRequest.of(page - 1, POST_PER_PAGE);
         Page<Post> pagePost = postRepository.findByLikePostSize(pageable);
 
-        if(sort.equals("newest")){
+        if (sort.equals("newest")) {
             pagePost = postRepository.findByCreateAt(pageable);
         }
         List<Post> posts = pagePost.getContent();
@@ -159,19 +161,20 @@ public class PostService {
 
         HashMap<String, Object> homePosts = new HashMap<>();
         homePosts.put("posts", userPostDTOList);
-        homePosts.put("totalElement",pagePost.getTotalElements());
+        homePosts.put("totalElement", pagePost.getTotalElements());
         homePosts.put("totalPage", pagePost.getTotalPages());
 
         return homePosts;
     }
 
-    public HashMap<String, Object> getPostsByFollowings(Integer page, Integer userId){
+    public HashMap<String, Object> getPostsByFollowings(Integer page, Integer userId) {
         List<Follow> follows = followRepository.findAllByFromUserId(userId);
         List<Integer> followings = new ArrayList<>();
         follows.forEach(follow -> followings.add(follow.getId()));
         followings.add(userId);
 
-        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest
+            .of(page - 1, POST_PER_PAGE, Sort.by("createdAt").descending());
 
         Page<Post> pagePost = postRepository.findByFollowings(pageable, followings);
         List<Post> posts = pagePost.getContent();
@@ -185,8 +188,8 @@ public class PostService {
         return followingPosts;
     }
 
-    public String deletePost(Integer id){
-        String dir = "/productUploads/"+ id;
+    public String deletePost(Integer id) {
+        String dir = "/productUploads/" + id;
         FileUploadUtils.deleteDir(dir);
 
         Post post = postRepository.findByPostId(id);
@@ -199,10 +202,10 @@ public class PostService {
     }
 
     public HashMap<String, Object> getSearchPosts(Integer page, String sort, String keyword) {
-        Pageable pageable = PageRequest.of(page-1, POST_PER_PAGE);
+        Pageable pageable = PageRequest.of(page - 1, POST_PER_PAGE);
         Page<Post> postPage = postRepository.findByLikePostSizeAndKeyword(pageable, keyword);
 
-        if(sort.equals("newest")) {
+        if (sort.equals("newest")) {
             postPage = postRepository.findByKeyword(pageable, keyword);
         }
 

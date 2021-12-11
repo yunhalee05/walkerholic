@@ -31,7 +31,8 @@ public class OrderCreateDTO {
         this.address = address;
     }
 
-    public OrderCreateDTO(Integer id, String paymentMethod, AddressDTO address, List<OrderItemCreateDTO> orderItems, Integer userId) {
+    public OrderCreateDTO(Integer id, String paymentMethod, AddressDTO address,
+        List<OrderItemCreateDTO> orderItems, Integer userId) {
         this.id = id;
         this.paymentMethod = paymentMethod;
         this.address = address;
@@ -39,7 +40,8 @@ public class OrderCreateDTO {
         this.userId = userId;
     }
 
-    public OrderCreateDTO(String paymentMethod, AddressDTO address, List<OrderItemCreateDTO> orderItems, Integer userId) {
+    public OrderCreateDTO(String paymentMethod, AddressDTO address,
+        List<OrderItemCreateDTO> orderItems, Integer userId) {
         this.paymentMethod = paymentMethod;
         this.address = address;
         this.orderItems = orderItems;

@@ -49,12 +49,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
+    public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(jwtUserDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
@@ -69,7 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception{
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
@@ -77,41 +77,48 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.cors()
-                    .and()
-                .csrf()
-                    .disable()
-                .formLogin()
-                    .disable()
-                .authorizeRequests()
-                    .antMatchers("/authenticate", "/signin","/signup","/user/check_email","/user/register","/activities","/activity/**","/posts/home/**","/posts/search/**", "/categories", "/levels", "/user/forgotPassword/**","/product/**", "/products/**","/user/search/**","/posts/search/**")
-                        .permitAll()
-                    .antMatchers("/activity/save","/deleteActivity/**","/orderlist/**","/productlist/**","/userlist/**","/user/delete/**").hasAnyAuthority("ADMIN")
-                    .antMatchers("/orderlistBySeller/**","/order/deliver/**","/productlistBySeller/**","/product/save").hasAnyAuthority("ADMIN","SELLER")
-                    .antMatchers("/userActivities/**","/userActivity/**","/follow/**","/unfollow/**","/cartItems/**","/createCart/**","/addToCart/**","/updateQty/**","/deleteOrderItem/**","/orderlistByUser/**","/payOrder","/payOrder/**","/getOrder/**","/order/cancel/**").hasAnyAuthority("ADMIN","SELLER","USER")
-                .anyRequest()
-                    .authenticated()
+            .and()
+            .csrf()
+            .disable()
+            .formLogin()
+            .disable()
+            .authorizeRequests()
+            .antMatchers("/authenticate", "/signin", "/signup", "/user/check_email",
+                "/user/register", "/activities", "/activity/**", "/posts/home/**",
+                "/posts/search/**", "/categories", "/levels", "/user/forgotPassword/**",
+                "/product/**", "/products/**", "/user/search/**", "/posts/search/**")
+            .permitAll()
+            .antMatchers("/activity/save", "/deleteActivity/**", "/orderlist/**", "/productlist/**",
+                "/userlist/**", "/user/delete/**").hasAnyAuthority("ADMIN")
+            .antMatchers("/orderlistBySeller/**", "/order/deliver/**", "/productlistBySeller/**",
+                "/product/save").hasAnyAuthority("ADMIN", "SELLER")
+            .antMatchers("/userActivities/**", "/userActivity/**", "/follow/**", "/unfollow/**",
+                "/cartItems/**", "/createCart/**", "/addToCart/**", "/updateQty/**",
+                "/deleteOrderItem/**", "/orderlistByUser/**", "/payOrder", "/payOrder/**",
+                "/getOrder/**", "/order/cancel/**").hasAnyAuthority("ADMIN", "SELLER", "USER")
+            .anyRequest()
+            .authenticated()
 //                    .permitAll()
-                    .and()
-                .exceptionHandling()
-                    .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                    .and()
-                .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
-                .oauth2Login()
-                    .authorizationEndpoint()
-                    .authorizationRequestRepository(cookieAuthorizationRequestRepository())
-                    .baseUri("/oauth2/authorization")
-                    .and()
-                    .redirectionEndpoint()
-                    .baseUri("/oauth2/callback/*")
-                    .and()
-                    .userInfoEndpoint()
-                    .userService(customOauth2UserService)
-                    .and()
-                    .successHandler(oAuth2SuccessHandler)
-                    .failureHandler((AuthenticationFailureHandler) oAuth2AuthenticationFailureHandler);
-
+            .and()
+            .exceptionHandling()
+            .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .oauth2Login()
+            .authorizationEndpoint()
+            .authorizationRequestRepository(cookieAuthorizationRequestRepository())
+            .baseUri("/oauth2/authorization")
+            .and()
+            .redirectionEndpoint()
+            .baseUri("/oauth2/callback/*")
+            .and()
+            .userInfoEndpoint()
+            .userService(customOauth2UserService)
+            .and()
+            .successHandler(oAuth2SuccessHandler)
+            .failureHandler((AuthenticationFailureHandler) oAuth2AuthenticationFailureHandler);
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
@@ -119,6 +126,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/profileUploads/**","/messageUploads/**","/productUploads/**","/activityUploads/**","/postUploads/**", "/js/**","/webjars/**");
+        web.ignoring().antMatchers("/profileUploads/**", "/messageUploads/**", "/productUploads/**",
+            "/activityUploads/**", "/postUploads/**", "/js/**", "/webjars/**");
     }
 }

@@ -14,7 +14,7 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Order extends BaseTimeEntity{
+public class Order extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,22 +53,23 @@ public class Order extends BaseTimeEntity{
     private Set<OrderItem> orderItems = new HashSet<>();
 
     @Transient
-    public Float getTotalAmount(){
+    public Float getTotalAmount() {
         Float totalAmount = 0f;
         for (OrderItem orderItem : this.orderItems) {
-            totalAmount += orderItem.getProduct().getPrice()* orderItem.getQty();
+            totalAmount += orderItem.getProduct().getPrice() * orderItem.getQty();
         }
         return totalAmount;
     }
 
     //연관관계메서드
-    public void addOrderItem(OrderItem orderItem){
+    public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem);
         orderItem.setOrder(this);
     }
 
     //비지니스 로직
-    public static Order createOrder(User user, Address address, List<OrderItem> orderItems,String paymentMethod){
+    public static Order createOrder(User user, Address address, List<OrderItem> orderItems,
+        String paymentMethod) {
         Order order = new Order();
         order.setUser(user);
         order.setAddress(address);
@@ -80,8 +81,8 @@ public class Order extends BaseTimeEntity{
         return order;
     }
 
-    public void cancel(){
-        if(isDelivered){
+    public void cancel() {
+        if (isDelivered) {
             throw new IllegalStateException("Order Already Completed.");
         }
         this.setOrderStatus(OrderStatus.CANCEL);
@@ -90,8 +91,8 @@ public class Order extends BaseTimeEntity{
         });
     }
 
-    public void deliver(){
-        if(!isPaid){
+    public void deliver() {
+        if (!isPaid) {
             throw new IllegalStateException("Order must be paid.");
         }
         this.setDelivered(true);

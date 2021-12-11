@@ -1,7 +1,6 @@
 package com.yunhalee.walkerholic.security;
 
 
-
 import com.yunhalee.walkerholic.entity.User;
 import com.yunhalee.walkerholic.repository.UserRepository;
 import lombok.NoArgsConstructor;
@@ -26,7 +25,9 @@ public class JwtUserDetailsService implements UserDetailsService {
 
         User entityUser = userRepo.findByEmail(username);
 
-        if(entityUser != null) return new JwtUserDetails(entityUser);
+        if (entityUser != null) {
+            return new JwtUserDetails(entityUser);
+        }
 
         throw new UsernameNotFoundException("Could not find user with email : " + username);
     }

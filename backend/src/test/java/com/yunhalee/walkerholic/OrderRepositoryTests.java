@@ -43,7 +43,7 @@ public class OrderRepositoryTests {
     public static final int ORDER_LIST_PER_PAGE = 10;
 
     @Test
-    public void createOrder(){
+    public void createOrder() {
         //given
         User user = userRepository.findById(1).get();
         OrderItem orderItem = orderItemRepository.findById(1).get();
@@ -71,22 +71,22 @@ public class OrderRepositoryTests {
     }
 
     @Test
-    public void updateOrder(){
+    public void updateOrder() {
         //given
         Integer orderId = 1;
         Order order = orderRepository.findById(orderId).get();
         Float originalShipping = order.getShipping();
-        order.setShipping(originalShipping+1f);
+        order.setShipping(originalShipping + 1f);
 
         //when
         Order order1 = orderRepository.save(order);
 
         //then
-        assertThat(order1.getShipping()).isEqualTo(originalShipping+1f);
+        assertThat(order1.getShipping()).isEqualTo(originalShipping + 1f);
     }
 
     @Test
-    public void getByOrderId(){
+    public void getByOrderId() {
         //given
         Integer orderId = 1;
 
@@ -99,32 +99,34 @@ public class OrderRepositoryTests {
 
 
     @Test
-    public void getBySellerId(){
+    public void getBySellerId() {
         //given
         Integer sellerId = 1;
         Integer page = 1;
 
         //when
-        Pageable pageable = PageRequest.of(page-1,ORDER_LIST_PER_PAGE);
+        Pageable pageable = PageRequest.of(page - 1, ORDER_LIST_PER_PAGE);
         Page<Order> orderPage = orderRepository.findByUserId(pageable, sellerId, OrderStatus.CART);
         List<Order> orders = orderPage.getContent();
 
         //then
         for (Order order : orders) {
-            List<Integer> orderItemSellerIds = order.getOrderItems().stream().map(orderItem -> orderItem.getProduct().getUser().getId()).collect(Collectors.toList());
+            List<Integer> orderItemSellerIds = order.getOrderItems().stream()
+                .map(orderItem -> orderItem.getProduct().getUser().getId())
+                .collect(Collectors.toList());
             assertThat(orderItemSellerIds).contains(sellerId);
         }
 
     }
 
     @Test
-    public void getByUserId(){
+    public void getByUserId() {
         //given
         Integer userId = 1;
         Integer page = 1;
 
         //when
-        Pageable pageable = PageRequest.of(page-1,ORDER_LIST_PER_PAGE);
+        Pageable pageable = PageRequest.of(page - 1, ORDER_LIST_PER_PAGE);
         Page<Order> orderPage = orderRepository.findByUserId(pageable, userId, OrderStatus.CART);
         List<Order> orders = orderPage.getContent();
 
@@ -136,12 +138,12 @@ public class OrderRepositoryTests {
     }
 
     @Test
-    public void getCartByUserId(){
+    public void getCartByUserId() {
         //given
         Integer userId = 1;
 
         //when
-        Order order = orderRepository.findCartItemsByUserId(OrderStatus.CART,userId);
+        Order order = orderRepository.findCartItemsByUserId(OrderStatus.CART, userId);
 
         //then
         assertThat(order.getOrderStatus()).isEqualTo(OrderStatus.CART);
@@ -149,12 +151,12 @@ public class OrderRepositoryTests {
     }
 
     @Test
-    public void getOrders(){
+    public void getOrders() {
         //given
         Integer page = 1;
 
         //when
-        Pageable pageable = PageRequest.of(page-1,ORDER_LIST_PER_PAGE);
+        Pageable pageable = PageRequest.of(page - 1, ORDER_LIST_PER_PAGE);
         Page<Order> orderPage = orderRepository.findAll(pageable, OrderStatus.CART);
         List<Order> orders = orderPage.getContent();
 
@@ -163,7 +165,7 @@ public class OrderRepositoryTests {
     }
 
     @Test
-    public void cancelOrder(){
+    public void cancelOrder() {
         //given
         Integer orderId = 3;
         Order order = orderRepository.findById(orderId).get();

@@ -18,6 +18,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
@@ -42,39 +43,42 @@ public class PostServiceTests {
     FollowRepository followRepository;
 
     @Test
-    public void createPost(){
+    public void createPost() {
         //given
         String title = "testTitle";
         String content = "testContent";
         Integer userId = 1;
         PostCreateDTO postCreateDTO = new PostCreateDTO(title, content, userId);
         MultipartFile multipartFile = new MockMultipartFile("uploaded-file",
-                "sampleFile.txt",
-                "text/plain",
-                "This is the file content".getBytes());
+            "sampleFile.txt",
+            "text/plain",
+            "This is the file content".getBytes());
         List<MultipartFile> multipartFiles = new ArrayList<>();
         multipartFiles.add(multipartFile);
 
         //when
-        PostDTO postDTO = postService.savePost(postCreateDTO, multipartFiles,null);
+        PostDTO postDTO = postService.savePost(postCreateDTO, multipartFiles, null);
 
         //then
         assertNotNull(postDTO.getId());
         assertEquals(postDTO.getTitle(), title);
         assertEquals(postDTO.getContent(), content);
         assertNotNull(postDTO.getPostImages());
-        assertEquals(postRepository.findById(postDTO.getId()).get().getPostImages().get(0).getName(),"sampleFile.txt");
+        assertEquals(
+            postRepository.findById(postDTO.getId()).get().getPostImages().get(0).getName(),
+            "sampleFile.txt");
     }
 
     @Test
-    public void updatePost(){
+    public void updatePost() {
         //given
         Integer postId = 1;
         Post post = postRepository.findById(postId).get();
         String originalContent = post.getContent();
         String newContent = "updateTestPost";
         post.setContent(newContent);
-        PostCreateDTO postCreateDTO = new PostCreateDTO(post.getId(), post.getTitle(),post.getContent(), post.getUser().getId());
+        PostCreateDTO postCreateDTO = new PostCreateDTO(post.getId(), post.getTitle(),
+            post.getContent(), post.getUser().getId());
 
         //when
         PostDTO postDTO = postService.savePost(postCreateDTO, null, null);
@@ -82,11 +86,11 @@ public class PostServiceTests {
         //then
         assertEquals(postDTO.getId(), postId);
         assertNotEquals(postDTO.getContent(), originalContent);
-        assertEquals(postDTO.getContent(),newContent);
+        assertEquals(postDTO.getContent(), newContent);
     }
 
     @Test
-    public void getPostById(){
+    public void getPostById() {
         //given
         Integer postId = 1;
 
@@ -94,11 +98,11 @@ public class PostServiceTests {
         PostDTO postDTO = postService.getPost(postId);
 
         //then
-        assertEquals(postDTO.getId(),postId);
+        assertEquals(postDTO.getId(), postId);
     }
 
     @Test
-    public void getPostsByUserId(){
+    public void getPostsByUserId() {
         //given
         Integer userId = 1;
 
@@ -112,13 +116,15 @@ public class PostServiceTests {
             assertEquals(postRepository.findById(post.getId()).get().getUser().getId(), userId);
         }
         for (UserPostDTO likePost : likePosts) {
-            List<Integer> likeIds = postRepository.findById(likePost.getId()).get().getLikePosts().stream().map(likePost1 -> likePost1.getUser().getId()).collect(Collectors.toList());
+            List<Integer> likeIds = postRepository.findById(likePost.getId()).get().getLikePosts()
+                .stream().map(likePost1 -> likePost1.getUser().getId())
+                .collect(Collectors.toList());
             assertThat(likeIds).contains(userId);
         }
     }
 
     @Test
-    public void getPostsByRandom(){
+    public void getPostsByRandom() {
         //given
         Integer userId = 1;
         Integer page = 1;
@@ -129,12 +135,13 @@ public class PostServiceTests {
 
         //then
         for (PostDTO postDTO : postDTOS) {
-            assertNotEquals(postRepository.findById(postDTO.getId()).get().getUser().getId(), userId);
+            assertNotEquals(postRepository.findById(postDTO.getId()).get().getUser().getId(),
+                userId);
         }
     }
 
     @Test
-    public void getHomePosts(){
+    public void getHomePosts() {
         //given
         Integer page = 1;
         String sort = "popular";
@@ -144,15 +151,19 @@ public class PostServiceTests {
         List<UserPostDTO> userPostDTOS = (List<UserPostDTO>) response.get("posts");
 
         //then
-        Integer priorLikeSize = postRepository.findById(userPostDTOS.get(0).getId()).get().getLikePosts().size();
-        for(int i = 1; i<userPostDTOS.size(); i++){
-            assertThat(postRepository.findById(userPostDTOS.get(i).getId()).get().getLikePosts().size()).isLessThanOrEqualTo(priorLikeSize);
-            priorLikeSize = postRepository.findById(userPostDTOS.get(i).getId()).get().getLikePosts().size();
+        Integer priorLikeSize = postRepository.findById(userPostDTOS.get(0).getId()).get()
+            .getLikePosts().size();
+        for (int i = 1; i < userPostDTOS.size(); i++) {
+            assertThat(
+                postRepository.findById(userPostDTOS.get(i).getId()).get().getLikePosts().size())
+                .isLessThanOrEqualTo(priorLikeSize);
+            priorLikeSize = postRepository.findById(userPostDTOS.get(i).getId()).get()
+                .getLikePosts().size();
         }
     }
 
     @Test
-    public void getPostsByFollowings(){
+    public void getPostsByFollowings() {
         //given
         Integer userId = 1;
         Integer page = 1;
@@ -160,16 +171,18 @@ public class PostServiceTests {
         //when
         HashMap<String, Object> response = postService.getPostsByFollowings(page, userId);
         List<PostDTO> postDTOS = (List<PostDTO>) response.get("posts");
-        List<Integer> followings = followRepository.findAllByFromUserId(userId).stream().map(follow -> follow.getToUser().getId()).collect(Collectors.toList());
+        List<Integer> followings = followRepository.findAllByFromUserId(userId).stream()
+            .map(follow -> follow.getToUser().getId()).collect(Collectors.toList());
 
         //then
         for (PostDTO postDTO : postDTOS) {
-            assertThat(followings).contains(postRepository.findById(postDTO.getId()).get().getUser().getId());
+            assertThat(followings)
+                .contains(postRepository.findById(postDTO.getId()).get().getUser().getId());
         }
     }
 
     @Test
-    public void getPostsByKeyword(){
+    public void getPostsByKeyword() {
         //given
         Integer page = 1;
         String sort = "likeposts";
@@ -180,17 +193,21 @@ public class PostServiceTests {
         List<UserPostDTO> userPostDTOS = (List<UserPostDTO>) response.get("posts");
 
         //then
-        Integer priorLikeSize = postRepository.findById(userPostDTOS.get(0).getId()).get().getLikePosts().size();
-        for(int i = 1; i<userPostDTOS.size(); i++){
-            assertThat(postRepository.findById(userPostDTOS.get(i).getId()).get().getLikePosts().size()).isLessThanOrEqualTo(priorLikeSize);
-            priorLikeSize = postRepository.findById(userPostDTOS.get(i).getId()).get().getLikePosts().size();
+        Integer priorLikeSize = postRepository.findById(userPostDTOS.get(0).getId()).get()
+            .getLikePosts().size();
+        for (int i = 1; i < userPostDTOS.size(); i++) {
+            assertThat(
+                postRepository.findById(userPostDTOS.get(i).getId()).get().getLikePosts().size())
+                .isLessThanOrEqualTo(priorLikeSize);
+            priorLikeSize = postRepository.findById(userPostDTOS.get(i).getId()).get()
+                .getLikePosts().size();
         }
         userPostDTOS.forEach(post -> assertThat(post.getTitle().contains(keyword)));
         userPostDTOS.forEach(post -> System.out.println(post.getTitle()));
     }
 
     @Test
-    public void deletePost(){
+    public void deletePost() {
         //given
         Integer id = 1;
 

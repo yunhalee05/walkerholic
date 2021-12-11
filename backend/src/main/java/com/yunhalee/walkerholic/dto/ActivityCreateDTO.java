@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ActivityCreateDTO {
+
     private Integer id;
 
     private String name;
@@ -38,7 +39,6 @@ public class ActivityCreateDTO {
         this.score = score;
         this.description = description;
     }
-
 
 
 }

@@ -66,25 +66,28 @@ public class UserServiceTests {
         String phoneNumber = "01000000000";
         String description = "This is test.";
 
-        UserRegisterDTO userRegisterDTO = new UserRegisterDTO(firstname, lastname,email,password,phoneNumber,description,false);
+        UserRegisterDTO userRegisterDTO = new UserRegisterDTO(firstname, lastname, email, password,
+            phoneNumber, description, false);
 
         MultipartFile multipartFile = new MockMultipartFile("uploaded-file",
-                "sampleFile.txt",
-                "text/plain",
-                "This is the file content".getBytes());
+            "sampleFile.txt",
+            "text/plain",
+            "This is the file content".getBytes());
 
         //when
-        UserDTO userDTO = userService.saveUser(userRegisterDTO,multipartFile);
+        UserDTO userDTO = userService.saveUser(userRegisterDTO, multipartFile);
 
         //then
         assertNotNull(userDTO.getId());
         assertEquals(firstname, userDTO.getFirstname());
-        assertEquals(lastname,userDTO.getLastname());
-        assertEquals(email,userDTO.getEmail());
-        assertTrue(passwordEncoder.matches(password, userRepository.findById(userDTO.getId()).get().getPassword()));
-        assertEquals(phoneNumber,userDTO.getPhoneNumber());
-        assertEquals(description,userDTO.getDescription());
-        assertEquals("/profileUploads/" + userDTO.getId() + "/" + "sampleFile.txt",userDTO.getImageUrl());
+        assertEquals(lastname, userDTO.getLastname());
+        assertEquals(email, userDTO.getEmail());
+        assertTrue(passwordEncoder
+            .matches(password, userRepository.findById(userDTO.getId()).get().getPassword()));
+        assertEquals(phoneNumber, userDTO.getPhoneNumber());
+        assertEquals(description, userDTO.getDescription());
+        assertEquals("/profileUploads/" + userDTO.getId() + "/" + "sampleFile.txt",
+            userDTO.getImageUrl());
     }
 
     @Test
@@ -95,7 +98,8 @@ public class UserServiceTests {
 
         //when
         try {
-            Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+            Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(email, password));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
@@ -112,12 +116,13 @@ public class UserServiceTests {
         //then
         assertNotNull(userDTO.getId());
         assertEquals(userDTO.getEmail(), email);
-        assertTrue(passwordEncoder.matches(password,userRepository.findById(userDTO.getId()).get().getPassword()));
+        assertTrue(passwordEncoder
+            .matches(password, userRepository.findById(userDTO.getId()).get().getPassword()));
         assertNotNull(token);
     }
 
     @Test
-    public void getUserByToken(){
+    public void getUserByToken() {
         //given
         String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwZTZhN2VlOWE5YzM0NmFiY2UwOGZjNyIsImlhdCI6MTYyNTk4Njk1OCwiZXhwIjoxNjI4NTc4OTU4fQ.CEF6_3eb1tXcv8m8xMSIvUG5VY8dJ2bC8ke9pZaTXog";
 
@@ -141,10 +146,11 @@ public class UserServiceTests {
         String phoneNumber = "01000000000";
         String description = "This is test.";
 
-        UserRegisterDTO userRegisterDTO = new UserRegisterDTO(firstname, lastname,email,password,phoneNumber,description,false);
+        UserRegisterDTO userRegisterDTO = new UserRegisterDTO(firstname, lastname, email, password,
+            phoneNumber, description, false);
 
         //when
-        UserDTO userDTO = userService.saveUser(userRegisterDTO,null);
+        UserDTO userDTO = userService.saveUser(userRegisterDTO, null);
 
         //then
         fail("User Email is Duplicated");
@@ -162,8 +168,8 @@ public class UserServiceTests {
         String phoneNumber = "01000000000";
         String description = "This is test.";
 
-        UserRegisterDTO userRegisterDTO = new UserRegisterDTO(id,firstname, lastname,email,password,phoneNumber,description,false);
-
+        UserRegisterDTO userRegisterDTO = new UserRegisterDTO(id, firstname, lastname, email,
+            password, phoneNumber, description, false);
 
         //when
         UserDTO userDTO = userService.saveUser(userRegisterDTO, null);
@@ -173,7 +179,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void getUser(){
+    public void getUser() {
         //given
         Integer id = 17;
 
@@ -186,7 +192,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void getUsersByPage(){
+    public void getUsersByPage() {
         //given
         Integer page = 1;
         String sort = "id";
@@ -203,7 +209,7 @@ public class UserServiceTests {
     }
 
     @Test
-    public void getUserByKeyword(){
+    public void getUserByKeyword() {
         //given
         String keyword = "lee";
 
@@ -211,12 +217,13 @@ public class UserServiceTests {
         List<UserSearchDTO> userSearchDTOS = userService.searchUser(keyword);
 
         //then
-        assertNotEquals(userSearchDTOS.size(),0);
-        userSearchDTOS.forEach(userSearchDTO -> System.out.println(userSearchDTO.getFirstname()+userSearchDTO.getLastname()) );
+        assertNotEquals(userSearchDTOS.size(), 0);
+        userSearchDTOS.forEach(userSearchDTO -> System.out
+            .println(userSearchDTO.getFirstname() + userSearchDTO.getLastname()));
     }
 
     @Test
-    public void deleteUser(){
+    public void deleteUser() {
         //given
         Integer id = 17;
 

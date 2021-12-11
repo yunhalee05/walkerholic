@@ -19,7 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Post extends BaseTimeEntity{
+public class Post extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

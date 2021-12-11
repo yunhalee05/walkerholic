@@ -22,7 +22,8 @@ public class FollowsDTO {
     }
 
     @Getter
-    static class followUser{
+    static class followUser {
+
         private Integer id;
         private String fullname;
         private String imageUrl;

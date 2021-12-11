@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LikePostRepository extends JpaRepository<LikePost, Integer> {
+
 }

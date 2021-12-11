@@ -31,17 +31,17 @@ public class UserActivityService {
 
     public static final int USERACTIVITY_PER_PAGE = 10;
 
-
-    public HashMap<String, Object> getByUser(Integer page, Integer id){
-        Pageable pageable = PageRequest.of(page-1,USERACTIVITY_PER_PAGE);
-        Page<UserActivity> userActivityPage = userActivityRepository.findByUserId(pageable,id);
+    public HashMap<String, Object> getByUser(Integer page, Integer id) {
+        Pageable pageable = PageRequest.of(page - 1, USERACTIVITY_PER_PAGE);
+        Page<UserActivity> userActivityPage = userActivityRepository.findByUserId(pageable, id);
         List<UserActivity> userActivities = userActivityPage.getContent();
         List<UserActivityDTO> userActivityDTOS = new ArrayList<>();
         Integer score = 0;
 
         for (UserActivity userActivity : userActivities) {
-            userActivityDTOS.add(new UserActivityDTO(userActivity,userActivity.getStatus()==ActivityStatus.FINISHED ));
-            if(userActivity.getStatus()==ActivityStatus.FINISHED){
+            userActivityDTOS.add(new UserActivityDTO(userActivity,
+                userActivity.getStatus() == ActivityStatus.FINISHED));
+            if (userActivity.getStatus() == ActivityStatus.FINISHED) {
                 score += userActivity.getActivity().getScore();
             }
         }
@@ -55,45 +55,50 @@ public class UserActivityService {
         return userActivityList;
     }
 
-    public HashMap<String, Object> saveUserActivity(UserActivityCreateDTO userActivityCreateDTO, Integer id){
+    public HashMap<String, Object> saveUserActivity(UserActivityCreateDTO userActivityCreateDTO,
+        Integer id) {
 
         HashMap<String, Object> map = new HashMap<>();
 
-        if(userActivityCreateDTO.getId()!=null){
-            UserActivity existingUserActivity = userActivityRepository.findById(userActivityCreateDTO.getId()).get();
+        if (userActivityCreateDTO.getId() != null) {
+            UserActivity existingUserActivity = userActivityRepository
+                .findById(userActivityCreateDTO.getId()).get();
 
-            if(userActivityCreateDTO.isFinished()){
-                if(existingUserActivity.getStatus()!=ActivityStatus.FINISHED){
+            if (userActivityCreateDTO.isFinished()) {
+                if (existingUserActivity.getStatus() != ActivityStatus.FINISHED) {
                     existingUserActivity.setStatus(ActivityStatus.FINISHED);
                     User user = userRepository.findById(id).get();
                     user.addUserActivity(existingUserActivity);
                     userRepository.save(user);
                     map.put("level", user.getLevel().getName());
                 }
-            }else{
+            } else {
                 existingUserActivity.setStatus(ActivityStatus.ONGOING);
             }
             userActivityRepository.save(existingUserActivity);
-            UserActivityDTO userActivityDTO = new UserActivityDTO(existingUserActivity,existingUserActivity.getStatus()==ActivityStatus.FINISHED );
+            UserActivityDTO userActivityDTO = new UserActivityDTO(existingUserActivity,
+                existingUserActivity.getStatus() == ActivityStatus.FINISHED);
             map.put("activity", userActivityDTO);
-        }else{
+        } else {
             UserActivity userActivity = new UserActivity();
             User user = userRepository.findById(id).get();
-            Activity activity = activityRepository.findById(userActivityCreateDTO.getActivityId()).get();
+            Activity activity = activityRepository.findById(userActivityCreateDTO.getActivityId())
+                .get();
 
             userActivity.setUser(user);
             userActivity.setActivity(activity);
             System.out.println(userActivityCreateDTO.isFinished());
-            if(userActivityCreateDTO.isFinished()){
+            if (userActivityCreateDTO.isFinished()) {
                 userActivity.setStatus(ActivityStatus.FINISHED);
                 user.addUserActivity(userActivity);
                 userRepository.save(user);
-            }else{
+            } else {
                 userActivity.setStatus(ActivityStatus.ONGOING);
             }
 
             userActivityRepository.save(userActivity);
-            UserActivityDTO userActivityDTO = new UserActivityDTO(userActivity,userActivity.getStatus()==ActivityStatus.FINISHED );
+            UserActivityDTO userActivityDTO = new UserActivityDTO(userActivity,
+                userActivity.getStatus() == ActivityStatus.FINISHED);
             map.put("activity", userActivityDTO);
             map.put("level", user.getLevel().getName());
         }

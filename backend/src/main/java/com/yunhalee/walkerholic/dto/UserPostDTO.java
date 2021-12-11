@@ -25,7 +25,6 @@ public class UserPostDTO {
 
     private Integer userId;
 
-
     public UserPostDTO(Post post) {
         this.id = post.getId();
         this.title = post.getTitle();

@@ -23,7 +23,8 @@ public class UserRegisterDTO {
 
     private boolean isSeller;
 
-    public UserRegisterDTO(Integer id, String firstname, String lastname, String email, String password, String phoneNumber, String description, boolean isSeller) {
+    public UserRegisterDTO(Integer id, String firstname, String lastname, String email,
+        String password, String phoneNumber, String description, boolean isSeller) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -34,7 +35,8 @@ public class UserRegisterDTO {
         this.isSeller = isSeller;
     }
 
-    public UserRegisterDTO(String firstname, String lastname, String email, String password, String phoneNumber, String description, boolean isSeller) {
+    public UserRegisterDTO(String firstname, String lastname, String email, String password,
+        String phoneNumber, String description, boolean isSeller) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;

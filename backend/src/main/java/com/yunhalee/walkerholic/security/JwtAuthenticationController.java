@@ -40,11 +40,13 @@ public class JwtAuthenticationController {
     private final UserService userService;
 
     @PostMapping("/signin")
-    public ResponseEntity<?> signin(@RequestBody JwtRequest authenticationRequest) throws Exception{
+    public ResponseEntity<?> signin(@RequestBody JwtRequest authenticationRequest)
+        throws Exception {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        final UserDetails userDetails = userDetailsService
+            .loadUserByUsername(authenticationRequest.getUsername());
 
         final String token = jwtTokenUtil.generateToken(userDetails.getUsername());
 
@@ -59,15 +61,17 @@ public class JwtAuthenticationController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestParam("firstname")String firstname,
-                                    @RequestParam("lastname")String lastname,
-                                    @RequestParam("email")String email,
-                                    @RequestParam("password")String password,
-                                    @RequestParam("phoneNumber")String phoneNumber,
-                                    @RequestParam("description")String description,
-                                    @RequestParam("isSeller")boolean isSeller,
-                                    @RequestParam(value = "multipartFile", required = false) MultipartFile multipartFile) throws IOException {
-        UserRegisterDTO userRegisterDTO = new UserRegisterDTO(firstname, lastname,email,password,phoneNumber,description,isSeller);
+    public ResponseEntity<?> signup(@RequestParam("firstname") String firstname,
+        @RequestParam("lastname") String lastname,
+        @RequestParam("email") String email,
+        @RequestParam("password") String password,
+        @RequestParam("phoneNumber") String phoneNumber,
+        @RequestParam("description") String description,
+        @RequestParam("isSeller") boolean isSeller,
+        @RequestParam(value = "multipartFile", required = false) MultipartFile multipartFile)
+        throws IOException {
+        UserRegisterDTO userRegisterDTO = new UserRegisterDTO(firstname, lastname, email, password,
+            phoneNumber, description, isSeller);
         UserDTO userDTO = userService.saveUser(userRegisterDTO, multipartFile);
         final String token = jwtTokenUtil.generateToken(userDTO.getEmail());
 
@@ -80,7 +84,7 @@ public class JwtAuthenticationController {
 
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> authenticate(@Param("token")String token) {
+    public ResponseEntity<?> authenticate(@Param("token") String token) {
         String email = jwtTokenUtil.getUsernameFromToken(token);
         User user = userRepository.findByEmail(email);
         UserDTO userDTO = new UserDTO(user);
@@ -92,7 +96,8 @@ public class JwtAuthenticationController {
 
     private void authenticate(String username, String password) throws Exception {
         try {
-            Authentication authentication=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(username, password));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);

@@ -8,8 +8,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LikePostDTO {
+
     private Integer id;
+
     private Integer postId;
+
     private UserLikePost user;
 
     public LikePostDTO(LikePost likePost) {
@@ -19,7 +22,8 @@ public class LikePostDTO {
     }
 
     @Getter
-    static class UserLikePost{
+    static class UserLikePost {
+
         private Integer id;
         private String fullname;
         private String imageUrl;

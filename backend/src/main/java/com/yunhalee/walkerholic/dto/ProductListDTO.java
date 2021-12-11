@@ -28,7 +28,7 @@ public class ProductListDTO {
 
     private String description;
 
-    public ProductListDTO(Product product){
+    public ProductListDTO(Product product) {
         this.id = product.getId();
         this.name = product.getName();
         this.brand = product.getBrand();

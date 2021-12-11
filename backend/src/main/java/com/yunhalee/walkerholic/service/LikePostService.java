@@ -20,7 +20,7 @@ public class LikePostService {
 
     private final UserRepository userRepository;
 
-    public LikePostDTO likePost(Integer postId, Integer userId){
+    public LikePostDTO likePost(Integer postId, Integer userId) {
         Post post = postRepository.findById(postId).get();
         User user = userRepository.findById(userId).get();
 
@@ -29,7 +29,7 @@ public class LikePostService {
         return new LikePostDTO(likePost);
     }
 
-    public Integer unlikePost(Integer id){
+    public Integer unlikePost(Integer id) {
         likePostRepository.deleteById(id);
         return id;
     }

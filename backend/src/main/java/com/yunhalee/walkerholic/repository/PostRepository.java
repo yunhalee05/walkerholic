@@ -20,26 +20,26 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     List<Post> findByLikePostUserId(Integer id);
 
     @Query(value = "SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.postImages i LEFT JOIN FETCH p.likePosts LEFT JOIN FETCH p.user u WHERE NOT u.id=:id ORDER BY RAND()",
-            countQuery = "SELECT count(DISTINCT p) FROM Post p")
+        countQuery = "SELECT count(DISTINCT p) FROM Post p")
     Page<Post> findByRandom(Pageable pageable, Integer id);
 
     @Query(value = "SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.postImages i LEFT JOIN FETCH p.likePosts LEFT JOIN FETCH p.user u ORDER BY p.createdAt DESC",
-            countQuery = "SELECT count(DISTINCT p) FROM Post p")
+        countQuery = "SELECT count(DISTINCT p) FROM Post p")
     Page<Post> findByCreateAt(Pageable pageable);
 
     @Query(value = "SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.postImages i LEFT JOIN FETCH p.likePosts l LEFT JOIN FETCH l.user LEFT JOIN FETCH p.user u WHERE u.id in :followings",
-            countQuery = "SELECT count(DISTINCT p) FROM Post p")
+        countQuery = "SELECT count(DISTINCT p) FROM Post p")
     Page<Post> findByFollowings(Pageable pageable, List<Integer> followings);
 
     @Query(value = "SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.postImages i LEFT JOIN FETCH p.likePosts LEFT JOIN FETCH p.user u ORDER BY SIZE(p.likePosts) DESC",
-            countQuery = "SELECT count(DISTINCT p) FROM Post p")
+        countQuery = "SELECT count(DISTINCT p) FROM Post p")
     Page<Post> findByLikePostSize(Pageable pageable);
 
     @Query(value = "SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.postImages i LEFT JOIN FETCH p.likePosts LEFT JOIN FETCH p.user u WHERE p.title LIKE %:keyword% ORDER BY p.createdAt DESC",
-            countQuery = "SELECT count(DISTINCT p) FROM Post p")
+        countQuery = "SELECT count(DISTINCT p) FROM Post p")
     Page<Post> findByKeyword(Pageable pageable, String keyword);
 
     @Query(value = "SELECT DISTINCT p FROM Post p LEFT JOIN FETCH p.postImages i LEFT JOIN FETCH p.likePosts LEFT JOIN FETCH p.user u WHERE p.title LIKE %:keyword%  ORDER BY SIZE(p.likePosts) DESC",
-            countQuery = "SELECT count(DISTINCT p) FROM Post p")
+        countQuery = "SELECT count(DISTINCT p) FROM Post p")
     Page<Post> findByLikePostSizeAndKeyword(Pageable pageable, String keyword);
 }

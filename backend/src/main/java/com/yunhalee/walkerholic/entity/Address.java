@@ -33,7 +33,8 @@ public class Address {
         this.address = address;
     }
 
-    public Address(String name, String country, String city, String zipcode, String address, Integer latitude, Integer longitude) {
+    public Address(String name, String country, String city, String zipcode, String address,
+        Integer latitude, Integer longitude) {
         this.name = name;
         this.country = country;
         this.city = city;
@@ -50,7 +51,8 @@ public class Address {
         this.address = address;
     }
 
-    public Address(String country, String city, String zipcode, String address, Integer latitude, Integer longitude) {
+    public Address(String country, String city, String zipcode, String address, Integer latitude,
+        Integer longitude) {
         this.country = country;
         this.city = city;
         this.zipcode = zipcode;

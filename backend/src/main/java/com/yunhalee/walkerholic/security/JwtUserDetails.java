@@ -1,7 +1,6 @@
 package com.yunhalee.walkerholic.security;
 
 
-
 import com.yunhalee.walkerholic.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

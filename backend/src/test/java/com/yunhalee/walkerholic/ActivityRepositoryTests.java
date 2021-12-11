@@ -23,9 +23,10 @@ public class ActivityRepositoryTests {
     ActivityRepository repo;
 
     @Test
-    public void createActivity(){
+    public void createActivity() {
         //given
-        Activity activity = new Activity("Plogging90", 100, "Picking up trash while jogging for more than 90minutes.");
+        Activity activity = new Activity("Plogging90", 100,
+            "Picking up trash while jogging for more than 90minutes.");
 
         //when
         Activity activity1 = repo.save(activity);
@@ -35,7 +36,7 @@ public class ActivityRepositoryTests {
     }
 
     @Test
-    public void updateActivity(){
+    public void updateActivity() {
         //given
         Integer id = 1;
         Activity activity = repo.findById(id).get();
@@ -50,7 +51,7 @@ public class ActivityRepositoryTests {
     }
 
     @Test
-    public void getActivityById(){
+    public void getActivityById() {
         //given
         Integer id = 1;
 
@@ -62,7 +63,7 @@ public class ActivityRepositoryTests {
     }
 
     @Test
-    public void getAllActivities(){
+    public void getAllActivities() {
         //given
 
         //when
@@ -73,7 +74,7 @@ public class ActivityRepositoryTests {
     }
 
     @Test
-    public void deleteActivity(){
+    public void deleteActivity() {
         //given
         Integer id = 1;
 

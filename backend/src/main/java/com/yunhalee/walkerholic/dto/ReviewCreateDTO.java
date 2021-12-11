@@ -10,9 +10,13 @@ import lombok.Setter;
 public class ReviewCreateDTO {
 
     private Integer id;
+
     private Integer rating;
+
     private String comment;
+
     private Integer productId;
+
     private Integer userId;
 
     public ReviewCreateDTO(Integer rating, String comment, Integer productId, Integer userId) {

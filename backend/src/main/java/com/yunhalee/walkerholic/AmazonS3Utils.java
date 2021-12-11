@@ -36,17 +36,19 @@ public class AmazonS3Utils {
 
     private final AmazonS3 s3;
 
-    public List<String> listFolder(String folder){
+    public List<String> listFolder(String folder) {
 
-        ListObjectsV2Request listObjectsV2Request = new ListObjectsV2Request().withBucketName(bucket).withPrefix(folder);
+        ListObjectsV2Request listObjectsV2Request = new ListObjectsV2Request()
+            .withBucketName(bucket).withPrefix(folder);
 
         ListObjectsV2Result listObjectsV2Result = s3.listObjectsV2(listObjectsV2Request);
 
-        ListIterator<S3ObjectSummary> listIterator = listObjectsV2Result.getObjectSummaries().listIterator();
+        ListIterator<S3ObjectSummary> listIterator = listObjectsV2Result.getObjectSummaries()
+            .listIterator();
 
         List<String> list = new ArrayList<>();
 
-        while (listIterator.hasNext()){
+        while (listIterator.hasNext()) {
             S3ObjectSummary object = listIterator.next();
             list.add(object.getKey());
         }
@@ -55,29 +57,32 @@ public class AmazonS3Utils {
 
     public String uploadFile(String folderName, MultipartFile multipartFile) throws IOException {
         File uploadFile = convert(multipartFile)
-                .orElseThrow(()->new IllegalArgumentException("MultipartFile 형식을 File로 전환하는 데에 실패하였습니다."));
+            .orElseThrow(
+                () -> new IllegalArgumentException("MultipartFile 형식을 File로 전환하는 데에 실패하였습니다."));
         return upload(uploadFile, folderName);
     }
 
-    public void deleteFile(String fileName){
+    public void deleteFile(String fileName) {
         DeleteObjectRequest request = new DeleteObjectRequest(bucket, fileName);
         s3.deleteObject(request);
     }
 
-    public void removeFolder(String folderName){
-        ListObjectsV2Request listObjectsV2Request = new ListObjectsV2Request().withBucketName(bucket).withPrefix(folderName+"/");
+    public void removeFolder(String folderName) {
+        ListObjectsV2Request listObjectsV2Request = new ListObjectsV2Request()
+            .withBucketName(bucket).withPrefix(folderName + "/");
         ListObjectsV2Result listObjectsV2Result = s3.listObjectsV2(listObjectsV2Request);
-        ListIterator<S3ObjectSummary> listIterator = listObjectsV2Result.getObjectSummaries().listIterator();
+        ListIterator<S3ObjectSummary> listIterator = listObjectsV2Result.getObjectSummaries()
+            .listIterator();
 
-        while (listIterator.hasNext()){
+        while (listIterator.hasNext()) {
             S3ObjectSummary objectSummary = listIterator.next();
-            DeleteObjectRequest request = new DeleteObjectRequest(bucket,objectSummary.getKey());
+            DeleteObjectRequest request = new DeleteObjectRequest(bucket, objectSummary.getKey());
             s3.deleteObject(request);
             System.out.println("Deleted " + objectSummary.getKey());
         }
     }
 
-    private String upload(File uploadFile, String folderName){
+    private String upload(File uploadFile, String folderName) {
         String fileName = folderName + "/" + uploadFile.getName();
         String uploadImageUrl = putS3(uploadFile, fileName);
 
@@ -85,24 +90,26 @@ public class AmazonS3Utils {
         return uploadImageUrl;
     }
 
-    private String putS3(File uploadFile, String fileName){
-        s3.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
+    private String putS3(File uploadFile, String fileName) {
+        s3.putObject(new PutObjectRequest(bucket, fileName, uploadFile)
+            .withCannedAcl(CannedAccessControlList.PublicRead));
         return s3.getUrl(bucket, fileName).toString();
     }
 
-    private void removeNewFile(File targetFile){
-        if(targetFile.delete()){
+    private void removeNewFile(File targetFile) {
+        if (targetFile.delete()) {
             System.out.println("File deleted.");
-        }else{
+        } else {
             System.out.println("File doesn't deleted.");
         }
     }
 
     private Optional<File> convert(MultipartFile file) throws IOException {
-        File convertFile = new File(System.currentTimeMillis() + StringUtils.cleanPath(file.getOriginalFilename()));
+        File convertFile = new File(
+            System.currentTimeMillis() + StringUtils.cleanPath(file.getOriginalFilename()));
 
-        if(convertFile.createNewFile()){
-            try(FileOutputStream fos = new FileOutputStream(convertFile)){
+        if (convertFile.createNewFile()) {
+            try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());
             }
             return Optional.of(convertFile);

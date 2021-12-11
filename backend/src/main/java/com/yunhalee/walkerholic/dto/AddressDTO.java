@@ -33,7 +33,8 @@ public class AddressDTO {
         this.address = address;
     }
 
-    public AddressDTO(String name, String country, String city, String zipcode, String address, Integer latitude, Integer longitude) {
+    public AddressDTO(String name, String country, String city, String zipcode, String address,
+        Integer latitude, Integer longitude) {
         this.name = name;
         this.country = country;
         this.city = city;

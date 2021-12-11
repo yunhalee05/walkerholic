@@ -11,8 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 public class WalkerholicApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WalkerholicApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(WalkerholicApplication.class, args);
+    }
 }

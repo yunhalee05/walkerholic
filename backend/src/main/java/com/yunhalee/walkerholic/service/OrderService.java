@@ -40,15 +40,15 @@ public class OrderService {
     public static final int ORDER_LIST_PER_PAGE = 10;
 
 
-    public OrderDTO createOrder(OrderCreateDTO orderCreateDTO){
+    public OrderDTO createOrder(OrderCreateDTO orderCreateDTO) {
 
         Address address = new Address(orderCreateDTO.getAddress().getName(),
-                                        orderCreateDTO.getAddress().getCountry(),
-                                        orderCreateDTO.getAddress().getCity(),
-                                        orderCreateDTO.getAddress().getZipcode(),
-                                        orderCreateDTO.getAddress().getAddress(),
-                                        orderCreateDTO.getAddress().getLatitude(),
-                                        orderCreateDTO.getAddress().getLongitude());
+            orderCreateDTO.getAddress().getCountry(),
+            orderCreateDTO.getAddress().getCity(),
+            orderCreateDTO.getAddress().getZipcode(),
+            orderCreateDTO.getAddress().getAddress(),
+            orderCreateDTO.getAddress().getLatitude(),
+            orderCreateDTO.getAddress().getLongitude());
 
         User user = userRepository.findById(orderCreateDTO.getUserId()).get();
 
@@ -59,25 +59,27 @@ public class OrderService {
             orderItems.add(OrderItem.createOrderItem(product, orderItemCreateDTO.getQty()));
         });
 
-        Order order = Order.createOrder(user, address, orderItems, orderCreateDTO.getPaymentMethod());
+        Order order = Order
+            .createOrder(user, address, orderItems, orderCreateDTO.getPaymentMethod());
 
         orderRepository.save(order);
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(userRepository.findById(orderCreateDTO.getUserId()).get().getEmail());
         message.setFrom(sender);
-        message.setSubject(user.getFullname()+" : Created Order " + order.getId());
-        message.setText("Hello" + user.getFirstname() + "! Your order has been made successfully. " +
-                        "\n\nOrder Id :  " + order.getId() +
-                        "\nTotal Amount : " + order.getTotalAmount() +
-                        "\nPaid At : " + order.getPaidAt() +
-                        "\n\nFor more Details visit " + baseUrl + "/order/" + order.getId());
+        message.setSubject(user.getFullname() + " : Created Order " + order.getId());
+        message
+            .setText("Hello" + user.getFirstname() + "! Your order has been made successfully. " +
+                "\n\nOrder Id :  " + order.getId() +
+                "\nTotal Amount : " + order.getTotalAmount() +
+                "\nPaid At : " + order.getPaidAt() +
+                "\n\nFor more Details visit " + baseUrl + "/order/" + order.getId());
         mailSender.send(message);
 
         return new OrderDTO(order);
     }
 
-    public OrderListDTO cancelOrder(Integer id){
+    public OrderListDTO cancelOrder(Integer id) {
         Order order = orderRepository.findById(id).get();
         order.cancel();
         orderRepository.save(order);
@@ -86,8 +88,9 @@ public class OrderService {
         User user = order.getUser();
         message.setTo(user.getEmail());
         message.setFrom(sender);
-        message.setSubject(user.getFullname()+" : Cancel Order " + id);
-        message.setText("Hello" + user.getFirstname() + "! Your order has been canceled successfully. " +
+        message.setSubject(user.getFullname() + " : Cancel Order " + id);
+        message.setText(
+            "Hello" + user.getFirstname() + "! Your order has been canceled successfully. " +
                 "\n\nOrder Id :  " + order.getId() +
                 "\nTotal Amount : " + order.getTotalAmount() +
                 "\nCanceled At : " + order.getUpdatedAt() +
@@ -97,7 +100,7 @@ public class OrderService {
         return new OrderListDTO(order);
     }
 
-    public OrderListDTO deliverOrder(Integer id){
+    public OrderListDTO deliverOrder(Integer id) {
         Order order = orderRepository.findById(id).get();
         order.deliver();
         orderRepository.save(order);
@@ -105,20 +108,20 @@ public class OrderService {
         return new OrderListDTO(order);
     }
 
-    public OrderDTO getOrder(Integer id){
+    public OrderDTO getOrder(Integer id) {
         Order order = orderRepository.findByOrderId(id);
         return new OrderDTO(order);
     }
 
-    public OrderCartDTO getCart(Integer id){
-        Order order = orderRepository.findCartItemsByUserId(OrderStatus.CART,id);
-        if(order==null){
+    public OrderCartDTO getCart(Integer id) {
+        Order order = orderRepository.findCartItemsByUserId(OrderStatus.CART, id);
+        if (order == null) {
             return new OrderCartDTO();
         }
         return new OrderCartDTO(order);
     }
 
-    public Integer createCart(Integer id){
+    public Integer createCart(Integer id) {
         Order order = new Order();
         User user = userRepository.findById(id).get();
         order.setOrderStatus(OrderStatus.CART);
@@ -127,17 +130,17 @@ public class OrderService {
         return order.getId();
     }
 
-    public OrderItemDTO addToCart(Integer id, OrderItemCreateDTO orderItemCreateDTO){
+    public OrderItemDTO addToCart(Integer id, OrderItemCreateDTO orderItemCreateDTO) {
         Order order = orderRepository.findById(id).get();
         Product product = productRepository.findById(orderItemCreateDTO.getProductId()).get();
 
         OrderItemDTO createdOrderItemDTO;
-        if(orderItemCreateDTO.getId()==null){
+        if (orderItemCreateDTO.getId() == null) {
             OrderItem orderItem = OrderItem.createOrderItem(product, orderItemCreateDTO.getQty());
             orderItemRepository.save(orderItem);
             order.addOrderItem(orderItem);
             createdOrderItemDTO = new OrderItemDTO(orderItem);
-        }else{
+        } else {
             OrderItem orderItem = orderItemRepository.findById(orderItemCreateDTO.getId()).get();
             orderItem.setQty(orderItemCreateDTO.getQty());
             orderItemRepository.save(orderItem);
@@ -149,8 +152,8 @@ public class OrderService {
         return createdOrderItemDTO;
     }
 
-    public HashMap<String, Object> getOrderList(Integer page){
-        Pageable pageable = PageRequest.of(page-1,ORDER_LIST_PER_PAGE);
+    public HashMap<String, Object> getOrderList(Integer page) {
+        Pageable pageable = PageRequest.of(page - 1, ORDER_LIST_PER_PAGE);
         Page<Order> orderPage = orderRepository.findAll(pageable, OrderStatus.CART);
         List<Order> orders = orderPage.getContent();
         List<OrderListDTO> orderListDTOS = new ArrayList<>();
@@ -164,8 +167,8 @@ public class OrderService {
         return orderList;
     }
 
-    public HashMap<String, Object> getOrderListBySeller(Integer page, Integer id){
-        Pageable pageable = PageRequest.of(page-1,ORDER_LIST_PER_PAGE);
+    public HashMap<String, Object> getOrderListBySeller(Integer page, Integer id) {
+        Pageable pageable = PageRequest.of(page - 1, ORDER_LIST_PER_PAGE);
         Page<Order> orderPage = orderRepository.findBySellerId(pageable, id, OrderStatus.CART);
         List<Order> orders = orderPage.getContent();
         List<OrderListDTO> orderListDTOS = new ArrayList<>();
@@ -179,8 +182,8 @@ public class OrderService {
         return orderList;
     }
 
-    public HashMap<String, Object> getOrderListByUser(Integer page, Integer id){
-        Pageable pageable = PageRequest.of(page-1,ORDER_LIST_PER_PAGE);
+    public HashMap<String, Object> getOrderListByUser(Integer page, Integer id) {
+        Pageable pageable = PageRequest.of(page - 1, ORDER_LIST_PER_PAGE);
         Page<Order> orderPage = orderRepository.findByUserId(pageable, id, OrderStatus.CART);
         List<Order> orders = orderPage.getContent();
         List<OrderListDTO> orderListDTOS = new ArrayList<>();
@@ -194,9 +197,11 @@ public class OrderService {
         return orderList;
     }
 
-    public void payOrder(OrderCreateDTO orderCreateDTO){
+    public void payOrder(OrderCreateDTO orderCreateDTO) {
         Order order = orderRepository.findById(orderCreateDTO.getId()).get();
-        Address address = new Address(orderCreateDTO.getAddress().getName(),orderCreateDTO.getAddress().getCountry(),orderCreateDTO.getAddress().getCity(), orderCreateDTO.getAddress().getZipcode(), orderCreateDTO.getAddress().getAddress());
+        Address address = new Address(orderCreateDTO.getAddress().getName(),
+            orderCreateDTO.getAddress().getCountry(), orderCreateDTO.getAddress().getCity(),
+            orderCreateDTO.getAddress().getZipcode(), orderCreateDTO.getAddress().getAddress());
         order.setAddress(address);
         order.setShipping(orderCreateDTO.getShipping());
         order.setPaymentMethod(orderCreateDTO.getPaymentMethod());

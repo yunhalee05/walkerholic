@@ -11,15 +11,15 @@ public class OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
 
-    public void updateQty(Integer id, Integer qty){
+    public void updateQty(Integer id, Integer qty) {
         OrderItem orderItem = orderItemRepository.findById(id).get();
         orderItem.setQty(qty);
         orderItemRepository.save(orderItem);
-        return ;
+        return;
     }
 
-    public void deleteOrderItem(Integer id){
+    public void deleteOrderItem(Integer id) {
         orderItemRepository.deleteById(id);
-        return ;
+        return;
     }
 }

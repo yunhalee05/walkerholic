@@ -24,7 +24,7 @@ public class OrderItemServiceTests {
     OrderItemRepository orderItemRepository;
 
     @Test
-    public void updateQty(){
+    public void updateQty() {
         //given
         Integer orderItemId = 1;
         Integer qty = 2;
@@ -38,7 +38,7 @@ public class OrderItemServiceTests {
     }
 
     @Test
-    public void deleteOrderItem(){
+    public void deleteOrderItem() {
         //given
         Integer orderItemId = 1;
 
