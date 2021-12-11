@@ -20,11 +20,6 @@ public class MainController {
     @Value("${paypal_client_id}")
     private String PAYPAL_CLIENT_ID;
 
-//    @GetMapping("/")
-//    public String viewHomePage(){
-//        return "";
-//    }
-
     @GetMapping("/levels")
     public List<LevelDTO> getLevels(){
         List<LevelDTO> levels = Arrays.stream(Level.values()).map(level -> new LevelDTO(level)).collect(Collectors.toList());

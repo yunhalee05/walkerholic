@@ -41,13 +41,6 @@ public class FollowController {
         Integer followId = Integer.parseInt(id);
         return new ResponseEntity<List<FollowDTO>>(followService.getFollowings(followId), HttpStatus.OK);
     }
-//
-//    @GetMapping("/follows/{id}")
-//    public ResponseEntity<?> getFollows(@PathVariable("id")String id){
-//        System.out.println(id);
-//        Integer userId = Integer.parseInt(id);
-//        return new ResponseEntity<List<FollowsDTO>>(followService.getFollows(userId), HttpStatus.OK);
-//    }
 
     @GetMapping("/follows/{id}")
     public ResponseEntity<?> getFollows(@PathVariable("id")String id){

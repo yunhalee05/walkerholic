@@ -5,7 +5,6 @@ import lombok.Setter;
 
 @Getter
 public enum Level {
-//    Starter, Bronze, Silver, Gold, Master
     Starter("Starter", 0,0),
     Bronze("Bronze",1, 299),
     Silver("Silver", 300,999),

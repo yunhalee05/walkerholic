@@ -52,13 +52,6 @@ public class FollowService {
         return followDTOS;
     }
 
-//    public List<FollowsDTO> getFollows(Integer id){
-//        List<Follow> follows = followRepository.findAllByUserId(id);
-//        List<FollowsDTO> followsDTOS = new ArrayList<>();
-//        follows.forEach(follow -> followsDTOS.add(new FollowsDTO(follow)));
-//        return followsDTOS;
-//    }
-
     public HashMap<String, Object> getFollows(Integer id){
         List<Follow> followers = followRepository.findAllByToUserId(id);
         List<Follow> followings = followRepository.findAllByFromUserId(id);

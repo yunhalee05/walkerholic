@@ -53,13 +53,6 @@ public class Product extends BaseTimeEntity{
     @OrderBy("createdAt DESC")
     private Set<Review> reviews = new HashSet<>();
 
-//    @Transient
-//    public List<String> getProductImageUrl(){
-//        List<String> productImageUrl= new ArrayList<>();
-//        this.productImages.forEach(productImage -> productImageUrl.add(productImage.getFilePath()));
-//        return productImageUrl;
-//    }
-
     public void addReview(Review review){
         reviews.add(review);
         review.setProduct(this);

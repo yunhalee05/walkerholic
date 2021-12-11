@@ -21,15 +21,6 @@ public class Order extends BaseTimeEntity{
     @Column(name = "order_id")
     private Integer id;
 
-//    @Column(name = "items_price")
-//    private Integer itemsPrice;
-//
-//    @Column(name = "tax_price")
-//    private Integer taxPrice;
-//
-//    @Column(name = "total_price")
-//    private Integer totalPrice;
-
     @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;

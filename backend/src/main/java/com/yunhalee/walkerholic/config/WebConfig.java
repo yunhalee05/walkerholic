@@ -21,30 +21,15 @@ public class WebConfig implements WebMvcConfigurer {
                         HttpMethod.POST.name(),
                         HttpMethod.PUT.name(),
                         HttpMethod.DELETE.name()
-
                 );
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
-//        registry.addResourceHandler("/profileUploads/**")
-//                .addResourceLocations("file:////"+ profileImagesFolder );
-
-//        String dirName = "profileUploads";
-//
-//        Path profilePhotosDir = Paths.get(dirName);
-//
-//        String profilePhotosPath = profilePhotosDir.toFile().getAbsolutePath();
-//
-//        registry.addResourceHandler("/"+ dirName+"/**")
-//                .addResourceLocations("file:" + profilePhotosPath+"/");
-
         uploadFolder("profileUploads", registry);
         uploadFolder("messageUploads", registry);
         uploadFolder("productUploads", registry);
         uploadFolder("postUploads", registry);
         uploadFolder("activityUploads", registry);
-
     }
 
     private void uploadFolder(String dirName, ResourceHandlerRegistry registry){

@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Setter
 public class MessageImage {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "message_image_id")

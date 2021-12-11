@@ -35,12 +35,6 @@ public class Post extends BaseTimeEntity{
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostImage> postImages = new ArrayList<>();
 
-//    @CreationTimestamp
-//    private LocalDateTime createdAt = LocalDateTime.now();
-//
-//    @UpdateTimestamp
-//    private LocalDateTime updatedAt = LocalDateTime.now();
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

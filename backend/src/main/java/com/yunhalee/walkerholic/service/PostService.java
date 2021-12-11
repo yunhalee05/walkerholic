@@ -50,7 +50,6 @@ public class PostService {
     private void deletePostImage(List<String> deletedImages){
         for (String deletedImage : deletedImages) {
             postImageRepository.deleteByFilePath(deletedImage);
-//            FileUploadUtils.deleteFile(deletedImage);
             String fileName = deletedImage.substring(AWS_S3_BUCKET_URL.length()+1);
             amazonS3Utils.deleteFile(fileName);
         }
@@ -62,11 +61,7 @@ public class PostService {
             PostImage postImage = new PostImage();
 
             try{
-//                String fileName = System.currentTimeMillis() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
                 String uploadDir = "postUploads/" + post.getId();
-
-//                postImage.setName(fileName);
-//                FileUploadUtils.saveFile(uploadDir,fileName,multipartFile);
                 String imageUrl = amazonS3Utils.uploadFile(uploadDir, multipartFile);
                 String fileName = imageUrl.substring(AWS_S3_BUCKET_URL.length()+uploadDir.length()+2);
                 postImage.setName(fileName);

@@ -53,16 +53,11 @@ public class UserService {
 
     private void saveProfileFile(MultipartFile multipartFile, User user, boolean isNew) throws IOException {
         try{
-//            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             String uploadDir = "profileUploads/" + user.getId();
-
             if (!isNew) {
-//                FileUploadUtils.cleanDir(uploadDir);
                 amazonS3Utils.removeFolder(uploadDir);
             }
-//            FileUploadUtils.saveFile(uploadDir,fileName,multipartFile);
             String imageUrl = amazonS3Utils.uploadFile(uploadDir, multipartFile);
-//            user.setImageUrl("/profileUploads/" + user.getId() + "/" + fileName);
             user.setImageUrl(imageUrl);
 
         }catch (IOException ex){
@@ -193,14 +188,6 @@ public class UserService {
             String tempPassword = getTempPassword();
             user.setPassword(passwordEncoder.encode(tempPassword));
             userRepository.save(user);
-
-//            MimeMessage message = mailSender.createMimeMessage();
-//            MimeMessageHelper helper = new MimeMessageHelper(message,"UTF-8");
-//            helper.setTo(email);
-//            helper.setFrom(sender);
-//            helper.setSubject(user.getFullname()+" : New Temporary Password is here!");
-//            helper.setText("Hello" + user.getFirstname() + "! We send your temporary password here. \nBut this is not secured so please change password once you sign into our site. \nPassword : " + tempPassword);
-//            mailSender.send(message);
 
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(email);

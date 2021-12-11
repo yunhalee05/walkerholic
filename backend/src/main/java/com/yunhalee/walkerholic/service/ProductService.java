@@ -48,7 +48,6 @@ public class ProductService {
     private void deleteProductImage(List<String> deletedImages){
         for (String deletedImage : deletedImages) {
             productImageRepository.deleteByFilePath(deletedImage);
-//            FileUploadUtils.deleteFile(deletedImage);
             String fileName = deletedImage.substring(AWS_S3_BUCKET_URL.length()+1);
             amazonS3Utils.deleteFile(fileName);
         }
@@ -58,11 +57,7 @@ public class ProductService {
         multipartFiles.forEach(multipartFile -> {
             ProductImage productImage = new ProductImage();
             try{
-//                String fileName = System.currentTimeMillis() + StringUtils.cleanPath(multipartFile.getOriginalFilename());
                 String uploadDir = "productUploads/" + product.getId();
-
-//                productImage.setName(fileName);
-//                FileUploadUtils.saveFile(uploadDir,fileName,multipartFile);
                 String imageUrl = amazonS3Utils.uploadFile(uploadDir, multipartFile);
                 String fileName = imageUrl.substring(AWS_S3_BUCKET_URL.length()+uploadDir.length()+2);
                 productImage.setName(fileName);
