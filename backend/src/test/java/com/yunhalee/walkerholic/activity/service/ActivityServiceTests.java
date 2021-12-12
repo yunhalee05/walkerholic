@@ -42,7 +42,7 @@ public class ActivityServiceTests {
             "This is the file content".getBytes());
         //when
         ActivityCreateDTO activityCreateDTO1 = activityService
-            .saveActivity(activityCreateDTO, multipartFile);
+            .createActivity(activityCreateDTO, multipartFile);
 
         //then
         assertNotNull(activityCreateDTO1.getId());
@@ -66,7 +66,7 @@ public class ActivityServiceTests {
 
         //when
         ActivityCreateDTO activityCreateDTO1 = activityService
-            .saveActivity(activityCreateDTO, null);
+            .updateActivity(activityCreateDTO, null);
 
         //then
         assertNotEquals(originalName, activityCreateDTO1.getName());

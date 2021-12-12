@@ -23,7 +23,8 @@ public class ActivityController {
         @RequestParam(value = "multipartFile", required = false) MultipartFile multipartFile) {
 
         ActivityCreateDTO activityCreateDTO = new ActivityCreateDTO(id, name, score, description);
-        return activityService.saveActivity(activityCreateDTO, multipartFile);
+        return id != null ? activityService.updateActivity(activityCreateDTO, multipartFile)
+            : activityService.createActivity(activityCreateDTO, multipartFile);
     }
 
     @GetMapping("/activity/{id}")
