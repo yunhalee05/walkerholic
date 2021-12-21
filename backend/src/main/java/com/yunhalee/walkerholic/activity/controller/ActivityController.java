@@ -1,8 +1,11 @@
 package com.yunhalee.walkerholic.activity.controller;
 
-import com.yunhalee.walkerholic.activity.dto.ActivityCreateDTO;
-import com.yunhalee.walkerholic.activity.dto.ActivityDTO;
+import com.yunhalee.walkerholic.activity.dto.ActivityRequest;
+import com.yunhalee.walkerholic.activity.dto.ActivityResponse;
+import com.yunhalee.walkerholic.activity.dto.ActivityDetailResponse;
 import com.yunhalee.walkerholic.activity.service.ActivityService;
+import java.io.IOException;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,38 +13,46 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
+@RequestMapping("/activities")
 public class ActivityController {
 
     private final ActivityService activityService;
 
-    @PostMapping("/activity/save")
-    public ActivityCreateDTO saveActivity(@RequestParam(value = "id", required = false) Integer id,
-        @RequestParam("name") String name,
-        @RequestParam("score") Integer score,
-        @RequestParam("description") String description,
-        @RequestParam(value = "multipartFile", required = false) MultipartFile multipartFile) {
-
-        ActivityCreateDTO activityCreateDTO = new ActivityCreateDTO(id, name, score, description);
-        return id != null ? activityService.updateActivity(activityCreateDTO, multipartFile)
-            : activityService.createActivity(activityCreateDTO, multipartFile);
+    public ActivityController(ActivityService activityService) {
+        this.activityService = activityService;
     }
 
-    @GetMapping("/activity/{id}")
-    public ActivityDTO getActivity(@PathVariable("id") String id) {
-        Integer activityId = Integer.parseInt(id);
-        return activityService.getActivity(activityId);
+    @PostMapping
+    public ActivityResponse create(@Valid @RequestBody ActivityRequest activityRequest) {
+        return activityService.create(activityRequest);
     }
 
-    @GetMapping("/activities")
-    public List<ActivityCreateDTO> getActivities() {
-        return activityService.getActivities();
+    @PutMapping("/{id}")
+    public ActivityResponse update(@PathVariable("id") Integer id,
+        @Valid @RequestBody ActivityRequest activityRequest) {
+        return activityService.update(id, activityRequest);
     }
 
-    @DeleteMapping("/deleteActivity/{id}")
-    public String deleteActivity(@PathVariable("id") String id) {
-        Integer activityId = Integer.parseInt(id);
-        return activityService.deleteActivity(activityId);
+    @PostMapping("/{id}/images")
+    public String uploadImage(@PathVariable("id") Integer id,
+        @RequestParam("multipartFile") MultipartFile multipartFile)
+        throws IOException {
+        return activityService.uploadImage(multipartFile, id);
+    }
+
+    @GetMapping("/{id}")
+    public ActivityDetailResponse activity(@PathVariable("id") Integer id) {
+        return activityService.activity(id);
+    }
+
+    @GetMapping
+    public List<ActivityResponse> activities() {
+        return activityService.activities();
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Integer id) {
+        activityService.delete(id);
     }
 
 }

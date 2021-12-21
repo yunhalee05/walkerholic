@@ -77,7 +77,7 @@ function HomeScreen(props) {
             </div>
             <div className="home_products_container">
                 <div className="home_more_icon" >
-                    <Link to="/products">More Products <i class="fas fa-arrow-right"></i></Link>
+                    <Link to="/products">More Products <i className="fas fa-arrow-right"></i></Link>
                 </div>
                 <div className="home_products">
                 {

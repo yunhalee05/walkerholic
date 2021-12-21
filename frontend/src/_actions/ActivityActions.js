@@ -1,5 +1,5 @@
 import axios from "axios"
-import { CREATE_ACTIVITY_FAIL, CREATE_ACTIVITY_REQUEST, CREATE_ACTIVITY_SUCCESS, CREATE_USER_ACTIVITY_FAIL, CREATE_USER_ACTIVITY_REQUEST, CREATE_USER_ACTIVITY_SUCCESS, DELETE_ACTIVITY_FAIL, DELETE_ACTIVITY_REQUEST, DELETE_ACTIVITY_SUCCESS, DELETE_USER_ACTIVITY_FAIL, DELETE_USER_ACTIVITY_REQUEST, DELETE_USER_ACTIVITY_SUCCESS, EDIT_USER_ACTIVITY_FAIL, EDIT_USER_ACTIVITY_REQUEST, EDIT_USER_ACTIVITY_SUCCESS, GET_ACTIVITIES_FAIL, GET_ACTIVITIES_REQUEST, GET_ACTIVITIES_SUCCESS, GET_ACTIVITY_FAIL, GET_ACTIVITY_REQUEST, GET_ACTIVITY_SUCCESS, GET_USER_ACTIVITIES_FAIL, GET_USER_ACTIVITIES_REQUEST, GET_USER_ACTIVITIES_SUCCESS } from "../_constants/ActivityConstants"
+import { CREATE_ACTIVITY_FAIL, CREATE_ACTIVITY_REQUEST, CREATE_ACTIVITY_SUCCESS, CREATE_USER_ACTIVITY_FAIL, CREATE_USER_ACTIVITY_REQUEST, CREATE_USER_ACTIVITY_SUCCESS, DELETE_ACTIVITY_FAIL, DELETE_ACTIVITY_REQUEST, DELETE_ACTIVITY_SUCCESS, DELETE_USER_ACTIVITY_FAIL, DELETE_USER_ACTIVITY_REQUEST, DELETE_USER_ACTIVITY_SUCCESS, EDIT_USER_ACTIVITY_FAIL, EDIT_USER_ACTIVITY_REQUEST, EDIT_USER_ACTIVITY_SUCCESS, GET_ACTIVITIES_FAIL, GET_ACTIVITIES_REQUEST, GET_ACTIVITIES_SUCCESS, GET_ACTIVITY_FAIL, GET_ACTIVITY_REQUEST, GET_ACTIVITY_SUCCESS, GET_USER_ACTIVITIES_FAIL, GET_USER_ACTIVITIES_REQUEST, GET_USER_ACTIVITIES_SUCCESS, UPDATE_ACTIVITY_FAIL, UPDATE_ACTIVITY_REQUEST, UPDATE_ACTIVITY_SUCCESS } from "../_constants/ActivityConstants"
 
 export const getActivities = () =>async(dispatch, getState)=>{
 
@@ -32,7 +32,7 @@ export const getActivity = (id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/activity/${id}`)
+        const res = await axios.get(`/activities/${id}`)
         console.log(res)
 
         dispatch({
@@ -50,7 +50,7 @@ export const getActivity = (id) =>async(dispatch, getState)=>{
     }
 }
 
-export const saveActivity = (bodyFormData) =>async(dispatch, getState)=>{
+export const createActivity = (activityRequest, imageUrl) =>async(dispatch, getState)=>{
 
     const {auth : {token}} = getState()
 
@@ -58,10 +58,17 @@ export const saveActivity = (bodyFormData) =>async(dispatch, getState)=>{
         type:CREATE_ACTIVITY_REQUEST
     })
 
-    try{
-        const res = await axios.post('/activity/save',bodyFormData,{
+    try{        
+        const res = await axios.post('/activities',activityRequest,{
             headers : {Authorization : `Bearer ${token}`}
+        }).then(res =>{
+            if(imageUrl.name){
+                const uploadedImageUrl = uploadImage(imageUrl, token, res.data.id)
+                activityRequest = {...activityRequest, imageUrl:uploadedImageUrl}   
+            }
         })
+
+
 
         dispatch({
             type:CREATE_ACTIVITY_SUCCESS,
@@ -78,6 +85,40 @@ export const saveActivity = (bodyFormData) =>async(dispatch, getState)=>{
     }
 }
 
+export const updateActivity = (activityRequest, id, imageUrl) =>async(dispatch, getState)=>{
+
+    const {auth : {token}} = getState()
+
+    dispatch({
+        type:UPDATE_ACTIVITY_REQUEST
+    })
+
+    try{
+        activityRequest = {...activityRequest, imageUrl:imageUrl}
+
+        const res = await axios.put(`/activities/${id}`,activityRequest,{
+            headers : {Authorization : `Bearer ${token}`}
+        }).then(res=>{
+            if(imageUrl.name){
+                const uploadedImageUrl = uploadImage(imageUrl, token, id)
+                activityRequest = {...activityRequest, imageUrl:uploadedImageUrl}   
+            }
+        })
+
+        dispatch({
+            type:UPDATE_ACTIVITY_SUCCESS,
+            payload:res.data
+        })
+
+    }catch(error){
+        dispatch({
+            type:UPDATE_ACTIVITY_FAIL,
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
+        })
+    }
+}
 export const deleteActivity = (id) =>async(dispatch, getState)=>{
     const {auth : {token}} = getState()
 
@@ -86,7 +127,7 @@ export const deleteActivity = (id) =>async(dispatch, getState)=>{
     })
 
     try{
-        await axios.delete(`/deleteActivity/${id}`,{
+        await axios.delete(`/activities/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -231,3 +272,14 @@ export const deleteUserActivity = (id, score, finished) =>async(dispatch, getSta
         })
     }
 }
+
+
+const uploadImage = async(imageUrl, token, id) =>{
+    const bodyFormData = new FormData()
+    bodyFormData.append('multipartFile', imageUrl)
+    const resImage = await axios.post(`/activities/${id}/image`, bodyFormData,{
+        headers : {Authorization : `Bearer ${token}`}
+    })
+    return resImage.data
+}
+

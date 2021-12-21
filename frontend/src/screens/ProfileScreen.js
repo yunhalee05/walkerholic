@@ -115,10 +115,10 @@ function ProfileScreen(props) {
                 <hr/>
                 <div style={{display:'flex', justifyContent:"space-around",alignItems:"center"}}>
                     <div style={isLikePost? {cursor:'pointer'} :{color:"#cc5104",cursor:'pointer'}}>
-                        <i onClick={()=>setIsLikePost(!isLikePost)} class="fas fa-child fa-2x"></i>
+                        <i onClick={()=>setIsLikePost(!isLikePost)} className="fas fa-child fa-2x"></i>
                     </div>
                     <div style={isLikePost? {color:"#cc5104",cursor:'pointer'}:{cursor:'pointer'}}>
-                        <i onClick={()=>setIsLikePost(!isLikePost)} class="fas fa-hand-holding-heart fa-2x"></i>
+                        <i onClick={()=>setIsLikePost(!isLikePost)} className="fas fa-hand-holding-heart fa-2x"></i>
                     </div>
                 </div>
                 <hr />

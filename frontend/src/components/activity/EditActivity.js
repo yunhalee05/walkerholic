@@ -3,7 +3,7 @@ import Earth from '../../images/earth.svg'
 import { checkProfileImage } from '../../utils/CheckImage'
 import { checkEditActivityFormValid} from '../../utils/CheckFormValid'
 import { useDispatch } from 'react-redux'
-import { saveActivity } from '../../_actions/ActivityActions'
+import { createActivity, updateActivity } from '../../_actions/ActivityActions'
 
 
 
@@ -39,26 +39,21 @@ function EditActivity({activity, setIsEdit}) {
             return
         }
 
-        const bodyFormData = new FormData()
-
-        if(activity){
-            bodyFormData.append('id', activity.id)
-            bodyFormData.append('name', name)
-            bodyFormData.append('score', score)
-            bodyFormData.append('description', description)
-            bodyFormData.append('multipartFile', imageUrl)
-        }else{
-            bodyFormData.append('name', name)
-            bodyFormData.append('score', score)
-            bodyFormData.append('description', description)
-            bodyFormData.append('multipartFile', imageUrl)
+        const activityRequest = {
+            name,
+            score,
+            description
         }
 
-        dispatch(saveActivity(bodyFormData)).then(res=>{
-            setIsEdit(false)
-        })
-
-
+        if(activity){
+            dispatch(updateActivity(activityRequest, activity.id, imageUrl)).then(res=>{
+                setIsEdit(false)
+            })
+        }else{
+            dispatch(createActivity(activityRequest, imageUrl)).then(res=>{
+                setIsEdit(false)
+            })
+        }
     }
 
 
@@ -76,7 +71,7 @@ function EditActivity({activity, setIsEdit}) {
                     <div className="form_group_image" >
                         <img id="preview" src={(activity && activity.imageUrl)? activity.imageUrl : Earth} alt="profileImage" />
                         <span>
-                            <i class="far fa-images" ></i>
+                            <i className="far fa-images" ></i>
                             <input type="file" name="file" id="file_up" accept="image/*" onChange={changeActivityImage}/>
                         </span>
                     </div>

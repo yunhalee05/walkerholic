@@ -1,12 +1,14 @@
 package com.yunhalee.walkerholic.activity.service;
 
-import com.yunhalee.walkerholic.activity.dto.ActivityCreateDTO;
-import com.yunhalee.walkerholic.activity.dto.ActivityDTO;
+import com.yunhalee.walkerholic.activity.dto.ActivityRequest;
+import com.yunhalee.walkerholic.activity.dto.ActivityResponse;
+import com.yunhalee.walkerholic.activity.dto.ActivityDetailResponse;
 import com.yunhalee.walkerholic.activity.domain.ActivityRepository;
-import com.yunhalee.walkerholic.activity.service.ActivityService;
+import java.io.IOException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -28,48 +30,79 @@ public class ActivityServiceTests {
     @Autowired
     ActivityRepository activityRepository;
 
+    @Value("${AWS_S3_BUCKET_URL}")
+    private String bucketUrl;
+
+    private static final String UPLOAD_DIR = "activity-uploads/";
+
     @Test
-    public void createActivity() {
+    public void createActivity() throws IOException {
         //given
         String name = "testActivity";
         Integer score = 1;
         String description = "This is test Activity.";
+        String fileName = "sampleFile.txt";
+        String imageUrl = UPLOAD_DIR + fileName;
 
-        ActivityCreateDTO activityCreateDTO = new ActivityCreateDTO(name, score, description);
-        MultipartFile multipartFile = new MockMultipartFile("uploaded-file",
-            "sampleFile.txt",
-            "text/plain",
-            "This is the file content".getBytes());
+        ActivityRequest activityRequest = ActivityRequest.builder()
+            .name(name)
+            .score(score)
+            .description(description).build();
+
         //when
-        ActivityCreateDTO activityCreateDTO1 = activityService
-            .createActivity(activityCreateDTO, multipartFile);
+        ActivityResponse activityResponse = activityService.create(activityRequest);
 
         //then
-        assertNotNull(activityCreateDTO1.getId());
-        assertEquals(name, activityCreateDTO1.getName());
-        assertEquals(score, activityCreateDTO1.getScore());
-        assertEquals(description, activityCreateDTO1.getDescription());
-        assertEquals("/activityUploads/" + activityCreateDTO1.getId() + "/" + "sampleFile.txt",
-            activityCreateDTO1.getImageUrl());
+        assertNotNull(activityResponse.getId());
+        assertEquals(name, activityResponse.getName());
+        assertEquals(score, activityResponse.getScore());
+        assertEquals(description, activityResponse.getDescription());
+        assertEquals(imageUrl, activityResponse.getImageUrl());
     }
 
     @Test
-    public void updateActivity() {
+    public void updateActivity() throws IOException {
         //given
         Integer id = 1;
         String originalName = activityRepository.findById(id).get().getName();
-
         String name = "testUpdateActivity";
         Integer score = 1;
         String description = "This is test Activity.";
-        ActivityCreateDTO activityCreateDTO = new ActivityCreateDTO(id, name, score, description);
+        String imageUrl = UPLOAD_DIR + "sampleFile.txt";
+
+        ActivityRequest activityRequest = ActivityRequest.builder()
+            .name(name)
+            .score(score)
+            .description(description).build();
 
         //when
-        ActivityCreateDTO activityCreateDTO1 = activityService
-            .updateActivity(activityCreateDTO, null);
+        ActivityResponse activityResponse = activityService.update(id, activityRequest);
 
         //then
-        assertNotEquals(originalName, activityCreateDTO1.getName());
+        assertNotEquals(originalName, activityResponse.getName());
+        assertEquals(name, activityResponse.getName());
+        assertEquals(score, activityResponse.getScore());
+        assertEquals(description, activityResponse.getDescription());
+        assertEquals(imageUrl, activityResponse.getImageUrl());
+    }
+
+    @Test
+    public void uploadImage() throws IOException {
+        //given
+        Integer activityId = 1;
+        String fileName = "sampleFile.txt";
+        MultipartFile multipartFile = new MockMultipartFile("uploaded-file",
+            fileName,
+            "text/plain",
+            "This is the file content".getBytes());
+
+        //when
+        String imageUrl = activityService.uploadImage(multipartFile, activityId);
+
+        //then
+        assertTrue(imageUrl.contains(bucketUrl + UPLOAD_DIR));
+        assertTrue(imageUrl.contains(fileName));
+
     }
 
     @Test
@@ -78,10 +111,10 @@ public class ActivityServiceTests {
         Integer id = 1;
 
         //when
-        ActivityDTO activityDTO = activityService.getActivity(id);
+        ActivityDetailResponse activityDetailResponse = activityService.activity(id);
 
         //then
-        assertEquals(id, activityDTO.getId());
+        assertEquals(id, activityDetailResponse.getId());
     }
 
     @Test
@@ -89,10 +122,10 @@ public class ActivityServiceTests {
         //given
 
         //when
-        List<ActivityCreateDTO> activityCreateDTOS = activityService.getActivities();
+        List<ActivityResponse> activityResponses = activityService.activities();
 
         //then
-        assertEquals(1, activityCreateDTOS.size());
+        assertEquals(1, activityResponses.size());
     }
 
     @Test
@@ -101,7 +134,7 @@ public class ActivityServiceTests {
         Integer id = 1;
 
         //when
-        activityService.deleteActivity(id);
+        activityService.delete(id);
 
         //then
         assertNull(activityRepository.findById(id));

@@ -13,7 +13,6 @@ import java.util.Set;
 @Table(name = "activity")
 @Getter
 @Setter
-@NoArgsConstructor
 public class Activity {
 
     @Id
@@ -37,19 +36,33 @@ public class Activity {
     @OrderBy("createdAt DESC")
     private Set<UserActivity> userActivities = new HashSet<>();
 
+    public Activity() {
+    }
+
     public Activity(String name, Integer score, String description) {
         this.name = name;
         this.score = score;
         this.description = description;
     }
 
+    public Activity(String name, Integer score, String description, String imageUrl) {
+        this.name = name;
+        this.score = score;
+        this.description = description;
+        this.imageUrl = imageUrl;
+    }
+
     // 비지니스 로직
-    public Activity updateActivity( Activity requestActivity) {
+    public Activity update(Activity requestActivity) {
         this.name = requestActivity.name;
         this.description = requestActivity.description;
         this.score = requestActivity.score;
 
         return this;
+    }
+
+    public void changeImageUrl(String imageUrl) {
+        changeImageUrl(imageUrl);
     }
 
 

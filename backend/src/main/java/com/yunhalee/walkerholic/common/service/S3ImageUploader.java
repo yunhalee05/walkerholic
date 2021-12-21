@@ -1,7 +1,8 @@
-package com.yunhalee.walkerholic.util;
+package com.yunhalee.walkerholic.common.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -18,9 +19,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class AmazonS3Utils {
+@Component
+public class S3ImageUploader {
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -34,7 +34,30 @@ public class AmazonS3Utils {
     @Value("${cloud.aws.credentials.secretKey}")
     private String secretKey;
 
-    private final AmazonS3 s3;
+    @Value("${AWS_S3_BASE_IMAGE_URL}")
+    private String defaultImageUrl;
+
+    private AmazonS3 s3;
+
+    public S3ImageUploader(AmazonS3 s3) {
+        this.s3 = s3;
+    }
+
+    public String saveImageByFolder(String uploadDir, MultipartFile multipartFile)
+        throws IOException {
+
+        if (isEmpty(multipartFile)) {
+            return defaultImageUrl;
+        }
+
+        try {
+            removeFolder(uploadDir);
+            return uploadFile(uploadDir, multipartFile);
+        } catch (IOException ex) {
+            new IOException("Could not save file : " + multipartFile.getOriginalFilename());
+        }
+        return "";
+    }
 
     public List<String> listFolder(String folder) {
 
@@ -65,6 +88,10 @@ public class AmazonS3Utils {
     public void deleteFile(String fileName) {
         DeleteObjectRequest request = new DeleteObjectRequest(bucket, fileName);
         s3.deleteObject(request);
+    }
+
+    public boolean isEmpty(MultipartFile multipartFile) {
+        return Objects.isNull(multipartFile) || multipartFile.isEmpty();
     }
 
     public void removeFolder(String folderName) {

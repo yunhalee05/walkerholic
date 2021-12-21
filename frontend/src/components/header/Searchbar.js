@@ -50,8 +50,8 @@ function Searchbar() {
                 <option value="product">PRODUCT</option>
             </select>
             <input type="text" value={keyword} onChange={e=>setKeyword(e.target.value)} />
-            <i class="fas fa-eraser header_search_eraser"  onClick={handleErase}></i>
-            <i class="far fa-search"  onClick={handleSearch}></i>
+            <i className="fas fa-eraser header_search_eraser"  onClick={handleErase}></i>
+            <i className="far fa-search"  onClick={handleSearch}></i>
             {
                 error &&
                 <div className="header_search_error">

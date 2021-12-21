@@ -87,7 +87,7 @@ function ProductListScreen(props) {
                             <td>
                                 <div className="orderlist_action">
                                     {/* <i class="far fa-trash-alt" style={{cursor:"pointer"}} onClick={()=>handleDelete(product.id)}></i> */}
-                                    <i class="far fa-edit" onClick={()=> handleEdit(product)}></i>
+                                    <i className="far fa-edit" onClick={()=> handleEdit(product)}></i>
                                 </div>
                             </td>
                         </tbody>

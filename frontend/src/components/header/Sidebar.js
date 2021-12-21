@@ -22,8 +22,8 @@ function Sidebar({isOpen,setIsOpen}) {
             <div className="sidebar_container">
                 <div className="sidebar_logo">
                     <div className="header_logo" onClick={()=>handlePage()}>
-                        <i class="fas fa-bars" style={{marginRight:'1rem'}}></i>
-                        <i class="fas fa-male" ></i>
+                        <i className="fas fa-bars" style={{marginRight:'1rem'}}></i>
+                        <i className="fas fa-male" ></i>
                         {/* <Link to='/'>walkerholic</Link> */}
                         <span className="sidebar_page">walkerholic</span>
                     </div>

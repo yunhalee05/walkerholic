@@ -94,7 +94,7 @@ function RegisterScreen() {
                     <div className="form_group_image" >
                         <img id="preview" src={Earth} alt="profileImage" />
                         <span>
-                            <i class="far fa-images" ></i>
+                            <i className="far fa-images" ></i>
                             <input type="file" name="file" id="file_up" accept="image/*" onChange={changeProfileImage}/>
                         </span>
                     </div>

@@ -40,8 +40,8 @@ function ReviewCard({review}) {
                 {
                     auth.user.id === review.userId &&
                     <div >
-                        <i class="far fa-edit" onClick={()=>setIsEdit(true)}></i>
-                        <i class="far fa-trash-alt" onClick={handleDelete}></i>
+                        <i className="far fa-edit" onClick={()=>setIsEdit(true)}></i>
+                        <i className="far fa-trash-alt" onClick={handleDelete}></i>
                     </div>
                 }
             </div>

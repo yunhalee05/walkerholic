@@ -35,9 +35,9 @@ function UserActivityCard({activity}) {
             <div className="useractivity_card_icon">
                 {
                     !activity.finished &&
-                    <i class="far fa-edit" onClick={()=>setIsEdit(true)}></i>
+                    <i className="far fa-edit" onClick={()=>setIsEdit(true)}></i>
                 }
-                <i class="far fa-trash-alt" onClick={handleDelete}></i>
+                <i className="far fa-trash-alt" onClick={handleDelete}></i>
             </div>
             <div className="useractivity_card_info">
                 {

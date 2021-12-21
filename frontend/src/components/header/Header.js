@@ -33,8 +33,8 @@ function Header() {
 
         <div className="header">
             <div className="header_logo">
-                <i class="fas fa-bars" style={{marginRight:'1rem'}} onClick={()=>setIsOpen(true)}></i>
-                <i class="fas fa-walking"></i>
+                <i className="fas fa-bars" style={{marginRight:'1rem'}} onClick={()=>setIsOpen(true)}></i>
+                <i className="fas fa-walking"></i>
                 <Link to='/'>walkerholic</Link>
             </div>
 
@@ -47,7 +47,7 @@ function Header() {
                         {
                             cart.success &&
                             <div className="header_content header_cart">
-                                <i class="fas fa-shopping-cart" style={{fontSize:"1.8rem"}} onClick={()=>setIsCart(!isCart)}></i>
+                                <i className="fas fa-shopping-cart" style={{fontSize:"1.8rem"}} onClick={()=>setIsCart(!isCart)}></i>
                                 <div className="header_cart_count">
                                     {cart.orderItems?cart.orderItems.length: 0}
                                 </div>
@@ -76,7 +76,7 @@ function Header() {
                             auth.user.role === "ADMIN"
                             ?<div className="header_content">    
                                 <div className="dropdown">
-                                    <span> <i class="fas fa-cog" style={{fontSize:"1.8rem"}}></i></span>
+                                    <span> <i className="fas fa-cog" style={{fontSize:"1.8rem"}}></i></span>
                                     <div className="dropdown-menu dropdown-menu-right" >
                                         <Link className="dropdown-item" to="/userlist">User List</Link>
                                         <Link className="dropdown-item" to="/orderlist" >Order List</Link>

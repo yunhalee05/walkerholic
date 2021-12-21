@@ -52,7 +52,7 @@ function ProductReview({reviews, productId}) {
                     </div>
 
                     <div>
-                        <i class="fab fa-creative-commons-zero" onClick={()=>setRating(0)}></i>
+                        <i className="fab fa-creative-commons-zero" onClick={()=>setRating(0)}></i>
                         {
                             ratingNumbers.map((r,index)=>(
                                 <i className={rating>=(r+1)? "fas fa-thumbs-up":"far fa-thumbs-up"} onClick={()=>setRating(r+1)} key={index}></i>

@@ -1,90 +1,99 @@
 package com.yunhalee.walkerholic.activity.service;
 
-import com.yunhalee.walkerholic.util.FileUploadUtils;
-import com.yunhalee.walkerholic.activity.dto.ActivityCreateDTO;
-import com.yunhalee.walkerholic.activity.dto.ActivityDTO;
+import com.yunhalee.walkerholic.activity.dto.ActivityRequest;
+import com.yunhalee.walkerholic.activity.exception.ActivityNotFoundException;
+import com.yunhalee.walkerholic.common.service.S3ImageUploader;
+import com.yunhalee.walkerholic.activity.dto.ActivityResponse;
+import com.yunhalee.walkerholic.activity.dto.ActivityDetailResponse;
 import com.yunhalee.walkerholic.activity.domain.Activity;
 import com.yunhalee.walkerholic.activity.domain.ActivityRepository;
-import lombok.RequiredArgsConstructor;
+import java.io.IOException;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+@Transactional
 public class ActivityService {
 
-    private final ActivityRepository activityRepository;
+    private ActivityRepository activityRepository;
 
-    public ActivityCreateDTO createActivity(ActivityCreateDTO activityCreateDTO,
-        MultipartFile multipartFile) {
-        Activity activity = activityCreateDTO.toActivity();
-        activityRepository.save(activity);
+    private S3ImageUploader s3ImageUploader;
 
-        saveActivityImage(activity, multipartFile, true);
-        activityRepository.save(activity);
+    private static final String UPLOAD_DIR = "activity-uploads";
 
-        return new ActivityCreateDTO(activity);
+    @Value("${AWS_S3_BASE_IMAGE_URL}")
+    private String defaultImageUrl;
+
+    @Value("${AWS_S3_BUCKET_URL}")
+    private String bucketUrl;
+
+    public ActivityService(
+        ActivityRepository activityRepository, S3ImageUploader s3ImageUploader) {
+        this.activityRepository = activityRepository;
+        this.s3ImageUploader = s3ImageUploader;
     }
 
-    public ActivityCreateDTO updateActivity(ActivityCreateDTO activityCreateDTO,
-        MultipartFile multipartFile) {
-        Activity existingActivity = activityRepository.findById(activityCreateDTO.getId())
-            .get();
-        Activity requestActivity = activityCreateDTO.toActivity();
-        Activity updatedActivity = existingActivity.updateActivity(requestActivity);
-
-        saveActivityImage(updatedActivity, multipartFile, false);
-        activityRepository.save(existingActivity);
-        return new ActivityCreateDTO(existingActivity);
+    public ActivityResponse create(ActivityRequest activityRequest) {
+        Activity activity = activityRequest.toActivity();
+        activity.changeImageUrl(defaultImageUrl);
+        activityRepository.save(activity);
+        return new ActivityResponse(activity);
     }
 
+    public ActivityResponse update(Integer id, ActivityRequest activityRequest) {
+        Activity existingActivity = activityRepository.findById(id)
+            .orElseThrow(() -> new ActivityNotFoundException(
+                "Activity not found with id : " + id));
+        Activity requestActivity = activityRequest.toActivity();
+        Activity updatedActivity = existingActivity.update(requestActivity);
+        return new ActivityResponse(updatedActivity);
+    }
 
-    public ActivityDTO getActivity(Integer id) {
+    @Transactional(readOnly = true)
+    public ActivityDetailResponse activity(Integer id) {
         Activity activity = activityRepository.findByActivityId(id);
-        ActivityDTO activityDTO = new ActivityDTO(activity);
+        ActivityDetailResponse activityDetailResponse = new ActivityDetailResponse(activity);
 
-        return activityDTO;
+        return activityDetailResponse;
     }
 
-    public List<ActivityCreateDTO> getActivities() {
-        List<Activity> activities = activityRepository.findAll();
-        List<ActivityCreateDTO> activityCreateDTOS = new ArrayList<>();
-        activities.forEach(activity -> activityCreateDTOS.add(new ActivityCreateDTO(activity)));
-        return activityCreateDTOS;
+    @Transactional(readOnly = true)
+    public List<ActivityResponse> activities() {
+        return activityRepository.findAll().stream()
+            .map(ActivityResponse::new)
+            .collect(Collectors.toList());
     }
 
-    public String deleteActivity(Integer id) {
-        String dir = "/activityUploads/" + id;
-        FileUploadUtils.deleteDir(dir);
-        activityRepository.deleteById(id);
-        return "Activity Deleted Successfully.";
+    public void delete(Integer id) {
+        Activity activity = activityRepository.findById(id)
+            .orElseThrow(() -> new ActivityNotFoundException(
+                "Activity not found with id : " + id));
+        s3ImageUploader.deleteFile(activity.getImageUrl());
+        activityRepository.delete(activity);
+        return;
     }
 
-    private void saveActivityImage(Activity activity, MultipartFile multipartFile, boolean isNew) {
-        if(multipartFile == null){
-            return ;
-        }
+    public String uploadImage(MultipartFile multipartFile, Integer id)
+        throws IOException {
+        String imageUrl = s3ImageUploader.uploadFile(UPLOAD_DIR, multipartFile);
+        Activity activity = activityRepository.findById(id)
+            .orElseThrow(() -> new ActivityNotFoundException(
+                "Activity not found with id : " + id));
+        deleteOriginalImage(activity.getImageUrl());
+        activity.changeImageUrl(imageUrl);
+        return imageUrl;
+    }
 
-        try {
-            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-            String uploadDir = "activityUploads/" + activity.getId();
-
-            if (!isNew) {
-                FileUploadUtils.cleanDir(uploadDir);
-            }
-
-            FileUploadUtils.saveFile(uploadDir, fileName, multipartFile);
-            activity.setImageUrl("/activityUploads/" + activity.getId() + "/" + fileName);
-
-            activityRepository.save(activity);
-
-        } catch (IOException ex) {
-            new IOException("Could not save file : " + multipartFile.getOriginalFilename());
+    private void deleteOriginalImage(String originalImageUrl) {
+        if(!originalImageUrl.equals(defaultImageUrl)){
+            s3ImageUploader.deleteFile(originalImageUrl.replaceAll(bucketUrl, ""));
         }
     }
+
+
 }

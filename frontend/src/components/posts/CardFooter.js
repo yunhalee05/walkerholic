@@ -50,12 +50,12 @@ function CardFooter({post}) {
                                 <i className="far fa-comment"></i>
                         </Link> */}
                         <div>
-                            <i class="far fa-paper-plane" onClick={()=>setIsShare(!isShare)}></i>
+                            <i className="far fa-paper-plane" onClick={()=>setIsShare(!isShare)}></i>
                         </div>
                     </>
                 }
                 <div>
-                    <i class="far fa-clipboard" onClick={()=>handleCopyLink}></i>
+                    <i className="far fa-clipboard" onClick={()=>handleCopyLink}></i>
                 </div>
             </div>
 
