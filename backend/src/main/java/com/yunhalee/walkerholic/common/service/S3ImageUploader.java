@@ -3,17 +3,14 @@ package com.yunhalee.walkerholic.common.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import java.util.Objects;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -37,6 +34,9 @@ public class S3ImageUploader {
     @Value("${AWS_S3_BASE_IMAGE_URL}")
     private String defaultImageUrl;
 
+    @Value("${AWS_S3_BUCKET_URL}")
+    private String bucketUrl;
+
     private AmazonS3 s3;
 
     public S3ImageUploader(AmazonS3 s3) {
@@ -57,6 +57,13 @@ public class S3ImageUploader {
             new IOException("Could not save file : " + multipartFile.getOriginalFilename());
         }
         return "";
+    }
+
+    public void deleteOriginalImage(String originalImageUrl, String changedImageUrl) {
+        if (!originalImageUrl.equals(defaultImageUrl) ||
+            !originalImageUrl.equals(changedImageUrl)) {
+            deleteFile(originalImageUrl.replaceAll(bucketUrl, ""));
+        }
     }
 
     public List<String> listFolder(String folder) {
