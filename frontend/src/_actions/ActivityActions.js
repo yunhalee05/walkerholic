@@ -165,7 +165,7 @@ export const getUserActivities = (page) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/userActivities/${page}/${user.id}`,{
+        const res = await axios.get(`/user-activities/users/${user.id}?page=${page}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -184,9 +184,8 @@ export const getUserActivities = (page) =>async(dispatch, getState)=>{
     }
 }
 
-export const createUserActivity = ({userActivityDTO}) =>async(dispatch, getState)=>{
+export const createUserActivity = (userActivityRequest) =>async(dispatch, getState)=>{
 
-    const {auth :{user}} = getState()
     const {auth :{token}} = getState()
 
     dispatch({
@@ -194,7 +193,7 @@ export const createUserActivity = ({userActivityDTO}) =>async(dispatch, getState
     })
 
     try{
-        const res = await axios.post(`/userActivity/save/${user.id}`, userActivityDTO,{
+        const res = await axios.post(`/user-activities`, userActivityRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -215,9 +214,8 @@ export const createUserActivity = ({userActivityDTO}) =>async(dispatch, getState
     }
 }
 
-export const editUserActivity = ({userActivityDTO}) =>async(dispatch, getState)=>{
+export const editUserActivity = (userActivityRequest, id) =>async(dispatch, getState)=>{
 
-    const {auth :{user}} = getState()
     const {auth :{token}} = getState()
 
     dispatch({
@@ -225,7 +223,7 @@ export const editUserActivity = ({userActivityDTO}) =>async(dispatch, getState)=
     })
 
     try{
-        const res = await axios.post(`/userActivity/save/${user.id}`, userActivityDTO,{
+        const res = await axios.post(`/user-activities/${id}`, userActivityRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -256,7 +254,7 @@ export const deleteUserActivity = (id, score, finished) =>async(dispatch, getSta
     })
 
     try{
-        const res = await axios.delete(`/userActivity/delete/${id}/${user.id}`,{
+        const res = await axios.delete(`/user-activities/${id}/users/${user.id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 

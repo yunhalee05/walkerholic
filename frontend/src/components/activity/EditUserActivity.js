@@ -23,12 +23,12 @@ function EditUserActivity({activity, setIsEdit, isEdit}) {
         e.preventDefault()
 
         if(activity){
-            const userActivityDTO = {
-                id:activity.id,
+            const userActivityRequest = {
+                userId:auth.user.id,
                 activityId:activityId,
                 finished:finished
             }
-            dispatch(editUserActivity({userActivityDTO})).then(res=>{
+            dispatch(editUserActivity(userActivityRequest, activity.id)).then(res=>{
                 if(res !== auth.user.level){
                     dispatch({
                         type:LEVEL_UP,
@@ -37,11 +37,12 @@ function EditUserActivity({activity, setIsEdit, isEdit}) {
                 }
             })
         }else{
-            const userActivityDTO = {
+            const userActivityRequest = {
+                userId:auth.user.id,
                 activityId:activityId,
                 finished:finished
             }
-            dispatch(createUserActivity({userActivityDTO})).then(res=>{
+            dispatch(createUserActivity(userActivityRequest)).then(res=>{
                 if(res !== auth.user.level){
                     dispatch({
                         type:LEVEL_UP,
