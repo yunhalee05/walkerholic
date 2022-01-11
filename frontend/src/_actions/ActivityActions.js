@@ -165,7 +165,7 @@ export const getUserActivities = (page) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/user-activities/users/${user.id}?page=${page}`,{
+        const res = await axios.get(`/users/${user.id}/user-activities?page=${page}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
