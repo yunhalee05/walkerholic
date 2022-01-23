@@ -15,13 +15,12 @@ function EditReview({review, setIsEdit}) {
     const handleEditReview = (e) =>{
         e.preventDefault()
 
-        const reviewCreateDTO = {
-            id:review.id,
+        const reviewRequest = {
             rating:rating,
-            comment:comment,
+            comment:comment
         }
 
-        dispatch(editReview(reviewCreateDTO)).then(res=>{
+        dispatch(editReview(reviewRequest, review.id)).then(res=>{
             setIsEdit(false)
         })
     }

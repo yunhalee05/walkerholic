@@ -4,8 +4,6 @@ import { useDispatch } from 'react-redux'
 import { createReview } from '../../_actions/ReviewActions'
 import ReviewCard from './ReviewCard'
 import Review from '../../images/Review.svg'
-import EditReview from './EditReview'
-
 
 function ProductReview({reviews, productId}) {
 

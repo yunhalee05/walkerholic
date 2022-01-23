@@ -9,7 +9,7 @@ export const createReview = (rating, comment, productId) =>async(dispatch, getSt
         type:CREATE_REVIEW_REQUEST
     })
 
-    const reviewCreateDTO = {
+    const reviewRequest = {
         rating:rating,
         comment:comment,
         productId:productId,
@@ -17,7 +17,7 @@ export const createReview = (rating, comment, productId) =>async(dispatch, getSt
     }
 
     try{
-        const res = await axios.post('/review/save',reviewCreateDTO,{
+        const res = await axios.post('/reviews',reviewRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -37,16 +37,15 @@ export const createReview = (rating, comment, productId) =>async(dispatch, getSt
     }
 }
 
-export const editReview = (reviewCreateDTO) =>async(dispatch, getState)=>{
+export const editReview = (reviewRequest, reviewId) =>async(dispatch, getState)=>{
     const {auth : {token}} = getState()
-    const {auth : {user}} = getState()
 
     dispatch({
         type:EDIT_REVIEW_REQUEST
     })
 
     try{
-        const res = await axios.post('/review/save',reviewCreateDTO,{
+        const res = await axios.post(`/reviews/${reviewId}`,reviewRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -67,7 +66,6 @@ export const editReview = (reviewCreateDTO) =>async(dispatch, getState)=>{
 }
 export const deleteReview = (id) =>async(dispatch, getState)=>{
     const {auth : {token}} = getState()
-    const {auth : {user}} = getState()
 
     dispatch({
         type:DELETE_REVIEW_REQUEST
@@ -75,7 +73,7 @@ export const deleteReview = (id) =>async(dispatch, getState)=>{
 
     try{
         
-        await axios.delete(`/review/delete/${id}`,{
+        await axios.delete(`/reviews/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
