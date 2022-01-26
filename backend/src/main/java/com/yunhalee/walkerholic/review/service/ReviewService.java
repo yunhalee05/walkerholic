@@ -58,8 +58,10 @@ public class ReviewService {
     }
 
     public Integer deleteReview(Integer id) {
-        Review review = reviewRepository.findById(id).get();
-        Product product = productRepository.findById(review.getProduct().getId()).get();
+        Review review = reviewRepository.findById(id)
+            .orElseThrow(() -> new ReviewNotFoundException(
+                "Review not found with id : " + id));
+        Product product = review.getProduct();
         product.deleteReview(review.getRating());
         reviewRepository.deleteById(id);
         return id;
