@@ -11,7 +11,7 @@ export const follow = (id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post(`/follow/${user.id}/${id}`,null,{
+        const res = await axios.post(`/follows?fromId=${user.id}&toId=${id}`,null,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -46,7 +46,7 @@ export const unfollow = (id) =>async(dispatch, getState)=>{
     })
 
     try{
-        await axios.delete(`/unfollow/${id}`,{
+        await axios.delete(`/follows/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
