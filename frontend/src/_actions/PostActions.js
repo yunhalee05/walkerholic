@@ -214,7 +214,6 @@ export const getHomePost = (page, sort) =>async(dispatch, getState)=>{
 }
 export const likePost = (postId) =>async(dispatch, getState)=>{
     const {auth : {token}} = getState()
-
     const {auth: {user}} = getState()
 
     dispatch({
@@ -222,7 +221,12 @@ export const likePost = (postId) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post(`/likePost/${postId}/${user.id}`, null,{
+        const likePostRequest = {
+            post: postId,
+            user: user.id
+        }
+
+        const res = await axios.post('/likePosts', likePostRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -259,14 +263,14 @@ export const unlikePost = (postId, id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.delete(`/unlikePost/${id}`,{
+        const res = await axios.delete(`/likePosts/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
         dispatch({
             type:UNLIKE_POST_SUCCESS,
             payload:{
-                likeId:res.data,
+                likeId:id,
                 postId:postId
             }
         })
