@@ -95,18 +95,30 @@ function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
         }
         const bodyFormData = new FormData()
 
-
         if(post){
-            bodyFormData.append("id", post.id)
-            bodyFormData.append("title", title)
-            bodyFormData.append("content", content)
-            bodyFormData.append("userId", auth.user.id)
+            const postRequest = {
+                id:post.id,
+                title,
+                content,
+                userId:auth.user.id
+            }
+            // bodyFormData.append("id", post.id)
+            // bodyFormData.append("title", title)
+            // bodyFormData.append("content", content)
+            // bodyFormData.append("userId", auth.user.id)
+            bodyFormData.append("postRequest", postRequest)
             images.forEach(image=> bodyFormData.append("multipartFile", image))
             deletedImages.forEach(image=>bodyFormData.append("deletedImages",image))
         }else{
-            bodyFormData.append("title", title)
-            bodyFormData.append("content", content)
-            bodyFormData.append("userId", auth.user.id)
+            const postRequest = {
+                title,
+                content,
+                userId:auth.user.id
+            }
+            // bodyFormData.append("title", title)
+            // bodyFormData.append("content", content)
+            // bodyFormData.append("userId", auth.user.id)
+            bodyFormData.append("postRequest", postRequest)
             images.forEach(image=> bodyFormData.append("multipartFile", image))
             // deletedImages.forEach(image=>bodyFormData.append("deletedImages",image))
         }

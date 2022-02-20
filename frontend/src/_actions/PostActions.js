@@ -230,14 +230,14 @@ export const likePost = (postId) =>async(dispatch, getState)=>{
             headers : {Authorization : `Bearer ${token}`}
         })
 
-        const likePost = {id:res.data.id, userId:res.data.user.id, fullname:res.data.user.fullname, imageUrl:res.data.user.imageUrl? res.data.user.imageUrl : ""}
+        // const likePost = {id:res.data.id, userId:res.data.user.id, fullname:res.data.user.fullname, imageUrl:res.data.user.imageUrl? res.data.user.imageUrl : ""}
 
         
         dispatch({
             type:LIKE_POST_SUCCESS,
             payload:{
                 postId:postId,
-                likePost:likePost
+                likePost:res.data
             }
         })
 
