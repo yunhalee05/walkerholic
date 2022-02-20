@@ -10,7 +10,7 @@ export const getDiscoverPosts = (page, id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/posts/discover/${page}/${id}`,{
+        const res = await axios.get(`/users/${id}/posts/discover?page=${page}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
