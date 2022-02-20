@@ -294,7 +294,7 @@ export const getSearchPosts = (page, sort, keyword) =>async(dispatch, getState)=
     })
 
     try{
-        const res = await axios.get(`/posts/search/${page}/${sort}/${keyword}`)
+        const res = await axios.get(`/posts/search?page=${page}&sort=${sort}&keyword=${keyword}`)
 
         dispatch({
             type:GET_SEARCH_POST_SUCCESS,
