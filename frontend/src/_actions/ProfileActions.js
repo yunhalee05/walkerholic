@@ -15,7 +15,7 @@ export const getProfile = (id) =>async(dispatch, getState)=>{
         const res2 = await axios.get(`/follows/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
-        const res3 = await axios.get(`/posts/${id}`,{
+        const res3 = await axios.get(`/users/${id}/posts`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 

@@ -160,7 +160,7 @@ export const getPost = (id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/post/${id}`,{
+        const res = await axios.get(`/posts/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
