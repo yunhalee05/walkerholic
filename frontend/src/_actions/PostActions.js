@@ -189,7 +189,7 @@ export const getHomePost = (page, sort) =>async(dispatch, getState)=>{
 
     // console.log(page)
     try{
-        const res = await axios.get(`/posts/home/${page}/${sort}`)
+        const res = await axios.get(`/posts?page=${page}&sort=${sort}`)
 
         dispatch({
             type:GET_HOME_POST_SUCCESS,
