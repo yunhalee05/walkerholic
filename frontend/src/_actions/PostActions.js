@@ -131,7 +131,7 @@ export const deletePost = (id) =>async(dispatch, getState)=>{
     })
 
     try{
-        await axios.delete(`/post/${id}`,{
+        await axios.delete(`/posts/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
