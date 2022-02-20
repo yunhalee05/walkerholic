@@ -38,7 +38,7 @@ export const getFollowingsPosts = (page, id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/posts/follow/${page}/${id}`,{
+        const res = await axios.get(`/users/${id}/posts/follow?page=${page}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
