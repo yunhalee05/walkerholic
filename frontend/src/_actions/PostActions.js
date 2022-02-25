@@ -226,7 +226,7 @@ export const likePost = (postId) =>async(dispatch, getState)=>{
             user: user.id
         }
 
-        const res = await axios.post('/likePosts', likePostRequest,{
+        const res = await axios.post('/like-posts', likePostRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -263,7 +263,7 @@ export const unlikePost = (postId, id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.delete(`/likePosts/${id}`,{
+        const res = await axios.delete(`/like-posts/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
