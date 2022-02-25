@@ -71,15 +71,26 @@ function EditProduct({product, setIsEdit, isEdit}) {
                 return window.alert("Please add your photo.")
             }
 
-            bodyFormData.append("id", product.id)
-            bodyFormData.append("name", name)
-            bodyFormData.append("description", description)
-            bodyFormData.append("brand", brand)
-            bodyFormData.append("category", category)
-            bodyFormData.append("stock", stock)
-            bodyFormData.append("price", price)
-            bodyFormData.append("userId", auth.user.id)
+            const productRequest = {
+                id:product.id,
+                name,
+                description,
+                brand,
+                category,
+                stock,
+                price,
+                userId:auth.user.id
+            }
 
+            // bodyFormData.append("id", product.id)
+            // bodyFormData.append("name", name)
+            // bodyFormData.append("description", description)
+            // bodyFormData.append("brand", brand)
+            // bodyFormData.append("category", category)
+            // bodyFormData.append("stock", stock)
+            // bodyFormData.append("price", price)
+            // bodyFormData.append("userId", auth.user.id)
+            bodyFormData.append("productRequest", productRequest)
             images.forEach(image=> bodyFormData.append("multipartFile", image))
             deletedImages.forEach(image=>bodyFormData.append("deletedImages",image))
 
@@ -91,13 +102,24 @@ function EditProduct({product, setIsEdit, isEdit}) {
             if(images.length===0){
                 return window.alert("Please add your photo.")
             }
-            bodyFormData.append("name", name)
-            bodyFormData.append("description", description)
-            bodyFormData.append("brand", brand)
-            bodyFormData.append("category", category)
-            bodyFormData.append("stock", stock)
-            bodyFormData.append("price", price)
-            bodyFormData.append("userId", auth.user.id)
+
+            const productRequest = {
+                name,
+                description,
+                brand,
+                category,
+                stock,
+                price,
+                userId:auth.user.id
+            }
+            // bodyFormData.append("name", name)
+            // bodyFormData.append("description", description)
+            // bodyFormData.append("brand", brand)
+            // bodyFormData.append("category", category)
+            // bodyFormData.append("stock", stock)
+            // bodyFormData.append("price", price)
+            // bodyFormData.append("userId", auth.user.id)
+            bodyFormData.append("productRequest", productRequest)
             images.forEach(image=> bodyFormData.append("multipartFile", image))
 
             dispatch(createProduct(bodyFormData)).then(res=>(

@@ -172,7 +172,7 @@ export const editProduct = (bodyFormData) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/product/save',bodyFormData,{
+        const res = await axios.patch('/products',bodyFormData,{
             headers : {Authorization : `Bearer ${token}`}
         })
 

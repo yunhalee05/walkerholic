@@ -71,7 +71,7 @@ export const createPost = (bodyFormData) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/post/save', bodyFormData,{
+        const res = await axios.post('/posts', bodyFormData,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -101,7 +101,7 @@ export const updatePost = (bodyFormData) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/post/save', bodyFormData,{
+        const res = await axios.patch('/posts', bodyFormData,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
