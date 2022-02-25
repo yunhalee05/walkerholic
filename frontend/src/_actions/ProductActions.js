@@ -8,13 +8,14 @@ export const getProducts = (page, sort, category,keyword) =>async(dispatch, getS
     })
 
     const param = {
+        page,
         sort : sort? sort :'',
         category : category ? category :'',
         keyword : keyword ? keyword : ''
     }
 
     try{
-        const res = await axios.get(`/products/${page}`,{params:param})
+        const res = await axios.get(`/products`,{params:param})
 
         dispatch({
             type:GET_PRODUCTS_SUCCESS,
@@ -40,13 +41,14 @@ export const getSellerProducts = (id,page, sort, category,keyword) =>async(dispa
     })
 
     const param = {
+        page,
         sort : sort? sort :'',
         category : category ? category :'',
         keyword : keyword ? keyword : ''
     }
 
     try{
-        const res = await axios.get(`/products/seller/${id}/${page}`,{params:param})
+        const res = await axios.get(`/users/${id}/products`,{params:param})
 
         dispatch({
             type:GET_SELLER_PRODUCTS_SUCCESS,
@@ -68,7 +70,7 @@ export const getProduct = (id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/product/${id}`)
+        const res = await axios.get(`/products/${id}`)
 
         dispatch({
             type:GET_PRODUCT_SUCCESS,
@@ -93,7 +95,7 @@ export const getProductList = (page, sort) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/productlist/${page}/${sort}`,{
+        const res = await axios.get(`/products/list?page=${page}&sort=${sort}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -120,7 +122,7 @@ export const getSellerProductList = (page, sort, id) =>async(dispatch, getState)
     })
 
     try{
-        const res = await axios.get(`/productlistBySeller/${page}/${sort}/${id}`,{
+        const res = await axios.get(`/users/${id}/products/list?page=${page}&sort=${sort}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -146,7 +148,7 @@ export const getSellerProductList = (page, sort, id) =>async(dispatch, getState)
 //     })
 
 //     try{
-//         const res = await axios.delete(`/product/delete/${id}`)
+//         const res = await axios.delete(`/products/${id}`)
 
 //         dispatch({
 //             type:DELETE_PRODUCT_SUCCESS,
@@ -198,7 +200,7 @@ export const createProduct = (bodyFormData) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post('/product/save',bodyFormData,{
+        const res = await axios.post('/products',bodyFormData,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
