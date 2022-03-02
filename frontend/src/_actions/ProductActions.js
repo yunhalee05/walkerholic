@@ -164,17 +164,32 @@ export const getSellerProductList = (page, sort, id) =>async(dispatch, getState)
 //         })
 //     }
 // }
-export const editProduct = (bodyFormData) =>async(dispatch, getState)=>{
+export const editProduct = (productRequest, deletedImages, images, id) =>async(dispatch, getState)=>{
     const {auth : {token}} = getState()
 
     dispatch({
         type:EDIT_PRODUCT_REQUEST
     })
-
     try{
-        const res = await axios.patch('/products',bodyFormData,{
+        if(images && images.length > 0){
+            const bodyFormData = new FormData()
+            images.forEach(image=> bodyFormData.append("multipartFile", image))
+            await axios.post(`/products/${id}/product-images`, bodyFormData, {
+                headers : {Authorization : `Bearer ${token}`}
+            })
+        }
+
+        if(deletedImages && deletedImages>0){
+            await axios.delete(`/products/${id}/product-images`, deletedImages, {
+                headers : {Authorization : `Bearer ${token}`}
+            })
+        }
+
+        const res = await axios.post(`/products/${id}`,productRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
+
+
 
         dispatch({
             type:EDIT_PRODUCT_SUCCESS,

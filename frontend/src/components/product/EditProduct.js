@@ -63,38 +63,22 @@ function EditProduct({product, setIsEdit, isEdit}) {
     const handleSubmit = (e) =>{
         e.preventDefault();
 
-        const bodyFormData = new FormData()
+        const productRequest = {
+            name,
+            description,
+            brand,
+            category,
+            stock,
+            price,
+            userId:auth.user.id
+        }
 
         if(product){
 
             if(productImages.length===0 && images.length===0){
                 return window.alert("Please add your photo.")
             }
-
-            const productRequest = {
-                id:product.id,
-                name,
-                description,
-                brand,
-                category,
-                stock,
-                price,
-                userId:auth.user.id
-            }
-
-            // bodyFormData.append("id", product.id)
-            // bodyFormData.append("name", name)
-            // bodyFormData.append("description", description)
-            // bodyFormData.append("brand", brand)
-            // bodyFormData.append("category", category)
-            // bodyFormData.append("stock", stock)
-            // bodyFormData.append("price", price)
-            // bodyFormData.append("userId", auth.user.id)
-            bodyFormData.append("productRequest", productRequest)
-            images.forEach(image=> bodyFormData.append("multipartFile", image))
-            deletedImages.forEach(image=>bodyFormData.append("deletedImages",image))
-
-            dispatch(editProduct(bodyFormData)).then(res=>(
+            dispatch(editProduct(productRequest, deletedImages, images, product.id)).then(res=>(
                 setIsEdit(false)
             ))
         }else{
@@ -103,15 +87,6 @@ function EditProduct({product, setIsEdit, isEdit}) {
                 return window.alert("Please add your photo.")
             }
 
-            const productRequest = {
-                name,
-                description,
-                brand,
-                category,
-                stock,
-                price,
-                userId:auth.user.id
-            }
             // bodyFormData.append("name", name)
             // bodyFormData.append("description", description)
             // bodyFormData.append("brand", brand)
@@ -119,9 +94,9 @@ function EditProduct({product, setIsEdit, isEdit}) {
             // bodyFormData.append("stock", stock)
             // bodyFormData.append("price", price)
             // bodyFormData.append("userId", auth.user.id)
+            const bodyFormData = new FormData()
             bodyFormData.append("productRequest", productRequest)
             images.forEach(image=> bodyFormData.append("multipartFile", image))
-
             dispatch(createProduct(bodyFormData)).then(res=>(
                 setIsEdit(false)
             ))
