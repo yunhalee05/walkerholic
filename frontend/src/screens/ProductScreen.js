@@ -18,7 +18,7 @@ function ProductScreen(props) {
 
     const [page, setPage] = useState(1)
     const [category, setCategory] = useState('')
-    const [sort, setSort] = useState('')
+    const [sort, setSort] = useState('createdAt')
     
     const dispatch = useDispatch()
 

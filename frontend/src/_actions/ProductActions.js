@@ -1,13 +1,13 @@
 import axios from "axios"
 import { CREATE_PRODUCT_FAIL, CREATE_PRODUCT_REQUEST, CREATE_PRODUCT_SUCCESS, DELETE_PRODUCT_FAIL, DELETE_PRODUCT_REQUEST, DELETE_PRODUCT_SUCCESS, EDIT_PRODUCT_FAIL, EDIT_PRODUCT_REQUEST, EDIT_PRODUCT_SUCCESS, GET_PRODUCTS_FAIL, GET_PRODUCTS_REQUEST, GET_PRODUCTS_SUCCESS, GET_PRODUCT_FAIL, GET_PRODUCT_LIST_FAIL, GET_PRODUCT_LIST_REQUEST, GET_PRODUCT_LIST_SUCCESS, GET_PRODUCT_REQUEST, GET_PRODUCT_SUCCESS, GET_SELLER_PRODUCTS_FAIL, GET_SELLER_PRODUCTS_REQUEST, GET_SELLER_PRODUCTS_SUCCESS } from "../_constants/ProductConstants"
 
-export const getProducts = (page, sort, category,keyword) =>async(dispatch, getState)=>{
+export const getProducts = (page, sort, category, keyword) =>async(dispatch, getState)=>{
 
     dispatch({
         type:GET_PRODUCTS_REQUEST
     })
 
-    const param = {
+    const productSearchRequest = {
         page,
         sort : sort? sort :'',
         category : category ? category :'',
@@ -15,7 +15,7 @@ export const getProducts = (page, sort, category,keyword) =>async(dispatch, getS
     }
 
     try{
-        const res = await axios.get(`/products`,{params:param})
+        const res = await axios.get(`/products`,{params:productSearchRequest})
 
         dispatch({
             type:GET_PRODUCTS_SUCCESS,
@@ -40,7 +40,7 @@ export const getSellerProducts = (id,page, sort, category,keyword) =>async(dispa
         type:GET_SELLER_PRODUCTS_REQUEST
     })
 
-    const param = {
+    const productSearchRequest = {
         page,
         sort : sort? sort :'',
         category : category ? category :'',
@@ -48,7 +48,7 @@ export const getSellerProducts = (id,page, sort, category,keyword) =>async(dispa
     }
 
     try{
-        const res = await axios.get(`/users/${id}/products`,{params:param})
+        const res = await axios.get(`/users/${id}/products`,{params:productSearchRequest})
 
         dispatch({
             type:GET_SELLER_PRODUCTS_SUCCESS,
@@ -94,8 +94,15 @@ export const getProductList = (page, sort) =>async(dispatch, getState)=>{
         type:GET_PRODUCT_LIST_REQUEST
     })
 
+    const productSearchRequest = {
+        page,
+        sort,
+        category : '',
+        keyword : ''
+    }
+
     try{
-        const res = await axios.get(`/products/list?page=${page}&sort=${sort}`,{
+        const res = await axios.get(`/products`,{params:productSearchRequest},{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -121,8 +128,15 @@ export const getSellerProductList = (page, sort, id) =>async(dispatch, getState)
         type:GET_PRODUCT_LIST_REQUEST
     })
 
+    const productSearchRequest = {
+        page,
+        sort,
+        category : '',
+        keyword : ''
+    }
+
     try{
-        const res = await axios.get(`/users/${id}/products/list?page=${page}&sort=${sort}`,{
+        const res = await axios.get(`/users/${id}/products`, {params:productSearchRequest},{
             headers : {Authorization : `Bearer ${token}`}
         })
 
