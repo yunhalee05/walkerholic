@@ -7,15 +7,17 @@ export const getProducts = (page, sort, category, keyword) =>async(dispatch, get
         type:GET_PRODUCTS_REQUEST
     })
 
-    const productSearchRequest = {
-        page,
-        sort : sort? sort :'',
-        category : category ? category :'',
-        keyword : keyword ? keyword : ''
-    }
-
     try{
-        const res = await axios.get(`/products`,{params:productSearchRequest})
+        const res = await axios.get(`/products`,{
+            params:{
+                pageRequest : {
+                    page,
+                    sort : sort? sort :'',
+                }, 
+                category : category ? category :'',
+                keyword : keyword ? keyword : ''
+            }
+        })
 
         dispatch({
             type:GET_PRODUCTS_SUCCESS,
@@ -40,15 +42,17 @@ export const getSellerProducts = (id,page, sort, category,keyword) =>async(dispa
         type:GET_SELLER_PRODUCTS_REQUEST
     })
 
-    const productSearchRequest = {
-        page,
-        sort : sort? sort :'',
-        category : category ? category :'',
-        keyword : keyword ? keyword : ''
-    }
-
     try{
-        const res = await axios.get(`/users/${id}/products`,{params:productSearchRequest})
+        const res = await axios.get(`/users/${id}/products`,{
+            params:{
+                pageRequest : {
+                    page,
+                    sort : sort? sort :'',
+                }, 
+                category : category ? category :'',
+                keyword : keyword ? keyword : ''
+            }
+        })
 
         dispatch({
             type:GET_SELLER_PRODUCTS_SUCCESS,
@@ -94,15 +98,17 @@ export const getProductList = (page, sort) =>async(dispatch, getState)=>{
         type:GET_PRODUCT_LIST_REQUEST
     })
 
-    const productSearchRequest = {
-        page,
-        sort,
-        category : '',
-        keyword : ''
-    }
-
     try{
-        const res = await axios.get(`/products`,{params:productSearchRequest},{
+        const res = await axios.get(`/products`,{
+            params:{
+                pageRequest : {
+                    page,
+                    sort : sort? sort :'',
+                }, 
+                category : '',
+                keyword : ''
+            }
+        },{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -128,15 +134,17 @@ export const getSellerProductList = (page, sort, id) =>async(dispatch, getState)
         type:GET_PRODUCT_LIST_REQUEST
     })
 
-    const productSearchRequest = {
-        page,
-        sort,
-        category : '',
-        keyword : ''
-    }
-
     try{
-        const res = await axios.get(`/users/${id}/products`, {params:productSearchRequest},{
+        const res = await axios.get(`/users/${id}/products`, {
+            params:{
+                pageRequest : {
+                    page,
+                    sort : sort? sort :'',
+                }, 
+                category : '',
+                keyword : ''
+            }
+        },{
             headers : {Authorization : `Bearer ${token}`}
         })
 
