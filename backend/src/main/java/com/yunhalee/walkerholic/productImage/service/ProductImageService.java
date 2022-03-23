@@ -28,8 +28,7 @@ public class ProductImageService {
         this.s3ImageUploader = s3ImageUploader;
     }
 
-    public SimpleProductImageResponses createImages(Integer id,
-        List<MultipartFile> multipartFiles) {
+    public SimpleProductImageResponses createImages(Integer id, List<MultipartFile> multipartFiles) {
         Product product = findProductById(id);
         return SimpleProductImageResponses.of(uploadImages(product, multipartFiles));
     }

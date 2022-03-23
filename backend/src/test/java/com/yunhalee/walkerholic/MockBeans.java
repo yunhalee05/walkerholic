@@ -19,12 +19,15 @@ import com.yunhalee.walkerholic.user.domain.UserRepository;
 import com.yunhalee.walkerholic.user.service.UserService;
 import com.yunhalee.walkerholic.useractivity.domain.UserActivityRepository;
 import com.yunhalee.walkerholic.useractivity.service.UserActivityService;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
+@ExtendWith(MockitoExtension.class)
 @SpringBootTest
 public class MockBeans {
 
