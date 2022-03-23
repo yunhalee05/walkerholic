@@ -72,32 +72,51 @@ export const addCart = (qty, productId, orderId) =>async(dispatch, getState)=>{
     const {cart : {orderItems}} = getState()
 
     var orderItem={};
+    
+    // if(orderItems && orderItems.filter(i=>i.productId===productId).length>0){
+    //     const existOrderItem = orderItems.filter(i=>i.productId===productId)
+    //     orderItem={
+    //         id:[0].id,
+    //         qty:existOrderItem[0].qty+qty,
+    //         productId:existOrderItem[0].productId,
+    //         orderId:orderId
+    //     }
+    // }else{
+    //     orderItem={
+    //         qty:qty,
+    //         productId:productId,
+    //         orderId:orderId
+    //         }
 
-    if(orderItems){
-        const existOrderItem = orderItems.filter(i=>i.productId===productId)
-        console.log(existOrderItem)
+        
+    // }
 
-        if(existOrderItem.length>0){
-            orderItem={
-                id:existOrderItem[0].id,
-                qty:existOrderItem[0].qty+qty,
-                productId:existOrderItem[0].productId,
-                orderId:orderId
-            }
-        }else{
-            orderItem={
-                qty:qty,
-                productId:productId,
-                orderId:orderId
-            }
-        }
-    }else{
-    orderItem={
-        qty:qty,
-        productId:productId,
-        orderId:orderId
-        }
-    }
+
+    // if(orderItems){
+    //     const existOrderItem = orderItems.filter(i=>i.productId===productId)
+    //     console.log(existOrderItem)
+
+    //     if(existOrderItem.length>0){
+    //         orderItem={
+    //             id:existOrderItem[0].id,
+    //             qty:existOrderItem[0].qty+qty,
+    //             productId:existOrderItem[0].productId,
+    //             orderId:orderId
+    //         }
+    //     }else{
+    //         orderItem={
+    //             qty:qty,
+    //             productId:productId,
+    //             orderId:orderId
+    //         }
+    //     }
+    // }else{
+    // orderItem={
+    //     qty:qty,
+    //     productId:productId,
+    //     orderId:orderId
+    //     }
+    // }
 
 
     dispatch({
@@ -105,9 +124,33 @@ export const addCart = (qty, productId, orderId) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post(`/addToCart/${orderId}`, orderItem,{
-            headers : {Authorization : `Bearer ${token}`}
-        })
+        let res;
+        if(orderItems && orderItems.filter(i=>i.productId===productId).length>0){
+            const existOrderItem = orderItems.filter(i=>i.productId===productId)
+            // orderItem={
+            //     qty:existOrderItem[0].qty+qty,
+            //     productId:existOrderItem[0].productId,
+            //     orderId:orderId
+            // }
+
+            res = await axios.put(`/order-items/${existOrderItem[0].id}?qty=${existOrderItem[0].qty+qty}`, null,{
+                headers : {Authorization : `Bearer ${token}`}
+            })
+    
+        }else{
+            orderItem={
+                qty:qty,
+                productId:productId,
+                orderId:orderId
+                }
+            res = await axios.post(`/orders/${orderId}/order-items`, orderItem,{
+                headers : {Authorization : `Bearer ${token}`}
+            })
+        
+        }
+        // const res = await axios.post(`/addToCart/${orderId}`, orderItem,{
+        //     headers : {Authorization : `Bearer ${token}`}
+        // })
 
         dispatch({
             type:ADD_TO_CART_SUCCESS,
@@ -138,7 +181,7 @@ export const updateQty = (id, qty) =>async(dispatch, getState)=>{
 
 
     try{
-        await axios.post(`/order-items/${id}?qty=${qty}`,null,{
+        await axios.put(`/order-items/${id}?qty=${qty}`,null,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
