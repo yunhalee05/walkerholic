@@ -207,7 +207,7 @@ export const editProduct = (productRequest, deletedImages, images, id) =>async(d
             })
         }
 
-        const res = await axios.patch(`/products/${id}`,productRequest,{
+        const res = await axios.put(`/products/${id}`,productRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 

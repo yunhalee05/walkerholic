@@ -43,7 +43,7 @@ export const createCart = () =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post(`/createCart/${user.id}`,null,{
+        const res = await axios.post(`/users/${user.id}/orders`,null,{
             headers : {Authorization : `Bearer ${token}`}
         })
 

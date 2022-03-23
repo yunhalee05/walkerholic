@@ -116,7 +116,7 @@ export const updatePost = (id, postRequest, images, deletedImages) =>async(dispa
             })
         }
 
-        const res = await axios.patch(`/posts/${id}`, postRequest,{
+        const res = await axios.put(`/posts/${id}`, postRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
