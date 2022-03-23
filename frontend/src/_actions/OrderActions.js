@@ -398,7 +398,7 @@ export const deliverOrder = (id) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.post(`/order/deliver/${id}`,{
+        const res = await axios.post(`/orders/${id}/deliver`,{
             headers : {Authorization : `Bearer ${token}`}
         })
         dispatch({
