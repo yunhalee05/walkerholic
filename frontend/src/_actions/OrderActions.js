@@ -11,7 +11,7 @@ export const getCart = (id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/cartItems/${id}`,{
+        const res = await axios.get(`/users/${id}/orders/cart`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
