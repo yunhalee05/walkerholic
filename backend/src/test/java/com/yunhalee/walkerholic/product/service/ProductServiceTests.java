@@ -48,11 +48,7 @@ class ProductServiceTests extends MockBeans {
         "This is the file content".getBytes());
 
     @InjectMocks
-    private ProductService productService = new ProductService(productRepository,
-        reviewRepository,
-        userService,
-        productImageService,
-        s3ImageUploader);
+    private ProductService productService = new ProductService(productRepository, reviewRepository, userService, productImageService);
 
     private Product product;
     private Product firstProduct;

@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkPostImage } from '../../utils/CheckImage'
 import { imageShow, videoShow} from '../../utils/MediaShow'
-import { createPost } from '../../_actions/PostActions'
+import { createPost, updatePost } from '../../_actions/PostActions'
 
 
 function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
@@ -90,46 +90,35 @@ function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
     const handleSubmit = (e) =>{
         e.preventDefault();
 
-        if(images.length===0 && originalImages.length===0){
-            return window.alert("Please add your photo.")
+
+        const postRequest = {
+            title,
+            content,
+            userId:auth.user.id
         }
-        const bodyFormData = new FormData()
 
         if(post){
-            const postRequest = {
-                id:post.id,
-                title,
-                content,
-                userId:auth.user.id
+            if(images.length===0 && originalImages.length===0){
+                return window.alert("Please add your photo.")
             }
-            // bodyFormData.append("id", post.id)
-            // bodyFormData.append("title", title)
-            // bodyFormData.append("content", content)
-            // bodyFormData.append("userId", auth.user.id)
-            bodyFormData.append("postRequest", postRequest)
-            images.forEach(image=> bodyFormData.append("multipartFile", image))
-            deletedImages.forEach(image=>bodyFormData.append("deletedImages",image))
-        }else{
-            const postRequest = {
-                title,
-                content,
-                userId:auth.user.id
-            }
-            // bodyFormData.append("title", title)
-            // bodyFormData.append("content", content)
-            // bodyFormData.append("userId", auth.user.id)
-            bodyFormData.append("postRequest", postRequest)
-            images.forEach(image=> bodyFormData.append("multipartFile", image))
+            // bodyFormData.append("postRequest", postRequest)
+            // images.forEach(image=> bodyFormData.append("multipartFile", image))
             // deletedImages.forEach(image=>bodyFormData.append("deletedImages",image))
-        }
-
-        dispatch(createPost(bodyFormData))
-        if(post){
-            setIsEdit(false)
+            dispatch(updatePost(post.id, postRequest, images, deletedImages)).then(res=>(
+                setIsEdit(false)
+            ))
         }else{
-            setIsCreate(false)
-        }
+            if(images.length===0){
+                return window.alert("Please add your photo.")
+            }
+            const bodyFormData = new FormData()
+            bodyFormData.append("postRequest", postRequest)
+            images.forEach(image=> bodyFormData.append("multipartFile", image))
+            dispatch(createPost(bodyFormData)).then(res=>(
+                setIsCreate(false)
+            ))
 
+        }
     }
 
     const imageTypeCheck = (image)=>{ 

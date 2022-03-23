@@ -93,7 +93,7 @@ export const createPost = (bodyFormData) =>async(dispatch, getState)=>{
 }
 
 
-export const updatePost = (bodyFormData) =>async(dispatch, getState)=>{
+export const updatePost = (id, postRequest, images, deletedImages) =>async(dispatch, getState)=>{
     const {auth : {token}} = getState()
 
     dispatch({
@@ -101,7 +101,22 @@ export const updatePost = (bodyFormData) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.patch('/posts', bodyFormData,{
+
+        if(images && images.length > 0){
+            const bodyFormData = new FormData()
+            images.forEach(image=> bodyFormData.append("multipartFile", image))
+            await axios.post(`/posts/${id}/post-images`, bodyFormData, {
+                headers : {Authorization : `Bearer ${token}`}
+            })
+        }
+
+        if(deletedImages && deletedImages>0){
+            await axios.delete(`/posts/${id}/post-images`, deletedImages, {
+                headers : {Authorization : `Bearer ${token}`}
+            })
+        }
+
+        const res = await axios.patch(`/posts/${id}`, postRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 

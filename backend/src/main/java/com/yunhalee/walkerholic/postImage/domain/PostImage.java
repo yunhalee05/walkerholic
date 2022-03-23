@@ -1,5 +1,6 @@
-package com.yunhalee.walkerholic.post.domain;
+package com.yunhalee.walkerholic.postImage.domain;
 
+import com.yunhalee.walkerholic.post.domain.Post;
 import java.util.Objects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

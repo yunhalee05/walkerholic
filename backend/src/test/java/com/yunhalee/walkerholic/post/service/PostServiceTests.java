@@ -35,7 +35,6 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
 @Transactional
 class PostServiceTests extends MockBeans {
@@ -52,10 +51,8 @@ class PostServiceTests extends MockBeans {
     private PostService postService = new PostService(
         postRepository,
         userService,
-        postImageRepository,
-        followService,
-        s3ImageUploader,
-        "https://walkerholic-test-you.s3.ap-northeast10.amazonaws.com");
+        postImageService,
+        followService);
 
     private Post post;
 
@@ -89,13 +86,13 @@ class PostServiceTests extends MockBeans {
     public void updatePost() throws IOException {
         //given
         String newContent = "updateTestPost";
-        PostRequest request = new PostRequest(post.getId(), post.getTitle(), newContent, post.getUser().getId());
+        PostRequest request = new PostRequest(post.getTitle(), newContent, post.getUser().getId());
 
         //when
         when(postRepository.findById(any())).thenReturn(Optional.of(post));
         when(s3ImageUploader.uploadFile(any(), any())).thenReturn(PostImageTest.POST_IMAGE.getFilePath());
         when(postImageRepository.save(any())).thenReturn(PostImageTest.POST_IMAGE);
-        PostResponse response = postService.updatePost(request, Arrays.asList(MULTIPART_FILE), null);
+        PostResponse response = postService.updatePost(post.getId(), request);
 
         //then
         assertThat(response.getId()).isEqualTo(post.getId());

@@ -6,9 +6,10 @@ import com.yunhalee.walkerholic.common.service.S3ImageUploader;
 import com.yunhalee.walkerholic.follow.domain.FollowRepository;
 import com.yunhalee.walkerholic.follow.service.FollowService;
 import com.yunhalee.walkerholic.likepost.domain.LikePostRepository;
-import com.yunhalee.walkerholic.post.domain.PostImageRepository;
+import com.yunhalee.walkerholic.postImage.domain.PostImageRepository;
 import com.yunhalee.walkerholic.post.domain.PostRepository;
 import com.yunhalee.walkerholic.post.service.PostService;
+import com.yunhalee.walkerholic.postImage.service.PostImageService;
 import com.yunhalee.walkerholic.productImage.domain.ProductImageRepository;
 import com.yunhalee.walkerholic.product.domain.ProductRepository;
 import com.yunhalee.walkerholic.product.service.ProductService;
@@ -80,4 +81,7 @@ public class MockBeans {
 
     @MockBean
     protected ProductImageService productImageService;
+
+    @MockBean
+    protected PostImageService postImageService;
 }
