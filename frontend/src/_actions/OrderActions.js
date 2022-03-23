@@ -336,7 +336,7 @@ export const getOrderListByUser = (page,userId) =>async(dispatch, getState)=>{
     }
 }
 
-export const createOrder = (orderCreateDTO) =>async(dispatch, getState)=>{
+export const createOrder = (id, orderCreateDTO) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
     const {auth : {token}} = getState()
@@ -347,7 +347,7 @@ export const createOrder = (orderCreateDTO) =>async(dispatch, getState)=>{
 
 
     try{
-        await axios.post('/payOrder', orderCreateDTO,{
+        await axios.post(`/orders/${id}/pay`, orderCreateDTO,{
             headers : {Authorization : `Bearer ${token}`}
         })
         dispatch({
