@@ -138,7 +138,7 @@ export const updateQty = (id, qty) =>async(dispatch, getState)=>{
 
 
     try{
-        await axios.post(`/updateQty/${id}?qty=${qty}`,null,{
+        await axios.post(`/order-items/${id}?qty=${qty}`,null,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -174,7 +174,7 @@ export const deleteOrderItem = (id) =>async(dispatch, getState)=>{
 
 
     try{
-        await axios.delete(`/deleteOrderItem/${id}`,{
+        await axios.delete(`/order-items/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
