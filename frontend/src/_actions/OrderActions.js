@@ -367,7 +367,7 @@ export const cancelOrder = (id) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.post(`/order/cancel/${id}`,{
+        const res = await axios.post(`/orders/${id}/cancel`,{
             headers : {Authorization : `Bearer ${token}`}
         })
         dispatch({
