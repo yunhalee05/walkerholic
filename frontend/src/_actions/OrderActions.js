@@ -251,7 +251,7 @@ export const getOrderList = (page) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.get(`/orderlist/${page}`,{
+        const res = await axios.get(`/orders?page=${page}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -283,7 +283,7 @@ export const getOrderListBySeller = (page,id) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.get(`/orderlistBySeller/${page}/${id}`,{
+        const res = await axios.get(`/users/${id}/orders/seller?page=${page}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -315,7 +315,7 @@ export const getOrderListByUser = (page,userId) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.get(`/orderlistByUser/${page}/${userId}`,{
+        const res = await axios.get(`/users/${userId}/orders?page=${page}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
