@@ -336,7 +336,7 @@ export const getOrder = (id) =>async(dispatch, getState)=>{
     console.log(id)
 
     try{
-        const res = await axios.get(`/getOrder/${id}`,{
+        const res = await axios.get(`/orders/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
