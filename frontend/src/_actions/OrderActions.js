@@ -347,7 +347,7 @@ export const createOrder = (id, orderCreateDTO) =>async(dispatch, getState)=>{
 
 
     try{
-        await axios.post(`/orders/${id}/pay`, orderCreateDTO,{
+        await axios.post(`/orders/${id}/payment`, orderCreateDTO,{
             headers : {Authorization : `Bearer ${token}`}
         })
         dispatch({
@@ -410,7 +410,7 @@ export const cancelOrder = (id) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.post(`/orders/${id}/cancel`,{
+        const res = await axios.post(`/orders/${id}/cancellation`,{
             headers : {Authorization : `Bearer ${token}`}
         })
         dispatch({
@@ -441,7 +441,7 @@ export const deliverOrder = (id) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.post(`/orders/${id}/deliver`,{
+        const res = await axios.post(`/orders/${id}/delivery`,{
             headers : {Authorization : `Bearer ${token}`}
         })
         dispatch({
