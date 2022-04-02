@@ -251,7 +251,15 @@ export const getOrderList = (page) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.get(`/orders?page=${page}`,{
+
+        const res = await axios.get(`/orders`,{
+            params:{
+                pageRequest : {
+                    page,
+                    sort : '',
+                }
+            }
+        },{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -283,7 +291,19 @@ export const getOrderListBySeller = (page,id) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.get(`/users/${id}/orders/seller?page=${page}`,{
+        // const res = await axios.get(`/users/${id}/orders/seller?page=${page}`,{
+        //     headers : {Authorization : `Bearer ${token}`}
+        // })
+
+        const res = await axios.get(`/orders`,{
+            params:{
+                pageRequest : {
+                    page,
+                    sort : '',
+                },
+                sellerId : id
+            }
+        },{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -315,7 +335,18 @@ export const getOrderListByUser = (page,userId) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.get(`/users/${userId}/orders?page=${page}`,{
+        // const res = await axios.get(`/users/${userId}/orders?page=${page}`,{
+        //     headers : {Authorization : `Bearer ${token}`}
+        // })
+        const res = await axios.get(`/orders`,{
+            params:{
+                pageRequest : {
+                    page,
+                    sort : '',
+                },
+                userId : userId,
+            }
+        },{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -336,7 +367,37 @@ export const getOrderListByUser = (page,userId) =>async(dispatch, getState)=>{
     }
 }
 
-export const createOrder = (id, orderCreateDTO) =>async(dispatch, getState)=>{
+// export const createOrder = (id, orderCreateDTO) =>async(dispatch, getState)=>{
+
+//     const {auth : {user}} = getState()
+//     const {auth : {token}} = getState()
+
+//     dispatch({
+//         type:CREATE_ORDER_REQUEST
+//     })
+
+
+//     try{
+//         await axios.post(`/orders/${id}/payment`, orderCreateDTO,{
+//             headers : {Authorization : `Bearer ${token}`}
+//         })
+//         dispatch({
+//             type:CREATE_ORDER_SUCCESS
+//         })
+
+
+//     }catch(error){
+//         dispatch({
+//             type:CREATE_ORDER_FAIL,
+//             payload: error.response && error.response.data
+//             ? error.response.data
+//             : error.message            
+//         })
+//         // console.log(error)
+//     }
+// }
+
+export const createOrder = (orderRequest) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
     const {auth : {token}} = getState()
@@ -347,7 +408,7 @@ export const createOrder = (id, orderCreateDTO) =>async(dispatch, getState)=>{
 
 
     try{
-        await axios.post(`/orders/${id}/payment`, orderCreateDTO,{
+        await axios.post(`/orders`, orderRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
         dispatch({

@@ -77,14 +77,15 @@ function PlaceOrderScreen(props) {
             country,city,zipcode,address
         }
 
-        const orderCreateDTO = {
+        const orderRequest = {
+            userId:auth.user.id,
             shipping,
             paymentMethod:"paypal",
             address:addressInfo
         }
 
-        dispatch(createOrder(id,orderCreateDTO)).then(res=>{
-            props.history.push(`/order/${id}`)
+        dispatch(createOrder(orderRequest)).then(res=>{
+            props.history.push(`/order/${res.id}`)
         })
     }
 
