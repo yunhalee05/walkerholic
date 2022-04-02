@@ -11,7 +11,7 @@ export const getCart = (id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/users/${id}/orders/cart`,{
+        const res = await axios.get(`carts?userId=${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -43,7 +43,7 @@ export const createCart = () =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post(`/users/${user.id}/orders/cart`,null,{
+        const res = await axios.post(`carts?userId=${user.id}`,null,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
