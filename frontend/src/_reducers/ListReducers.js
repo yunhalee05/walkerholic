@@ -14,14 +14,14 @@ export const listReducer = (state={}, action)=>{
         case CANCEL_ORDER_REQUEST:
             return {...state, loading:true, error:""}
         case CANCEL_ORDER_SUCCESS:
-            return {...state, loading:false, orders:state.orders.map(order=>order.id ===action.payload.id ? action.payload : order), error:""}
+            return {...state, loading:false, orders:state.orders?.orders.map(order=>order.id ===action.payload.id ? action.payload : order), error:""}
         case CANCEL_ORDER_FAIL:
             return {...state, loading:false, error:action.payload}
 
         case DELIVER_ORDER_REQUEST:
             return {...state, loading:true, error:""}
         case DELIVER_ORDER_SUCCESS:
-            return {...state, loading:false, orders:state.orders.map(order=>order.id ===action.payload.id ? action.payload : order), error:""}
+            return {...state, loading:false, orders:state.orders?.orders.map(order=>order.id ===action.payload.id ? action.payload : order), error:""}
         case DELIVER_ORDER_FAIL:
             return {...state, loading:false, error:action.payload}
     

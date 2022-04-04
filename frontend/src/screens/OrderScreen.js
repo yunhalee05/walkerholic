@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Error from '../components/Error'
 import Loading from '../components/Loading'
-import { getOrder } from '../_actions/OrderActions'
+import { cancelOrder, getOrder } from '../_actions/OrderActions'
 
 function OrderScreen(props) {
 
@@ -16,6 +16,11 @@ function OrderScreen(props) {
     useEffect(() => {
         dispatch(getOrder(id))
     }, [dispatch, id])
+
+    const handleCancelOrder = (e) =>{
+        e.preventDefault()
+        dispatch(cancelOrder(id, order.transactionId))
+    }
 
     return (
         <div>
@@ -77,7 +82,7 @@ function OrderScreen(props) {
                     <div className="placeorder_summary">
                         <div className="placeorder_items">
                             {
-                                order.orderItems.map((item,index)=>(
+                                order.items.map((item,index)=>(
                                     <div key={index} className="placeorder_item">
                                         <div style={{display:"flex",justifyContent:"flex-start", alignItems:"center"}}>
                                             <div className="placeorder_item_qty">
@@ -111,6 +116,12 @@ function OrderScreen(props) {
                             <div className="cart_info" style={{marginBottom:"1.6rem"}}>
                                 <div className="cart_info_label">Total</div>
                                 <div style={{fontSize:"1.2rem"}}>{(order.total+order.shipping).toFixed(2)}$</div>
+                            </div>
+                            <div>
+                                <button onClick={handleCancelOrder}>Cancel Order</button>
+                            </div>
+                            <div>
+                                <div>{order.orderStatus}</div>
                             </div>
                         </div>
                     </div>

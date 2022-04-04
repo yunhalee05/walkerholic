@@ -232,10 +232,10 @@ export const getOrderList = (page) =>async(dispatch, getState)=>{
 
         const res = await axios.get(`/orders`,{
             params:{
-                pageRequest : {
+                // pageRequest : {
                     page,
                     sort : '',
-                }
+                // }
             }
         },{
             headers : {Authorization : `Bearer ${token}`}
@@ -275,10 +275,10 @@ export const getOrderListBySeller = (page,id) =>async(dispatch, getState)=>{
 
         const res = await axios.get(`/orders`,{
             params:{
-                pageRequest : {
+                // pageRequest : {
                     page,
                     sort : '',
-                },
+                // },
                 sellerId : id
             }
         },{
@@ -318,10 +318,10 @@ export const getOrderListByUser = (page,userId) =>async(dispatch, getState)=>{
         // })
         const res = await axios.get(`/orders`,{
             params:{
-                pageRequest : {
+                // pageRequest : {
                     page,
                     sort : '',
-                },
+                // },
                 userId : userId,
             }
         },{
@@ -386,12 +386,13 @@ export const createOrder = (orderRequest) =>async(dispatch, getState)=>{
 
 
     try{
-        await axios.post(`/orders`, orderRequest,{
+        const res = await axios.post(`/orders`, orderRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
         dispatch({
             type:CREATE_ORDER_SUCCESS
         })
+        return res.data.id
 
 
     }catch(error){
@@ -414,8 +415,8 @@ export const getOrder = (id) =>async(dispatch, getState)=>{
         type:GET_ORDER_REQUEST
     })
 
-    console.log(token)
-    console.log(id)
+    // console.log(token)
+    // console.log(id)
 
     try{
         const res = await axios.get(`/orders/${id}`,{
@@ -435,10 +436,9 @@ export const getOrder = (id) =>async(dispatch, getState)=>{
             ? error.response.data
             : error.message            
         })
-        // console.log(error)
     }
 }
-export const cancelOrder = (id) =>async(dispatch, getState)=>{
+export const cancelOrder = (id, transactionId) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
     const {auth : {token}} = getState()
@@ -448,10 +448,26 @@ export const cancelOrder = (id) =>async(dispatch, getState)=>{
     })
 
 
+    let res = {}
     try{
-        const res = await axios.post(`/orders/${id}/cancellation`,{
+
+        await axios.get('/paypal',{
             headers : {Authorization : `Bearer ${token}`}
+        }).then( async(rest) =>{
+            const paypalToken = `${rest.data.clientId}:${rest.data.clientSecret}`;
+            const encodedToken = btoa(paypalToken)
+            await axios.post(`https://api.sandbox.paypal.com/v2/payments/captures/${transactionId}/refund`,null,{
+                headers : {
+                Authorization: "Basic " + encodedToken,
+                'Content-type':'application/json'
+            }}).then(async(result) =>{
+                res = await axios.put(`/orders/${id}/cancellation`,{
+                    headers : {Authorization : `Bearer ${token}`}
+                })
+            })
+    
         })
+
         dispatch({
             type:CANCEL_ORDER_SUCCESS,
             payload:res.data
@@ -465,7 +481,6 @@ export const cancelOrder = (id) =>async(dispatch, getState)=>{
             ? error.response.data
             : error.message            
         })
-        // console.log(error)
     }
 }
 

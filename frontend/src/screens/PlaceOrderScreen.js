@@ -25,8 +25,11 @@ function PlaceOrderScreen(props) {
     const [zipcode, setZipcode] = useState('')
     const [checkAddress, setCheckAddress] = useState(false)
     const [sdkReady, setSdkReady] = useState(false)
+    const [clientId, setClientId] = useState('')
+    const [clientSecret, setClientSecret] = useState('')
 
     const dispatch = useDispatch()
+
 
     useEffect(() => {
         if(!cart.checkout){
@@ -44,9 +47,11 @@ function PlaceOrderScreen(props) {
         const {data} = await axios.get('/paypal',{
             headers : {Authorization : `Bearer ${auth.token}`}
         });
+        setClientId(data.clientId)
+        setClientSecret(data.clientSecret)
         const script = document.createElement('script');
         script.type = "text/javascript";
-        script.src = `http://www.paypal.com/sdk/js?client-id=${data}`
+        script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
         script.async = true;
         script.onload = ()=>{
             setSdkReady(true);
@@ -67,25 +72,36 @@ function PlaceOrderScreen(props) {
         }
     }
 
-    const subtotal = parseFloat(cart.orderItems?.reduce((a,c)=> a+ c.productPrice*c.qty,0))
+    const subtotal = parseFloat(cart.items?.reduce((a,c)=> a+ c.productPrice*c.qty,0))
     const shipping = subtotal>100 ? parseFloat(0) : parseFloat(5)
     const total = subtotal + shipping 
 
-    const successPaymentHandler = (paymentResult)=>{
+
+    const successPaymentHandler = async(details, data)=>{
         const addressInfo = {
             name: addressName,
             country,city,zipcode,address
         }
 
-        const orderRequest = {
-            userId:auth.user.id,
-            shipping,
-            paymentMethod:"paypal",
-            address:addressInfo
-        }
+        const token = `${clientId}:${clientSecret}`;
+        const encodedToken = btoa(token)
 
-        dispatch(createOrder(orderRequest)).then(res=>{
-            props.history.push(`/order/${res.id}`)
+        await axios.get(`https://api-m.sandbox.paypal.com/v2/checkout/orders/${data.orderID}`,{
+            headers : {
+            Authorization: "Basic " + encodedToken,
+            'Content-type':'application/json'
+        }}).then(async(res) =>{
+            const orderRequest = {
+                userId:auth.user.id,
+                shipping,
+                paymentMethod:"paypal",
+                address:addressInfo,
+                transactionId:res.data.purchase_units[0].payments.captures[0].id
+            }
+
+            dispatch(createOrder(orderRequest)).then(res=>{
+                props.history.push(`/order/${res}`)
+            })
         })
     }
 
@@ -146,7 +162,7 @@ function PlaceOrderScreen(props) {
                             {
                                 checkAddress 
                                 ? sdkReady 
-                                    ?<PayPalButton amount={total} onSuccess = {successPaymentHandler} onError={onError}></PayPalButton>
+                                    ?<PayPalButton amount={total} currency="USD" onSuccess = {successPaymentHandler} onError={onError}></PayPalButton>
                                     : <span>Loading...</span>
                                 : <span style={{color:"#787878", textTransform:"uppercase", fontWeight:"800", textAlign:"center"}}>Check Your Address First</span>
                             }
@@ -159,7 +175,7 @@ function PlaceOrderScreen(props) {
                 <div className="placeorder_summary">
                     <div className="placeorder_items">
                         {
-                            cart.orderItems.map((item,index)=>(
+                            cart.items.map((item,index)=>(
                                 <div key={index} className="placeorder_item">
                                     <div style={{display:"flex",justifyContent:"flex-start", alignItems:"center"}}>
                                         <div className="placeorder_item_qty">
