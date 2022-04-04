@@ -27,7 +27,6 @@ import ProductListScreen from './screens/ProductListScreen';
 import UserListScreen from './screens/UserListScreen';
 import OrderScreen from './screens/OrderScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
-import Test from './utils/Test';
 
 function App() {
 
@@ -92,9 +91,6 @@ function App() {
             <Route exact path="/orderlist" component={OrderListScreen}/>
             <Route exact path="/orderlist/:id" component={OrderListScreen}/>
             <Route exact path="/orderlist/user/:userId" component={OrderListScreen}/>
-
-            <Route exact path="/test" component={Test}/>
-
 
           </div>
           <Footer/>
