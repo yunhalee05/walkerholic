@@ -49,7 +49,7 @@ function Header() {
                             <div className="header_content header_cart">
                                 <i className="fas fa-shopping-cart" style={{fontSize:"1.8rem"}} onClick={()=>setIsCart(!isCart)}></i>
                                 <div className="header_cart_count">
-                                    {cart.orderItems?cart.orderItems.length: 0}
+                                    {cart.items?cart.items.reduce(function add(sum, cur) {return sum+cur.qty},0): 0}
                                 </div>
                             </div>
                         }

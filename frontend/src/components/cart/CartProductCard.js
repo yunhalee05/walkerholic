@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { deleteOrderItem, updateQty } from '../../_actions/OrderActions'
+import { deleteCartItem, deleteOrderItem, updateQty } from '../../_actions/OrderActions'
 import QuantityInput from '../QuantityInput'
 
 function CartProductCard({product}) {
@@ -16,7 +16,7 @@ function CartProductCard({product}) {
     }, [dispatch, qty])
 
     const handleDelete = () =>{
-        dispatch(deleteOrderItem(product.id))
+        dispatch(deleteCartItem(product.id))
     }
 
     return (

@@ -45,10 +45,10 @@ export const getSellerProducts = (id,page, sort, category,keyword) =>async(dispa
     try{
         const res = await axios.get(`/users/${id}/products`,{
             params:{
-                pageRequest : {
+                // pageRequest : {
                     page,
                     sort : sort? sort :'createdAt',
-                }, 
+                // }, 
                 category : category ? category :'',
                 keyword : keyword ? keyword : ''
             }

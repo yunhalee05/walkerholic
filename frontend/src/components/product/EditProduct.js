@@ -95,7 +95,9 @@ function EditProduct({product, setIsEdit, isEdit}) {
             // bodyFormData.append("price", price)
             // bodyFormData.append("userId", auth.user.id)
             const bodyFormData = new FormData()
-            bodyFormData.append("productRequest", productRequest)
+            new Blob([JSON.stringify(productRequest)], { type: "application/json" })
+            // new Blob([JSON.stringify(productRequest)])
+            bodyFormData.append("productRequest", new Blob([JSON.stringify(productRequest)], { type: "application/json" }))
             images.forEach(image=> bodyFormData.append("multipartFile", image))
             dispatch(createProduct(bodyFormData)).then(res=>(
                 setIsEdit(false)

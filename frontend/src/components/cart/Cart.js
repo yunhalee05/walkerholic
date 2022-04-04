@@ -11,7 +11,7 @@ function Cart({id, isCart, setIsCart}) {
     const dispatch = useDispatch()
     const history = useHistory()
 
-    const subtotal = cart.orderItems? parseFloat(cart.orderItems?.reduce((a,c)=> a+ c.productPrice*c.qty,0)) : parseFloat(0)
+    const subtotal = cart.items? parseFloat(cart.items?.reduce((a,c)=> a+ c.productPrice*c.qty,0)) : parseFloat(0)
     const shipping = subtotal>100 ? parseFloat(0) : parseFloat(5)
     const total = subtotal + shipping 
 
@@ -32,13 +32,13 @@ function Cart({id, isCart, setIsCart}) {
                     <div className="cart_information">
                         <div style={{fontSize:"13px", transform:"translateY(-15px)"}}>Free shipping for more than 100$.</div>
                         <div style={{fontSize:"2.6rem", color:"#969696",cursor:"pointer"}} onClick={()=>setIsCart(false)}>&times;</div>
-                        {/* <div style={{textAlign:"right", fontSize:"9px", fontWeight:"600", marginRight:"1.5rem"}}>Total Items : {cart.orderItems.reduce((a, c)=> a+c.qty, 0)}</div> */}
+                        {/* <div style={{textAlign:"right", fontSize:"9px", fontWeight:"600", marginRight:"1.5rem"}}>Total Items : {cart.items.reduce((a, c)=> a+c.qty, 0)}</div> */}
                     </div>
                     <div className="cart_products_container">
                         {
-                            (!cart.orderItems ||cart.orderItems.length===0 )
+                            (!cart.items ||cart.items.length===0 )
                             ? <span>No Items.</span>
-                            :   cart.orderItems.map((item,index)=>(
+                            :   cart.items.map((item,index)=>(
                                     <CartProductCard product={item} key={index} />
                                 ))
                         }

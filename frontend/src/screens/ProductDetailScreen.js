@@ -55,7 +55,8 @@ function ProductDetailScreen(props) {
         if(cart.id){
             dispatch(addCart(qty, product.id,cart.id))
         }else{
-            dispatch(createCart()).then(res=>{
+            dispatch(createCart())
+            .then(res=>{
                 dispatch(addCart(qty, product.id, res))
             })
         }

@@ -1,5 +1,5 @@
 import axios from "axios"
-import { ADD_TO_CART_FAIL, ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, CANCEL_ORDER_FAIL, CANCEL_ORDER_REQUEST, CANCEL_ORDER_SUCCESS, CREATE_CART_FAIL, CREATE_CART_REQUEST, CREATE_CART_SUCCESS, CREATE_ORDER_FAIL, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, DELETE_ORDERITEM_FAIL, DELETE_ORDERITEM_REQUEST, DELETE_ORDERITEM_SUCCESS, DELIVER_ORDER_FAIL, DELIVER_ORDER_REQUEST, DELIVER_ORDER_SUCCESS, GET_CARTITEMS_FAIL, GET_CARTITEMS_REQUEST, GET_CARTITEMS_SUCCESS, GET_ORDER_FAIL, GET_ORDER_LIST_FAIL, GET_ORDER_LIST_REQUEST, GET_ORDER_LIST_SUCCESS, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, UPDATE_ORDERITEM_QTY_FAIL, UPDATE_ORDERITEM_QTY_REQUEST, UPDATE_ORDERITEM_QTY_SUCCESS } from "../_constants/OrderConstants"
+import { ADD_TO_CART_FAIL, ADD_TO_CART_REQUEST, ADD_TO_CART_SUCCESS, CANCEL_ORDER_FAIL, CANCEL_ORDER_REQUEST, CANCEL_ORDER_SUCCESS, CREATE_CART_FAIL, CREATE_CART_REQUEST, CREATE_CART_SUCCESS, CREATE_ORDER_FAIL, CREATE_ORDER_REQUEST, CREATE_ORDER_SUCCESS, DELETE_CARTITEM_FAIL, DELETE_CARTITEM_REQUEST, DELETE_CARTITEM_SUCCESS, DELETE_ORDERITEM_FAIL, DELETE_ORDERITEM_REQUEST, DELETE_ORDERITEM_SUCCESS, DELIVER_ORDER_FAIL, DELIVER_ORDER_REQUEST, DELIVER_ORDER_SUCCESS, GET_CARTITEMS_FAIL, GET_CARTITEMS_REQUEST, GET_CARTITEMS_SUCCESS, GET_ORDER_FAIL, GET_ORDER_LIST_FAIL, GET_ORDER_LIST_REQUEST, GET_ORDER_LIST_SUCCESS, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, UPDATE_ORDERITEM_QTY_FAIL, UPDATE_ORDERITEM_QTY_REQUEST, UPDATE_ORDERITEM_QTY_SUCCESS } from "../_constants/OrderConstants"
 
 export const getCart = (id) =>async(dispatch, getState)=>{
 
@@ -11,7 +11,7 @@ export const getCart = (id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`carts?userId=${id}`,{
+        const res = await axios.get(`/carts?userId=${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -43,7 +43,7 @@ export const createCart = () =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post(`carts?userId=${user.id}`,null,{
+        const res = await axios.post(`/carts?userId=${user.id}`,null,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -53,7 +53,6 @@ export const createCart = () =>async(dispatch, getState)=>{
         })
 
         return res.data
-
     }catch(error){
         dispatch({
             type:CREATE_CART_FAIL,
@@ -65,92 +64,38 @@ export const createCart = () =>async(dispatch, getState)=>{
     }
 }
 
-export const addCart = (qty, productId, orderId) =>async(dispatch, getState)=>{
+export const addCart = (qty, productId, cartId) =>async(dispatch, getState)=>{
 
     const {auth : {user}} = getState()
     const {auth : {token}} = getState()
-    const {cart : {orderItems}} = getState()
+    const {cart : {items}} = getState()
 
-    var orderItem={};
+    var cartItemRequest={};
     
-    // if(orderItems && orderItems.filter(i=>i.productId===productId).length>0){
-    //     const existOrderItem = orderItems.filter(i=>i.productId===productId)
-    //     orderItem={
-    //         id:[0].id,
-    //         qty:existOrderItem[0].qty+qty,
-    //         productId:existOrderItem[0].productId,
-    //         orderId:orderId
-    //     }
-    // }else{
-    //     orderItem={
-    //         qty:qty,
-    //         productId:productId,
-    //         orderId:orderId
-    //         }
-
-        
-    // }
-
-
-    // if(orderItems){
-    //     const existOrderItem = orderItems.filter(i=>i.productId===productId)
-    //     console.log(existOrderItem)
-
-    //     if(existOrderItem.length>0){
-    //         orderItem={
-    //             id:existOrderItem[0].id,
-    //             qty:existOrderItem[0].qty+qty,
-    //             productId:existOrderItem[0].productId,
-    //             orderId:orderId
-    //         }
-    //     }else{
-    //         orderItem={
-    //             qty:qty,
-    //             productId:productId,
-    //             orderId:orderId
-    //         }
-    //     }
-    // }else{
-    // orderItem={
-    //     qty:qty,
-    //     productId:productId,
-    //     orderId:orderId
-    //     }
-    // }
-
-
     dispatch({
         type:ADD_TO_CART_REQUEST
     })
 
     try{
         let res;
-        if(orderItems && orderItems.filter(i=>i.productId===productId).length>0){
-            const existOrderItem = orderItems.filter(i=>i.productId===productId)
-            // orderItem={
-            //     qty:existOrderItem[0].qty+qty,
-            //     productId:existOrderItem[0].productId,
-            //     orderId:orderId
-            // }
+        if(items && items.filter(i=>i.productId===productId).length>0){
+            const existItem = items.filter(i=>i.productId===productId)
 
-            res = await axios.put(`/order-items/${existOrderItem[0].id}?qty=${existOrderItem[0].qty+qty}`, null,{
+            res = await axios.put(`/cart-items/${existItem[0].id}?qty=${existItem[0].qty+qty}`, null,{
                 headers : {Authorization : `Bearer ${token}`}
             })
     
         }else{
-            orderItem={
+            cartItemRequest={
                 qty:qty,
                 productId:productId,
-                orderId:orderId
+                cartId:cartId
                 }
-            res = await axios.post(`/orders/${orderId}/order-items`, orderItem,{
+            res = await axios.post(`/cart-items`, cartItemRequest,{
                 headers : {Authorization : `Bearer ${token}`}
             })
         
         }
-        // const res = await axios.post(`/addToCart/${orderId}`, orderItem,{
-        //     headers : {Authorization : `Bearer ${token}`}
-        // })
 
         dispatch({
             type:ADD_TO_CART_SUCCESS,
@@ -165,7 +110,6 @@ export const addCart = (qty, productId, orderId) =>async(dispatch, getState)=>{
             ? error.response.data
             : error.message            
         })
-        // console.log(error)
     }
 }
 
@@ -181,7 +125,7 @@ export const updateQty = (id, qty) =>async(dispatch, getState)=>{
 
 
     try{
-        await axios.put(`/order-items/${id}?qty=${qty}`,null,{
+        await axios.put(`/cart-items/${id}?qty=${qty}`,null,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -204,6 +148,40 @@ export const updateQty = (id, qty) =>async(dispatch, getState)=>{
         // console.log(error)
     }
 }
+
+
+export const deleteCartItem = (id) =>async(dispatch, getState)=>{
+
+    const {auth : {user}} = getState()
+    const {auth : {token}} = getState()
+
+    dispatch({
+        type:DELETE_CARTITEM_REQUEST
+    })
+
+
+    try{
+        await axios.delete(`/cart-items/${id}`,{
+            headers : {Authorization : `Bearer ${token}`}
+        })
+
+        dispatch({
+            type:DELETE_CARTITEM_SUCCESS,
+            payload:id
+        })
+
+
+    }catch(error){
+        dispatch({
+            type:DELETE_CARTITEM_FAIL,
+            payload: error.response && error.response.data
+            ? error.response.data
+            : error.message            
+        })
+        // console.log(error)
+    }
+}
+
 
 
 export const deleteOrderItem = (id) =>async(dispatch, getState)=>{

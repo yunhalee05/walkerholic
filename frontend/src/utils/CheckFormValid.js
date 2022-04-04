@@ -29,7 +29,7 @@ export const checkRegisterFormValid = (lastname, firstname, email, password, con
         err.description="Description is up to 200characters long."
     }
 
-    if(phoneNumber){
+    if(phoneNumber.length>15){
         err.phoneNumber="PhoneNumber is up to 15characters long."
     }
     
