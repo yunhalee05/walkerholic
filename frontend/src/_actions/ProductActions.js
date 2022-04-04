@@ -10,10 +10,10 @@ export const getProducts = (page, sort, category, keyword) =>async(dispatch, get
     try{
         const res = await axios.get(`/products`,{
             params:{
-                pageRequest : {
+                // pageRequest : {
                     page,
-                    sort : sort? sort :'',
-                }, 
+                    sort : sort? sort :'createdAt',
+                // }, 
                 category : category ? category :'',
                 keyword : keyword ? keyword : ''
             }
@@ -47,7 +47,7 @@ export const getSellerProducts = (id,page, sort, category,keyword) =>async(dispa
             params:{
                 pageRequest : {
                     page,
-                    sort : sort? sort :'',
+                    sort : sort? sort :'createdAt',
                 }, 
                 category : category ? category :'',
                 keyword : keyword ? keyword : ''
@@ -101,10 +101,10 @@ export const getProductList = (page, sort) =>async(dispatch, getState)=>{
     try{
         const res = await axios.get(`/products`,{
             params:{
-                pageRequest : {
-                    page,
+                // pageRequest : {
+                    page : page,
                     sort : sort? sort :'',
-                }, 
+                // }, 
                 category : '',
                 keyword : ''
             }
@@ -137,10 +137,10 @@ export const getSellerProductList = (page, sort, id) =>async(dispatch, getState)
     try{
         const res = await axios.get(`/users/${id}/products`, {
             params:{
-                pageRequest : {
-                    page,
+                // pageRequest : {
+                    page : page,
                     sort : sort? sort :'',
-                }, 
+                // }, 
                 category : '',
                 keyword : ''
             }
