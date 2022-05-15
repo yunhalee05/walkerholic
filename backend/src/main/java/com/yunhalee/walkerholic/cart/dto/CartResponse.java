@@ -2,6 +2,7 @@ package com.yunhalee.walkerholic.cart.dto;
 
 import com.yunhalee.walkerholic.cart.domain.Cart;
 import com.yunhalee.walkerholic.common.dto.ItemResponse;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,11 @@ public class CartResponse {
     public CartResponse(Cart cart, List<ItemResponse> items) {
         this.id = cart.getId();
         this.items = items;
+    }
+
+    public CartResponse() {
+        this.id = null;
+        this.items = new ArrayList<>();
     }
 
     public static CartResponse of(Cart cart, List<ItemResponse> items) {

@@ -27,6 +27,8 @@ import ProductListScreen from './screens/ProductListScreen';
 import UserListScreen from './screens/UserListScreen';
 import OrderScreen from './screens/OrderScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import PaypalTest from './utils/PaypalTest';
+import PaypalReviewTest from './utils/PaypalReviewTest';
 
 function App() {
 
@@ -91,6 +93,11 @@ function App() {
             <Route exact path="/orderlist" component={OrderListScreen}/>
             <Route exact path="/orderlist/:id" component={OrderListScreen}/>
             <Route exact path="/orderlist/user/:userId" component={OrderListScreen}/>
+
+
+
+            <Route exact path="/paypalTest" component={PaypalTest}/>
+            <Route exact path="/review" component={PaypalReviewTest}/>
 
           </div>
           <Footer/>
