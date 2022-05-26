@@ -13,7 +13,7 @@ function CartProductCard({product}) {
         if(qty!==product.qty){
             dispatch(updateQty(product.id, qty))
         }
-    }, [dispatch, qty])
+    }, [qty])
 
     const handleDelete = () =>{
         dispatch(deleteCartItem(product.id))

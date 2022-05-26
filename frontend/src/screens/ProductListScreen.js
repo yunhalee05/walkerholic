@@ -30,13 +30,13 @@ function ProductListScreen(props) {
         }else{
             dispatch(getProductList(page, sort))
         }
-    }, [dispatch, page, sort])
+    }, [sellerId,page, sort])
 
-    // const handleDelete = (id)=>{
-    //     if(window.confirm(`Are you sure to delete product${id}?`)){
-    //         dispatch(deleteProduct(id))
-    //     }
-    // }
+    const handleDelete = (id)=>{
+        if(window.confirm(`Are you sure to delete product${id}?`)){
+            dispatch(deleteProduct(id))
+        }
+    }
 
     const handleEdit = (product)=>{
         setEditProduct(product)
@@ -62,34 +62,38 @@ function ProductListScreen(props) {
 
             <table className="userlist">
                 <thead>
-                    <th ><span onClick={()=>setSort('id')}>ID</span></th>
-                    <th >Image</th>
-                    <th ><span onClick={()=>setSort('name')}>Name</span></th>
-                    <th >Stock</th>
-                    <th ><span onClick={()=>setSort('price')}>Price</span></th>
-                    <th ><span onClick={()=>setSort('average')}>Average</span></th>
-                    <th></th>
+                    <tr>
+                        <th ><span onClick={()=>setSort('id')}>ID</span></th>
+                        <th >Image</th>
+                        <th ><span onClick={()=>setSort('name')}>Name</span></th>
+                        <th >Stock</th>
+                        <th ><span onClick={()=>setSort('price')}>Price</span></th>
+                        <th ><span onClick={()=>setSort('average')}>Average</span></th>
+                        <th></th>
+                    </tr>
                 </thead>
                 {
                     products &&
                     products.products.map((product,index)=>(
                         <tbody key={index}>
-                            <td >{product.id}</td>
-                            <td>
-                                <div className="userlist_image">
-                                    <img src={product.imagesUrl[0]} alt="" />
-                                </div>
-                            </td>
-                            <td style={{textAlign:"left", paddingLeft:'10px'}}>{product.name}</td>
-                            <td >{product.stock}</td>
-                            <td >{product.price}</td>
-                            <td><Rating rating={product.average}/></td>
-                            <td>
-                                <div className="orderlist_action">
-                                    {/* <i class="far fa-trash-alt" style={{cursor:"pointer"}} onClick={()=>handleDelete(product.id)}></i> */}
-                                    <i className="far fa-edit" onClick={()=> handleEdit(product)}></i>
-                                </div>
-                            </td>
+                            <tr>
+                                <td >{product.id}</td>
+                                <td>
+                                    <div className="userlist_image">
+                                        <img src={product.imagesUrl[0]} alt="" />
+                                    </div>
+                                </td>
+                                <td style={{textAlign:"left", paddingLeft:'10px'}}>{product.name}</td>
+                                <td >{product.stock}</td>
+                                <td >{product.price}</td>
+                                <td><Rating rating={product.average}/></td>
+                                <td>
+                                    <div className="orderlist_action">
+                                        <i className="far fa-trash-alt" style={{cursor:"pointer"}} onClick={()=>handleDelete(product.id)}></i>
+                                        <i className="far fa-edit" onClick={()=> handleEdit(product)}></i>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     ))
                 }
@@ -104,7 +108,7 @@ function ProductListScreen(props) {
                         </li>
                         {
                             pages.map((x, index)=>(
-                                <li className={`page-item ${page===x+1 && 'page_active'}`} onClick={()=>setPage(x+1)}>{x+1}</li>
+                                <li key={index} className={`page-item ${page===x+1 && 'page_active'}`} onClick={()=>setPage(x+1)}>{x+1}</li>
                             ))
                         }
                         <li className="page-item" style={{borderRadius:"0px 10px 10px 0px"}}>

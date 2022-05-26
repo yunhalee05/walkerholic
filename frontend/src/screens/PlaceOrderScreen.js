@@ -41,22 +41,24 @@ function PlaceOrderScreen(props) {
                 setSdkReady(true)
             }
         }
-    }, [sdkReady])
+    }, [sdkReady, clientId])
 
     const addPaypalScript = async () =>{
-        const {data} = await axios.get('/paypal',{
+        await axios.get('/paypal',{
             headers : {Authorization : `Bearer ${auth.token}`}
-        });
-        setClientId(data.clientId)
-        setClientSecret(data.clientSecret)
-        const script = document.createElement('script');
-        script.type = "text/javascript";
-        script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
-        script.async = true;
-        script.onload = ()=>{
-            setSdkReady(true);
-        };
-        document.body.appendChild(script);
+        }).then(res =>{
+            setClientId(res.data.clientId)
+            setClientSecret(res.data.clientSecret)
+            const script = document.createElement('script');
+            script.type = "text/javascript";
+            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
+            script.async = true;
+            script.onload = ()=>{
+                setSdkReady(true);
+            };
+            document.body.appendChild(script);
+        })
+
     }
 
     const handleCheckAddress=(e)=>{

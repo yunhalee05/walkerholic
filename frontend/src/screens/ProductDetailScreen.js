@@ -24,8 +24,10 @@ function ProductDetailScreen(props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getProduct(id))
-    }, [dispatch])
+        if (id) {
+            dispatch(getProduct(id))
+        }
+    }, [id])
 
     const handleQty = (button) =>{
         if(button==="plus"){

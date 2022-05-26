@@ -9,10 +9,11 @@ import Loading from '../components/Loading'
 import { levelDescriptionIconShow } from '../utils/MediaShow'
 import { getUserActivities } from '../_actions/ActivityActions'
 
-function UserActivityScreen() {
+function UserActivityScreen(props) {
 
     const [page, setPage] = useState(1)
     const [isAdd, setIsAdd] = useState(false)
+    const id = props.match.params.userId
 
     const auth = useSelector(state => state.auth)
     const activity = useSelector(state => state.activity)
@@ -23,8 +24,10 @@ function UserActivityScreen() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getUserActivities(page))
-    }, [dispatch, page])
+        if(auth.user && id) {
+            dispatch(getUserActivities(page))
+        }
+    }, [page, id, auth.user])
 
 
     return (
@@ -74,7 +77,7 @@ function UserActivityScreen() {
                         </li>
                         {
                             pages.map((x, index)=>(
-                                <li className={`page-item ${page===x+1 && 'page_active'}`} onClick={()=>setPage(x+1)}>{x+1}</li>
+                                <li key={index} className={`page-item ${page===x+1 && 'page_active'}`} onClick={()=>setPage(x+1)}>{x+1}</li>
                             ))
                         }
                         <li className="page-item" style={{borderRadius:"0px 10px 10px 0px"}}>

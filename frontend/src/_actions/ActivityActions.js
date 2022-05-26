@@ -33,7 +33,6 @@ export const getActivity = (id) =>async(dispatch, getState)=>{
 
     try{
         const res = await axios.get(`/activities/${id}`)
-        console.log(res)
 
         dispatch({
             type:GET_ACTIVITY_SUCCESS,
@@ -59,18 +58,24 @@ export const createActivity = (activityRequest, imageUrl) =>async(dispatch, getS
     })
 
     try{       
-        
+        let res;
         if(imageUrl.name){
-            const uploadedImageUrl = uploadImage(imageUrl, token, null)
-            activityRequest = {...activityRequest, imageUrl:uploadedImageUrl}   
-        }
-
-        const res = await axios.post('/activities',activityRequest,{
+            const bodyFormData = new FormData()
+            bodyFormData.append('multipartFile', imageUrl)
+            await axios.post(`/activities/images`, bodyFormData,{
+                headers : {Authorization : `Bearer ${token}`}
+            }).then(async(r) =>{
+                const uploadedImageUrl = r.data
+                activityRequest = {...activityRequest, imageUrl:uploadedImageUrl}   
+                 res = await axios.post('/activities',activityRequest,{
+                    headers : {Authorization : `Bearer ${token}`}
+                })
+            }) 
+        }else {
+            res = await axios.post('/activities',activityRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
-
-
-
+        }
         dispatch({
             type:CREATE_ACTIVITY_SUCCESS,
             payload:res.data
@@ -95,21 +100,24 @@ export const updateActivity = (activityRequest, id, imageUrl) =>async(dispatch, 
     })
 
     try{
-        activityRequest = {...activityRequest, imageUrl:imageUrl}
-
+        let res;
         if(imageUrl.name){
-            const uploadedImageUrl = uploadImage(imageUrl, token, id)
-            activityRequest = {...activityRequest, imageUrl:uploadedImageUrl}   
-        }
-
-        const res = await axios.put(`/activities/${id}`,activityRequest,{
-            headers : {Authorization : `Bearer ${token}`}
-        }).then(res=>{
-            if(imageUrl.name){
-                const uploadedImageUrl = uploadImage(imageUrl, token, id)
+            const bodyFormData = new FormData()
+            bodyFormData.append('multipartFile', imageUrl)
+            await axios.post(`/activities/images`, bodyFormData,{
+                headers : {Authorization : `Bearer ${token}`}
+            }).then(async(r) =>{
+                const uploadedImageUrl = r.data
                 activityRequest = {...activityRequest, imageUrl:uploadedImageUrl}   
-            }
+                 res = await axios.put(`/activities/${id}`,activityRequest,{
+                    headers : {Authorization : `Bearer ${token}`}
+                })
+            }) 
+        }else {
+            res = axios.put(`/activities/${id}`,activityRequest,{
+            headers : {Authorization : `Bearer ${token}`}
         })
+        }
 
         dispatch({
             type:UPDATE_ACTIVITY_SUCCESS,
@@ -199,7 +207,7 @@ export const createUserActivity = (userActivityRequest) =>async(dispatch, getSta
 
         dispatch({
             type:CREATE_USER_ACTIVITY_SUCCESS,
-            payload:res.data.activity
+            payload:res.data
         })
 
         return res.data.level
@@ -277,13 +285,4 @@ export const deleteUserActivity = (id, score, finished) =>async(dispatch, getSta
     }
 }
 
-
-const uploadImage = async(imageUrl, token, id) =>{
-    const bodyFormData = new FormData()
-    bodyFormData.append('multipartFile', imageUrl)
-    const resImage = await axios.post(`/activities/images`, bodyFormData,{
-        headers : {Authorization : `Bearer ${token}`}
-    })
-    return resImage.data
-}
 

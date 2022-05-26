@@ -20,7 +20,10 @@ export const cartReducer = (state={}, action)=>{
         case ADD_TO_CART_REQUEST:
             return {...state, loading:true, error:""}
         case ADD_TO_CART_SUCCESS:
-            if(state.items.filter(c=>c.id===action.payload.id).length===1){
+            if(state.items.length === 0){
+                return {...state, loading:false, items:[action.payload], error:""}
+            }
+            else if(state.items.filter(c=>c.id===action.payload.id).length===1){
                 return {...state, loading:false, items:state.items.map(o=>o.productId===action.payload.productId? action.payload : o), error:""}
             }else{
                 return {...state, loading:false, items:[...state.items, action.payload], error:""}

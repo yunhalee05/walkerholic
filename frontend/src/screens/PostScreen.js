@@ -42,7 +42,7 @@ function PostScreen() {
             posts.loading ===false && 
             <div className="post_screen">
                 <div className="form_button">
-                    <i onClick={()=>setIsCreate(!isCreate)} class="far fa-comment-dots fa-4x" style={{cursor:'pointer', margin:"2rem"}}></i>
+                    <i onClick={()=>setIsCreate(!isCreate)} className="far fa-comment-dots fa-4x" style={{cursor:'pointer', margin:"2rem"}}></i>
                 </div>
 
                 {

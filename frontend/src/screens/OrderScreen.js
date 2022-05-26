@@ -12,10 +12,13 @@ function OrderScreen(props) {
     const dispatch = useDispatch()
 
     const order = useSelector(state => state.order)
+    const auth = useSelector(state => state.auth )
 
     useEffect(() => {
-        dispatch(getOrder(id))
-    }, [dispatch, id])
+        if(auth.user && id) {
+            dispatch(getOrder(id))
+        }
+    }, [auth.user, id])
 
     const handleCancelOrder = (e) =>{
         e.preventDefault()
@@ -78,6 +81,17 @@ function OrderScreen(props) {
                                     </span>
                                 </div>
                             </div>
+                            <hr/>
+                            <div className="placeorder_delivery">
+                                <div className="placeorder_subtitle">✨ Order </div>
+                                <div className="order_info">
+                                    <label>Order Status : </label>
+                                    <span style={order.orderStatus==="ORDER"? {color:"#0c754b"}:{color:"#b33f09"}}>
+                                        {order.orderStatus}
+                                    </span>
+                                </div>
+                            </div>
+
                     </div>
                     <div className="placeorder_summary">
                         <div className="placeorder_items">
@@ -118,10 +132,10 @@ function OrderScreen(props) {
                                 <div style={{fontSize:"1.2rem"}}>{(order.total+order.shipping).toFixed(2)}$</div>
                             </div>
                             <div>
-                                <button onClick={handleCancelOrder}>Cancel Order</button>
-                            </div>
-                            <div>
-                                <div>{order.orderStatus}</div>
+                                {
+                                    order.orderStatus !== "CANCEL" && !order.delivered &&
+                                    <button onClick={handleCancelOrder}>Cancel Order</button>
+                                } 
                             </div>
                         </div>
                     </div>

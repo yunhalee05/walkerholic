@@ -40,7 +40,7 @@ function OrderListScreen(props) {
         }else{
             dispatch(getOrderList(page))
         }
-    }, [dispatch, page])
+    }, [page])
 
     return (
         <div className="list">
@@ -56,44 +56,50 @@ function OrderListScreen(props) {
 
             <table>
                 <thead>
-                    <th>ID</th>
-                    <th>User</th>
-                    <th>Payment</th>
-                    <th>Delivery</th>
-                    <th>Status</th>
-                    <th></th>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Payment</th>
+                        <th>Delivery</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
                 </thead>
                 {
                     orders &&
                     orders.orders.map((order,index)=>(
                         <tbody key={index}>
-                            <td style={{textAlign:"left", paddingLeft:'10px'}}><Link to={`/order/${order.id}`}>{order.id}</Link></td>
-                            <td>
-                                <div className="orderlist_user">
-                                    <div className="orderlist_user_image">
-                                        <img src={order.user.imageUrl} alt="" />
+                            <tr>
+                                <td style={{textAlign:"left", paddingLeft:'10px'}}><Link to={`/order/${order.id}`}>{order.id}</Link></td>
+                                <td>
+                                    <div className="orderlist_user">
+                                        <div className="orderlist_user_image">
+                                            <img src={order.user.imageUrl} alt="" />
+                                        </div>
+                                        <span>{order.user.fullname}</span>
                                     </div>
-                                    <span>{order.user.fullname}</span>
-                                </div>
-                            </td>
-                            <td style={{textAlign:"left", paddingLeft:'10px'}}>{order.paid? order.paidAt : "Not yet"}</td>
-                            <td style={{textAlign:"left", paddingLeft:'10px'}}>{order.delivered? order.deliveredAt : "Not yet"}</td>
-                            <td style={{textAlign:"left", paddingLeft:'10px'}}>{order.orderStatus}</td>
-                            <td>
-                                <div className="orderlist_action">
-                                    {
-                                        order.delivered 
-                                        ? '' 
-                                        : <button style={{backgroundColor:"#edaa00"}} onClick={()=>handleDeliver(order.id)}>deliver</button>
-                                    }
-                                    {
-                                        order.orderStatus ==="CANCEL"
-                                        ? ''
-                                        : <button style={{backgroundColor:"#bd4720"}} onClick={()=>handleCancel(order.id)}>cancel</button>
-                                    }
-                                </div>
-                            </td>
-
+                                </td>
+                                <td style={{textAlign:"left", paddingLeft:'10px'}}>{order.paid? order.paidAt : "Not yet"}</td>
+                                <td style={{textAlign:"left", paddingLeft:'10px'}}>{order.delivered? order.deliveredAt : "Not yet"}</td>
+                                <td style={{textAlign:"left", paddingLeft:'10px'}}>{order.orderStatus}</td>
+                                <td>
+                                    <div className="orderlist_action">
+                                        {
+                                            (order.orderStatus !== "CANCEL") &&
+                                            (
+                                                order.delivered 
+                                                ? '' 
+                                                : <button style={{backgroundColor:"#edaa00"}} onClick={()=>handleDeliver(order.id)}>deliver</button>
+                                                )
+                                        }
+                                        {
+                                            order.orderStatus ==="CANCEL"
+                                            ? ''
+                                            : <button style={{backgroundColor:"#bd4720"}} onClick={()=>handleCancel(order.id)}>cancel</button>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     ))
                 }
@@ -108,7 +114,7 @@ function OrderListScreen(props) {
                         </li>
                         {
                             pages.map((x, index)=>(
-                                <li className={`page-item ${page===x+1 && 'page_active'}`} onClick={()=>setPage(x+1)}>{x+1}</li>
+                                <li key={index} className={`page-item ${page===x+1 && 'page_active'}`} onClick={()=>setPage(x+1)}>{x+1}</li>
                             ))
                         }
                         <li className="page-item" style={{borderRadius:"0px 10px 10px 0px"}}>

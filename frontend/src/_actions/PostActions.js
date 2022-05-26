@@ -110,14 +110,17 @@ export const updatePost = (id, postRequest, images, deletedImages) =>async(dispa
             })
         }
 
-        if(deletedImages && deletedImages>0){
+        if(deletedImages && deletedImages.length>0){
             await axios.delete(`/posts/${id}/post-images`, deletedImages, {
                 headers : {Authorization : `Bearer ${token}`}
             })
         }
 
         const res = await axios.put(`/posts/${id}`, postRequest,{
-            headers : {Authorization : `Bearer ${token}`}
+            headers : {
+                Authorization : `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
         })
 
         dispatch({

@@ -163,29 +163,32 @@ export const getSellerProductList = (page, sort, id) =>async(dispatch, getState)
         })
     }
 }
-// export const deleteProduct = (id) =>async(dispatch, getState)=>{
+export const deleteProduct = (id) =>async(dispatch, getState)=>{
+    const {auth : {token}} = getState()
 
-//     dispatch({
-//         type:DELETE_PRODUCT_REQUEST
-//     })
+    dispatch({
+        type:DELETE_PRODUCT_REQUEST
+    })
 
-//     try{
-//         const res = await axios.delete(`/products/${id}`)
+    try{
+        const res = await axios.delete(`/products/${id}`, {
+            headers : {Authorization : `Bearer ${token}`}
+        })
 
-//         dispatch({
-//             type:DELETE_PRODUCT_SUCCESS,
-//             payload:res.data
-//         })
+        dispatch({
+            type:DELETE_PRODUCT_SUCCESS,
+            payload:id
+        })
 
 
-//     }catch(error){
-//         dispatch({
-//             type:DELETE_PRODUCT_FAIL,
-//             payload:error.response.data
+    }catch(error){
+        dispatch({
+            type:DELETE_PRODUCT_FAIL,
+            payload:error.response.data
             
-//         })
-//     }
-// }
+        })
+    }
+}
 export const editProduct = (productRequest, deletedImages, images, id) =>async(dispatch, getState)=>{
     const {auth : {token}} = getState()
 
@@ -193,24 +196,34 @@ export const editProduct = (productRequest, deletedImages, images, id) =>async(d
         type:EDIT_PRODUCT_REQUEST
     })
     try{
+        console.log(deletedImages)
+
         if(images && images.length > 0){
             const bodyFormData = new FormData()
             images.forEach(image=> bodyFormData.append("multipartFile", image))
-            await axios.post(`/products/${id}/product-images`, bodyFormData, {
+            const r = await axios.post(`/products/${id}/product-images`, bodyFormData, {
                 headers : {Authorization : `Bearer ${token}`}
             })
+            console.log(r)
         }
 
-        if(deletedImages && deletedImages>0){
-            await axios.delete(`/products/${id}/product-images`, deletedImages, {
-                headers : {Authorization : `Bearer ${token}`}
+        if(deletedImages && deletedImages.length>0){
+            const bodyFormData = new FormData()
+            deletedImages.forEach(image=> bodyFormData.append("deletedImages", image))
+            const r = await axios.delete(`/products/${id}/product-images`,{
+                data: bodyFormData
+            }, {
+                headers : {Authorization : `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'},
             })
+            console.log(r)
         }
 
         const res = await axios.put(`/products/${id}`,productRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
+        console.log(res)
 
 
         dispatch({

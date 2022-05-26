@@ -112,7 +112,7 @@ function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
                 return window.alert("Please add your photo.")
             }
             const bodyFormData = new FormData()
-            bodyFormData.append("postRequest", postRequest)
+            bodyFormData.append("postRequest", new Blob([JSON.stringify(postRequest)], { type: "application/json" }))
             images.forEach(image=> bodyFormData.append("multipartFile", image))
             dispatch(createPost(bodyFormData)).then(res=>(
                 setIsCreate(false)
@@ -122,8 +122,7 @@ function EditPost({post, setIsCreate, setIsEdit, isCreate}) {
     }
 
     const imageTypeCheck = (image)=>{ 
-        // const type = image.slice(image.indexOf(".")+1).toLowerCase(); 
-        const type = image.substring(image.length-3, image.length).toLowerCase(); 
+        const type = image.slice(image.lastIndexOf(".")+1).toLowerCase(); 
 
         if(type === "jpg" || type === "png" || type === "jpeg" || type === "gif" || type === "bmp"){ 
             return "image"

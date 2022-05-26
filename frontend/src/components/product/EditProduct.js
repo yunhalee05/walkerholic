@@ -87,16 +87,8 @@ function EditProduct({product, setIsEdit, isEdit}) {
                 return window.alert("Please add your photo.")
             }
 
-            // bodyFormData.append("name", name)
-            // bodyFormData.append("description", description)
-            // bodyFormData.append("brand", brand)
-            // bodyFormData.append("category", category)
-            // bodyFormData.append("stock", stock)
-            // bodyFormData.append("price", price)
-            // bodyFormData.append("userId", auth.user.id)
             const bodyFormData = new FormData()
             new Blob([JSON.stringify(productRequest)], { type: "application/json" })
-            // new Blob([JSON.stringify(productRequest)])
             bodyFormData.append("productRequest", new Blob([JSON.stringify(productRequest)], { type: "application/json" }))
             images.forEach(image=> bodyFormData.append("multipartFile", image))
             dispatch(createProduct(bodyFormData)).then(res=>(
@@ -107,9 +99,7 @@ function EditProduct({product, setIsEdit, isEdit}) {
     }
 
     const imageTypeCheck = (image)=>{ 
-        // const type = image.slice(image.indexOf(".")+1).toLowerCase(); 
-        const type = image.substring(image.length-3, image.length).toLowerCase(); 
-
+        const type = image.slice(image.lastIndexOf(".")+1).toLowerCase(); 
         if(type === "jpg" || type === "png" || type === "jpeg" || type === "gif" || type === "bmp"){ 
             return "image"
         }else if(type === "mp4" || type === "avi" || type === "wmv" || type === "mov" ){
@@ -137,7 +127,7 @@ function EditProduct({product, setIsEdit, isEdit}) {
                     <select name="category" id="category" onChange={(e)=>setCategory(e.target.value)}>
                     {
                         categories.map((c, index)=>(
-                            <option value={c} selected={category===c ? true:false} key={index}>{c}</option>
+                            <option value={c} defaultValue={category===c ? true:false} key={index}>{c}</option>
                         ))
                     }
                     </select>

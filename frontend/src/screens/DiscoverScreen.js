@@ -16,10 +16,10 @@ function DiscoverScreen() {
     const [page, setPage] = useState(2)
 
     useEffect(() => {
-        if(auth.user &&auth.user.id){
+        if(auth.user && auth.user.id){
             dispatch(getDiscoverPosts(1, auth.user.id))
         }
-    }, [dispatch, auth.user])
+    }, [auth.user, auth.user.id])
 
     const handleLoadMore = () =>{
         dispatch(getDiscoverPosts(page, auth.user.id))

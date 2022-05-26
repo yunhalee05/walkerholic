@@ -13,8 +13,8 @@ function ProductCarousel({images}) {
             {
                 images.map((image, index)=>(
                     image.imageUrl.match(/video/i)||image.imageUrl.match(/mp4/i)||image.imageUrl.match(/avi/i)||image.imageUrl.match(/mov/i)||image.imageUrl.match(/wmv/i)
-                    ? <video src={image.imageUrl} controls className="d-block w-100" alt={image.data}></video>
-                    : <img src={image.imageUrl} className="d-block w-100" alt={image.data} />
+                    ? <video key={index} src={image.imageUrl} controls className="d-block w-100" alt={image.data}></video>
+                    : <img key={index} src={image.imageUrl} className="d-block w-100" alt={image.data} />
                 ))
             }
         </Carousel>

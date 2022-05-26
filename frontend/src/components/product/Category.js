@@ -34,7 +34,7 @@ function Category({category,setCategory}) {
             </div>
         {
             categories.map((c,index)=>(
-                <div>
+                <div key={index}>
                     <span className={`product_category_name ${category===c && 'product_category_active'}`} key={index} onClick={()=>setCategory(c)}>
                         {c} 
                     </span>

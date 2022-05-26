@@ -23,12 +23,14 @@ function ProfileScreen(props) {
 
     const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(getProfile(id))
-    }, [dispatch, id])
-
     const auth = useSelector(state => state.auth)
     const profile = useSelector(state => state.profile)
+
+    useEffect(() => {
+        if (auth.user && id) {
+            dispatch(getProfile(id))
+        }
+    }, [auth.user, id])
 
     const handleFollow = () =>{
         dispatch(follow(profile.user.id))

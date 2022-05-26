@@ -45,11 +45,10 @@ export const editReview = (reviewRequest, reviewId) =>async(dispatch, getState)=
     })
 
     try{
-        const res = await axios.post(`/reviews/${reviewId}`,reviewRequest,{
+        const res = await axios.put(`/reviews/${reviewId}`,reviewRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
-        console.log(res)
         dispatch({
             type:EDIT_REVIEW_SUCCESS,
             payload:res.data

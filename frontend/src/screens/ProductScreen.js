@@ -70,7 +70,7 @@ function ProductScreen(props) {
                         </li>
                         {
                             pages.map((x, index)=>(
-                                <li className={`page-item ${page===x+1 && 'page_active'}`} onClick={()=>setPage(x+1)}>{x+1}</li>
+                                <li key={index} className={`page-item ${page===x+1 && 'page_active'}`} onClick={()=>setPage(x+1)}>{x+1}</li>
                             ))
                         }
                         <li className="page-item" style={{borderRadius:"0px 10px 10px 0px"}}>
