@@ -111,8 +111,13 @@ export const updatePost = (id, postRequest, images, deletedImages) =>async(dispa
         }
 
         if(deletedImages && deletedImages.length>0){
-            await axios.delete(`/posts/${id}/post-images`, deletedImages, {
-                headers : {Authorization : `Bearer ${token}`}
+            const bodyFormData = new FormData()
+            deletedImages.forEach(image=> bodyFormData.append("deletedImages", image))
+            await axios.delete(`/posts/${id}/post-images`,{
+                data: bodyFormData
+            }, {
+                headers : {Authorization : `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'},
             })
         }
 

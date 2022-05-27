@@ -29,6 +29,8 @@ import OrderScreen from './screens/OrderScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 
 function App() {
+  
+  axios.defaults.baseURL = "https://walkerholic-backend.o-r.kr/api";
 
   const dispatch = useDispatch()
   

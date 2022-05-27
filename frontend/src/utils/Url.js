@@ -1,1 +1,1 @@
-export const BASE_URL = 'http://172.31.0.5:8000'
+export const BASE_URL = 'https://walkerholic-backend.o-r.kr'

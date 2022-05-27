@@ -1,5 +1,5 @@
 {
-  "proxy": "http://172.31.0.5:8080",
+  "proxy": "https://walkerholic-backend.o-r.kr",
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
