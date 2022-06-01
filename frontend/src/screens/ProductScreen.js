@@ -35,7 +35,7 @@ function ProductScreen(props) {
 
             dispatch(getProducts(page, sort, category,keyword))
         }
-    }, [dispatch, page, sort, category, keyword, sellerId])
+    }, [page, sort, category, keyword, sellerId])
 
     return (
         <div className="productscreen">
