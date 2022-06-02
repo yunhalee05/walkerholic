@@ -14,17 +14,13 @@ export let options = {
       { duration: '2m', target: 0 }, // scale down. Recovery stage.
     ],
     thresholds: {
-      http_req_duration: ['p(99)<100'], // 99% of requests must complete below 0.1s
+      http_req_duration: ['p(99)<200'], // 99% of requests must complete below 0.1s
     },
   };
   
-const BASE_URL = 'https://walkerholic-backend.o-r.kr'
-const USERNAME = 'testUser1@example.com';
-const PASSWORD = '123456';
-const POST_ID = '1';
-const USER_ID = '1';
-const TITLE = 'testupdate';
-const CONTENT = "test update content";
+  const BASE_URL = 'https://walkerholic.o-r.kr'
+  const USERNAME = 'user1@example.com';
+  const PASSWORD = '123456';
 
 export default function ()  {
 
@@ -39,24 +35,7 @@ var payload = JSON.stringify({
     },
     };
 
-    let loginRes = http.post(`${BASE_URL}/api/signin`, payload, params);
+    let loginRes = http.post(`${BASE_URL}/signin`, payload, params);
     check(loginRes, {'logged in successfully': (resp) => resp.json('token') !== '',});
-
-
-    let authHeaders = {
-    headers: {
-        Authorization: `Bearer ${loginRes.json('token')}`,
-        'Content-Type': 'application/json',
-    },  
-    };
-
-  const postRequest = JSON.stringify({
-    title : TITLE,
-    content: CONTENT,
-    userId: USER_ID
-})
-
-  const postRes = http.put(`${BASE_URL}/api/posts/${POST_ID}`, postRequest, authHeaders);
-  check(postRes, { 'updated post successfully': (resp) => resp.status === 200 });
   sleep(1)
 };
