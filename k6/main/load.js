@@ -12,7 +12,7 @@ export let options = {
   },
 };
 
-const BASE_URL = 'https://walkerholic.o-r.kr'
+const BASE_URL = 'https://walkerholic.n-e.kr'
 
 export default function ()  {
   http.get(`${BASE_URL}`);

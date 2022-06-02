@@ -12,7 +12,7 @@ export let options = {
     },
   };
   
-const BASE_URL = 'https://walkerholic.o-r.kr'
+const BASE_URL = 'https://walkerholic.n-e.kr'
 const USERNAME = 'user1@example.com';
 const PASSWORD = '123456';
 
