@@ -6,8 +6,8 @@ import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { auth } from './_actions/AuthActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { authenticate } from './_actions/AuthActions';
 import axios from 'axios';
 import { GET_AUTH_FOLLOWS } from './_constants/AuthConstants';
 import DiscoverScreen from './screens/DiscoverScreen';
@@ -31,13 +31,15 @@ import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 function App() {
   
   axios.defaults.baseURL = "http://localhost:8080/api";
+  const auth = useSelector(state => state.auth)
+
 
   const dispatch = useDispatch()
   
   useEffect(() => {
-    if(localStorage.getItem("walkerholic_token")){
+    if(localStorage.getItem("walkerholic_token")&& !auth.user){
       const token = localStorage.getItem("walkerholic_token")
-      dispatch(auth(token)).then(async(id)=>{
+      dispatch(authenticate(token)).then(async(id)=>{
         const res1 = await axios.get(`/follows/${id}`,{
           headers : {Authorization : `Bearer ${token}`}
         })
@@ -48,7 +50,7 @@ function App() {
         dispatch(getCart(id))
       })
     }
-  }, [dispatch])
+  }, [auth.user])
 
   return (
     <BrowserRouter>
