@@ -345,7 +345,7 @@
     <br/>
 <div>
     <h2 id="erd">🪜 ERD(Entity Relationship Diagram)</h2>
-    <img width="100%" alt="스크린샷 2021-10-02 오후 6 48 23" src="https://user-images.githubusercontent.com/63947424/139576975-4a47c829-4187-4568-b13e-f7ef451a925b.jpg">
+    <img width="100%" alt="스크린샷 2021-10-02 오후 6 48 23" src="https://user-images.githubusercontent.com/63947424/172976418-f62e567e-d536-4d99-9475-ff977efa62c0.png">
 </div>
     <br/>
     <br/>
