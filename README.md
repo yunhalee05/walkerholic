@@ -13,7 +13,8 @@
     </p>
     <br/>
     <br/>
-    <a href="https://walkerholic-with-you.herokuapp.com/"><strong>walkerholic-with-you</strong></a>
+    <!-- <a href="https://walkerholic-with-you.herokuapp.com/"><strong>walkerholic-with-you</strong></a> -->
+    <a href="https://walkerholic.n-e.kr"><strong>walkerholic 사이트로 이동</strong></a>
 </div>
     <br/>
     <br/>
@@ -47,7 +48,7 @@
             <li>
               <h4>Solution : </h4>
               <p>
-                구현된 코드를 객체지향 코드의 특징인 다형성을 활용하여 객체의 확장성을 넓힐 수 있도록 하였으며, 객체지향 생활체조, 클린코드 등의 규칙에 따라 지속적인 리팩토링을 진행하였습니다. 
+                구현된 코드를 객체지향 코드의 특징인 다형성을 활용하여 객체의 확장성을 넓히는 것을 목표로 프로젝트 완료 후 2021년 12월부터 꾸준히 리팩토링을 진행하였습니다. static의 사용지양, Wrapper클래스의 활용, 도메인으로 비지니스로직 이동, 인덱스 설계를 통한 불필요한 요청 삭제 등의 방법을 통해 코드를 개선하고자 하였습니다. <a href="https://dodop-blog.tistory.com/348"><strong>리팩토링 확인하기</strong></a>
               </p>
             </li>
           </ul>       
@@ -57,27 +58,43 @@
           <ul>
             <li>
               <h4>Challenge : </h4>
-              <p>프로젝트를 온라인 상에 배포하는 것이 요구되어졌습니다.</p>
+              <p>누구나 프로젝트를 확인할 수 있도록 온라인 상에 배포하는 것이 필요하였으나 외부로부터 서버 및 데이터를 보호하는 것 또한 요구되어졌습니다.</p>
             </li>
             <li>
               <h4>Solution : </h4>
               <p>
-                보안을 위해 Bastion 서버를 두고 이를 통해 접근하는 웹서버를 위한 서비스망, 개인정보를 다루는 데이터베이스의 내부망으로 구성하였습니다. AWS EC2를 이용하여 망을 배포하여 도메인을 이용한 사이트 접속이 가능하도록 구현하였습니다. 
+                보안을 위해 Bastion 서버를 두도록 하고 이를 통해 접근하는 웹서버를 위한 서비스망, 개인정보를 다루는 데이터베이스의 내부망으로 구성하였습니다. AWS EC2를 이용하여 망을 배포하여 도메인을 이용한 사이트 접속이 가능하도록 구현하였습니다.<a href="https://dodop-blog.tistory.com/335"><strong>망 구성 및 배포 확인하기</strong></a> 
               </p>
             </li>
           </ul>       
       </li>
       <li>
-        <h3>✔️ ReverseProxy</h3> 
+        <h3>✔️ 성능테스트, 부하테스트 및 성능개선</h3> 
           <ul>
             <li>
               <h4>Challenge : </h4>
-              <p>프로그램의 성능을 진단하고 속도를 개선하는 것이 요구되었습니다. </p>
+              <p>프로그램을 배포하고 성능을 측정한 결과 성능 점수는 76점으로 다른 경쟁 웹사이트(네이버 블로그, 네이버 쇼핑, 티스토리)의 평균 결과 값인 79점보다 낮은 점수로 성능의 개선이 요구되었습니다. </p>
             </li>
             <li>
               <h4>Solution : </h4>
               <p>
-                Nginx의 리버스 프록시를 구현하고 이를 통해 http2을 이용한 보안성 향상, gzip 압축 및 캐싱 등을 사용하여 웹을 가속하고자 하였습니다. 
+                프론트엔드 부분에서는 ProgressiveImages를 이용하여 FirstView 시간을 줄여보고자 하였고, 서버에서는 Redis캐시 및 외부 API에 대해 비동기를 적용하도록 하였습니다. 리버스 프록시를 이용하여 http2을 이용한 보안성 향상, gzip 압축 및 캐싱의 활용, 부하분산을 통해 웹을 가속하고자 하였습니다. 이를 통해 성능점수(76 -> 89), FirstByte(	1.239S -> 1.062S), FirstView(19.320S -> 5.492S), FCP(3.557S -> 2.555S), SI(7.766S -> 5.009S), LCP(9.887S -> 5.595S), TotalByte(9,153KB -> 1,824KB)의 성능 개선을 이뤄낼 수 있었습니다. <a href="https://dodop-blog.tistory.com/338?category=1046784"><strong>성능개선 확인하기</strong></a> 
+              </p>
+              </p>
+            </li>
+          </ul>       
+      </li>
+      <li>
+        <h3>✔️ 테스트 리팩토링 </h3> 
+          <ul>
+            <li>
+              <h4>Challenge : </h4>
+              <p>기존에 작성했던 테스트 코드는 테스트시 의존관계를 그대로 가져와 진행하였기 때문에 단위테스트가 아닌 통합테스트의 방식으로 테스트가 구현되었습니다. 각각의 테스트 구성 옵션 변경에 따른 추가적인 애플리케이션 컨텍스트의 생성이 속도저하의 원인으로 작용하였습니다.</p>
+            </li>
+            <li>
+              <h4>Solution : </h4>
+              <p>
+                Mock객체를 활용하여 단위테스트를 구현하였습니다. 또한 생성비용이 비싼 Mock객체의 중복 생성으로 인해 테스트 실행 속도의 저하 원인으로 작용하지 않도록 공통적으로 테스트 옵션을 구현하는 추상클래스를 이용해 중복적인 Mock객체의 생성이 이루지지 않고 기존 Mock객체를 활용하도록 변경하였습니다.<a href="https://dodop-blog.tistory.com/347"><strong>테스트 코드 리팩토링 확인하기</strong></a> 
               </p>
             </li>
           </ul>       
@@ -264,9 +281,9 @@
         </p>
       </li>     
       <li>
-        <h3>✔️ Heroku Deployment </h3> 
+        <h3>✔️ AWS EC2 Deployment </h3> 
         <p>
-           frontend-maven-plugins를 이용하여 스프링부트와 리액트를 동시에 실행시키는 .jar파일을 생성한 뒤 헤로쿠를 통한 배포를 구현하였습니다. 
+           frontend-maven-plugins를 이용하여 스프링부트와 리액트를 동시에 실행시키는 .jar파일을 생성한 뒤 AWS EC2를 통한 배포를 구현하였습니다. 
         </p>
       </li>           
       <li>
