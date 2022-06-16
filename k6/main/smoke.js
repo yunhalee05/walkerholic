@@ -6,11 +6,11 @@ export let options = {
   duration: '10s',
 
   thresholds: {
-    http_req_duration: ['p(99)<100'], // 99% of requests must complete below 0.1s
+    http_req_duration: ['p(99)<200'], // 99% of requests must complete below 0.1s
   },
 };
 
-const BASE_URL = 'https://walkerholic.o-r.kr'
+const BASE_URL = 'https://walkerholic.n-e.kr'
 
 export default function ()  {
 

@@ -24,7 +24,7 @@ function ProductDetailScreen(props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if (id) {
+        if (id !== null || (product.id && id !== product.id)) {
             dispatch(getProduct(id))
         }
     }, [id])
@@ -139,7 +139,6 @@ function ProductDetailScreen(props) {
             </div>
             <div className="productdetail_reviews">
                 <ProductReview reviews={product.productReviews} productId={id}/>
-                
             </div>
         </div>
         }

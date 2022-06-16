@@ -1336,6 +1336,11 @@
     "schema-utils" "^3.0.0"
     "source-map" "^0.7.3"
 
+"@researchgate/react-intersection-observer@^1.0.5":
+  "integrity" "sha512-aYlsex5Dd6BAHMJvJrUoFp8gzgMSL27xFvrxkVYW0bV1RMAapVsO+QeYLtTaSF/QCflktODodvv+wJm49oMnnQ=="
+  "resolved" "https://registry.npmjs.org/@researchgate/react-intersection-observer/-/react-intersection-observer-1.3.5.tgz"
+  "version" "1.3.5"
+
 "@rollup/plugin-babel@^5.2.0":
   "integrity" "sha512-9uIC8HZOnVLrLHxayq/PTzw+uS25E14KPUBh5ktF+18Mjo5yK0ToMMx6epY0uEgkjwJw0aBW4x2horYXh8juWw=="
   "resolved" "https://registry.npmjs.org/@rollup/plugin-babel/-/plugin-babel-5.3.0.tgz"
@@ -1650,7 +1655,7 @@
   "resolved" "https://registry.npmjs.org/@types/html-minifier-terser/-/html-minifier-terser-6.1.0.tgz"
   "version" "6.1.0"
 
-"@types/http-proxy@^1.17.5":
+"@types/http-proxy@^1.17.8":
   "integrity" "sha512-5kPLG5BKpWYkw/LVOGWpiq3nEVqxiN32rTgI53Sk12/xHFQ2rG3ehI9IO+O3W2QoKeyB92dJkoka8SUm6BX1pA=="
   "resolved" "https://registry.npmjs.org/@types/http-proxy/-/http-proxy-1.17.8.tgz"
   "version" "1.17.8"
@@ -4690,11 +4695,11 @@
     "debug" "4"
 
 "http-proxy-middleware@^2.0.0":
-  "integrity" "sha512-cfaXRVoZxSed/BmkA7SwBVNI9Kj7HFltaE5rqYOub5kWzWZ+gofV2koVN1j2rMW7pEfSSlCHGJ31xmuyFyfLOg=="
-  "resolved" "https://registry.npmjs.org/http-proxy-middleware/-/http-proxy-middleware-2.0.1.tgz"
-  "version" "2.0.1"
+  "integrity" "sha512-ya/UeJ6HVBYxrgYotAZo1KvPWlgB48kUJLDePFeneHsVujFaW5WNj2NgWCAE//B1Dl02BIfYlpNgBy8Kf8Rjmw=="
+  "resolved" "https://registry.npmjs.org/http-proxy-middleware/-/http-proxy-middleware-2.0.6.tgz"
+  "version" "2.0.6"
   dependencies:
-    "@types/http-proxy" "^1.17.5"
+    "@types/http-proxy" "^1.17.8"
     "http-proxy" "^1.18.1"
     "is-glob" "^4.0.1"
     "is-plain-obj" "^3.0.0"
@@ -7277,7 +7282,7 @@
     "strip-ansi" "^6.0.1"
     "text-table" "^0.2.0"
 
-"react-dom@*", "react-dom@^0.14.6 || 15.x.x || 16.x.x || 17.x.x", "react-dom@^17.0.2":
+"react-dom@*", "react-dom@^0.14.6 || 15.x.x || 16.x.x || 17.x.x", "react-dom@^15.0.0-0 || ^16.0.0-0 || ^17.0.0-0", "react-dom@^16.3.2", "react-dom@^17.0.2":
   "integrity" "sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-17.0.2.tgz"
   "version" "17.0.2"
@@ -7330,6 +7335,13 @@
   dependencies:
     "prop-types" "^15.7.2"
     "rimraf" "^3.0.0"
+
+"react-progressive-graceful-image@^0.6.14":
+  "integrity" "sha512-KzWJVB8JTygKVEi+z9NEeN+UUnUjnsk6ESq+M+VtDOa/ODey7Fun1GgM6WCR97kjcP94cpPjK1BwPWcLdwG+6A=="
+  "resolved" "https://registry.npmjs.org/react-progressive-graceful-image/-/react-progressive-graceful-image-0.6.14.tgz"
+  "version" "0.6.14"
+  dependencies:
+    "@researchgate/react-intersection-observer" "^1.0.5"
 
 "react-redux@^7.2.5":
   "integrity" "sha512-Dt29bNyBsbQaysp6s/dN0gUodcq+dVKKER8Qv82UrpeygwYeX1raTtil7O/fftw/rFqzaf6gJhDZRkkZnn6bjg=="
@@ -7459,7 +7471,7 @@
     "sockjs-client" "^1.5.0"
     "stompjs" "^2.3.3"
 
-"react@*", "react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@^0.14.6 || 15.x.x || 16.x.x || 17.x.x", "react@^16.3.0 || ^17", "react@^16.8.3 || ^17", "react@^17.0.2", "react@>= 16", "react@>=15", "react@17.0.2":
+"react@*", "react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@^0.14.6 || 15.x.x || 16.x.x || 17.x.x", "react@^15.0.0-0 || ^16.0.0-0 || ^17.0.0-0", "react@^16.3.0 || ^17", "react@^16.3.2", "react@^16.8.3 || ^17", "react@^17.0.2", "react@>= 16", "react@>=15", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
   "version" "17.0.2"
