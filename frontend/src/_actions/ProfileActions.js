@@ -9,7 +9,7 @@ export const getProfile = (id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res1 = await axios.get(`/user/${id}`,{
+        const res1 = await axios.get(`/users/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
         const res2 = await axios.get(`/follows/${id}`,{
@@ -43,7 +43,7 @@ export const getProfile = (id) =>async(dispatch, getState)=>{
 }
 
 
-export const editProfile = (bodyFormData) =>async(dispatch, getState)=>{
+export const editProfile = (userRequest, imageUrl) =>async(dispatch, getState)=>{
     const {auth : {token}} = getState()
 
     dispatch({
@@ -51,7 +51,15 @@ export const editProfile = (bodyFormData) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.post(`/user/save`,bodyFormData,{
+        if( (imageUrl !== '') || (imageUrl != null)) {
+            const bodyFormData = new FormData()
+            bodyFormData.append('multipartFile', imageUrl)
+            await axios.post('/users/images', bodyFormData).then(r =>{
+                userRequest = {...userRequest, imageUrl:r.data}
+            })
+        }
+
+        const res = await axios.post(`/users`,userRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 

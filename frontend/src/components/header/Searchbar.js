@@ -23,8 +23,8 @@ function Searchbar() {
         if(keyword){
             if(filter==="user"){
                 setLoad(true)
-                await axios.get(`/user/search/${keyword}`)
-                            .then(res=> {console.log(res);setSearchUser(res.data)})
+                await axios.get(`/users?keyword=${keyword}`)
+                            .then(res=> {console.log(res);setSearchUser(res.data.users)})
                             .catch(err=>setError(error.response.data.message))
                 setLoad(false)
             }else if(filter==='post'){

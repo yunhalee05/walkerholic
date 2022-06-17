@@ -1,14 +1,21 @@
 import { AUTH_FAIL, AUTH_REQUEST, AUTH_SUCCESS, LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_FAIL, LOGOUT_REQUEST, LOGOUT_SUCCESS, REGISTER_FAIL, REGISTER_REQUEST, REGISTER_SUCCESS } from "../_constants/AuthConstants"
 import axios from "axios"
 
-export const register = (bodyFormData) =>async(dispatch, getState)=>{
+export const register = (userRequest, imageUrl) =>async(dispatch, getState)=>{
 
     dispatch({
         type:REGISTER_REQUEST
     })
 
     try{
-        const res = await axios.post('/signup', bodyFormData)
+        if( (imageUrl !== '') || (imageUrl != null)) {
+            const bodyFormData = new FormData()
+            bodyFormData.append('multipartFile', imageUrl)
+            await axios.post('/users/images', bodyFormData).then(r =>{
+                userRequest = {...userRequest, imageUrl:r.data}
+            })
+        }
+        const res = await axios.post('/users', userRequest)
 
         dispatch({
             type:REGISTER_SUCCESS,
@@ -41,7 +48,7 @@ export const login = ({email, password}) =>async(dispatch, getState)=>{
     }
 
     try{
-        const res = await axios.post('/signin', body)
+        const res = await axios.post('/sign-in', body)
 
         dispatch({
             type:LOGIN_SUCCESS,
@@ -71,7 +78,7 @@ export const authenticate = (token) =>async(dispatch, getState)=>{
 
 
     try{
-        const res = await axios.post(`/authenticate?token=${token}`,null)
+        const res = await axios.post(`/sign-in?token=${token}`,null)
 
         dispatch({
             type:AUTH_SUCCESS,

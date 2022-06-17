@@ -53,18 +53,18 @@ function EditProfile({setIsEdit}) {
             return
         }
 
-        const bodyFormData = new FormData()
-        bodyFormData.append('id', auth.user.id)
-        bodyFormData.append('firstname', firstname)
-        bodyFormData.append('lastname', lastname)
-        bodyFormData.append('email', email)
-        bodyFormData.append('password', password)
-        bodyFormData.append('phoneNumber', phoneNumber)
-        bodyFormData.append('description', description)
-        bodyFormData.append('isSeller', isSeller)
-        bodyFormData.append('multipartFile', imageUrl)
+        const userRequest = {
+            firstname,
+            lastname,
+            email,
+            password,
+            phoneNumber,
+            description,
+            isSeller, 
+            imageUrl: ""
+        }
 
-        dispatch(editProfile(bodyFormData)).then(async(id)=>{
+        dispatch(editProfile(userRequest, imageUrl !== auth.user.imageUrl? imageUrl : '' )).then(async(id)=>{
             const res = await axios.get(`/follows/${id}`,{
                 headers : {Authorization : `Bearer ${auth.token}`}
             })

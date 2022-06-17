@@ -9,7 +9,7 @@ export const getUserList = (page, sort) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.get(`/userlist/${page}/${sort}`,{
+        const res = await axios.get(`/users?page=${page}&sort=${sort}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -38,7 +38,7 @@ export const deleteUser = (id) =>async(dispatch, getState)=>{
     })
 
     try{
-        const res = await axios.delete(`/user/delete/${id}`,{
+        const res = await axios.delete(`/users/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 

@@ -63,17 +63,18 @@ function RegisterScreen() {
             return
         }
 
-        const bodyFormData = new FormData()
-        bodyFormData.append('firstname', firstname)
-        bodyFormData.append('lastname', lastname)
-        bodyFormData.append('email', email)
-        bodyFormData.append('password', password)
-        bodyFormData.append('phoneNumber', phoneNumber)
-        bodyFormData.append('description', description)
-        bodyFormData.append('isSeller', isSeller)
-        bodyFormData.append('multipartFile', imageUrl)
-
-        dispatch(register(bodyFormData))
+        const userRequest = {
+            firstname,
+            lastname,
+            email,
+            password,
+            phoneNumber,
+            description,
+            isSeller, 
+            imageUrl: ""
+        }
+        
+        dispatch(register(userRequest, imageUrl))
     }
 
     return (
