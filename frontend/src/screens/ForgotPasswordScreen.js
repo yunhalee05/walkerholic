@@ -14,7 +14,7 @@ function ForgotPasswordScreen() {
         setSuccess('')
         if(email){
             setLoad(true)
-            await axios.post(`/users/forgot-password?email=${email}`)
+            await axios.post(`/users?email=${email}`)
                         .then(res=>{setSuccess("Temporary Password was sent to your email or SMS.");setEmail('');})
                         .catch(error=> setErr(error.response.data.message))
             setLoad(false)
