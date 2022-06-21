@@ -231,7 +231,7 @@ export const editUserActivity = (userActivityRequest, id) =>async(dispatch, getS
     })
 
     try{
-        const res = await axios.post(`/user-activities/${id}`, userActivityRequest,{
+        const res = await axios.put(`/user-activities/${id}`, userActivityRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
@@ -262,7 +262,7 @@ export const deleteUserActivity = (id, score, finished) =>async(dispatch, getSta
     })
 
     try{
-        const res = await axios.delete(`/user-activities/${id}/users/${user.id}`,{
+        const res = await axios.delete(`/users/${user.id}/user-activities/${id}`,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
