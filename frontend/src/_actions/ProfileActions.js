@@ -59,7 +59,7 @@ export const editProfile = (userRequest, imageUrl) =>async(dispatch, getState)=>
             })
         }
 
-        const res = await axios.post(`/users`,userRequest,{
+        const res = await axios.put(`/users`,userRequest,{
             headers : {Authorization : `Bearer ${token}`}
         })
 
