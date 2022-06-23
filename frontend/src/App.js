@@ -40,7 +40,7 @@ function App() {
     if(localStorage.getItem("walkerholic_token")&& !auth.user){
       const token = localStorage.getItem("walkerholic_token")
       dispatch(authenticate(token)).then(async(id)=>{
-        const res1 = await axios.get(`/follows/${id}`,{
+        const res1 = await axios.get(`/users/${id}/follows`,{
           headers : {Authorization : `Bearer ${token}`}
         })
         dispatch({
