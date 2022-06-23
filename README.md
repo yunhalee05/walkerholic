@@ -25,6 +25,7 @@
         
 - [__Improvement__](#improvement)
 - [__Challenges__](#challenges)
+- [__Infrastructure__](#infrastructure)
 - [__Tech Stack Used__](#tech)
 - [__Implementation__](#implementation)
 - [__Features__](#feature)
@@ -78,7 +79,23 @@
             <li>
               <h4>Solution : </h4>
               <p>
-                프론트엔드 부분에서는 ProgressiveImages를 이용하여 FirstView 시간을 줄여보고자 하였고, 서버에서는 Redis캐시 및 외부 API에 대해 비동기를 적용하도록 하였습니다. 리버스 프록시를 이용하여 http2을 이용한 보안성 향상, gzip 압축 및 캐싱의 활용, 부하분산을 통해 웹을 가속하고자 하였습니다. 이를 통해 성능점수(76 -> 89), FirstByte(	1.239S -> 1.062S), FirstView(19.320S -> 5.492S), FCP(3.557S -> 2.555S), SI(7.766S -> 5.009S), LCP(9.887S -> 5.595S), TotalByte(9,153KB -> 1,824KB)의 성능 개선을 이뤄낼 수 있었습니다. <a href="https://dodop-blog.tistory.com/338?category=1046784"><strong>성능개선 확인하기</strong></a> 
+                프론트엔드 부분에서는 ProgressiveImages를 이용하여 FirstView 시간을 줄여보고자 하였고, 서버에서는 Redis캐시 및 외부 API에 대해 비동기를 적용하도록 하였습니다. 리버스 프록시를 이용하여 http2을 이용한 보안성 향상, gzip 압축 및 캐싱의 활용, 부하분산을 통해 웹을 가속하고자 하였습니다. 또한 DB의 replication을 이용하여 DB로의 요청을 GET은 slaveDB로 그외의 요청은 Master DB로 보내도록하여 DB부하를 줄일 수 있도록 하였습니다. 이를 통해 성능점수(76 -> 89), FirstByte(	1.239S -> 1.062S), FirstView(19.320S -> 5.492S), FCP(3.557S -> 2.555S), SI(7.766S -> 5.009S), LCP(9.887S -> 5.595S), TotalByte(9,153KB -> 1,824KB)의 성능 개선을 이뤄낼 수 있었습니다. <a href="https://dodop-blog.tistory.com/338?category=1046784"><strong>성능개선 확인하기</strong></a> 
+              </p>
+              </p>
+            </li>
+          </ul>       
+      </li>
+      <li>
+        <h3>✔️ Flyway의 적용</h3> 
+          <ul>
+            <li>
+              <h4>Challenge : </h4>
+              <p>데이터베이스의 스키마나 데이터의 수정사항이 발생하는 경우 매번 기존 데이터 베이스에 접속하여 변경사항을 반영 해주어야 하는 번거로움이 발생하였습니다. </p>
+            </li>
+            <li>
+              <h4>Solution : </h4>
+              <p>
+                Flyway를 이용하여 데이터 스키마의 변경이력을 남기도록 하여 데이터 스키마의 버전 관리가 용이하도록 반영하였습니다. 
               </p>
               </p>
             </li>
@@ -95,6 +112,21 @@
               <h4>Solution : </h4>
               <p>
                 Mock객체를 활용하여 단위테스트를 구현하였습니다. 또한 생성비용이 비싼 Mock객체의 중복 생성으로 인해 테스트 실행 속도의 저하 원인으로 작용하지 않도록 공통적으로 테스트 옵션을 구현하는 추상클래스를 이용해 중복적인 Mock객체의 생성이 이루지지 않고 기존 Mock객체를 활용하도록 변경하였습니다.<a href="https://dodop-blog.tistory.com/347"><strong>테스트 코드 리팩토링 확인하기</strong></a> 
+              </p>
+            </li>
+          </ul>       
+      </li>
+      <li>
+        <h3>✔️ API 문서화(Spring Rest Docs)</h3> 
+          <ul>
+            <li>
+              <h4>Challenge : </h4>
+              <p>프로젝트의 크기가 커짐에 따라 작성한 코드의 API를 문서화하여 정리하는 작업이 필요하였습니다.  </p>
+            </li>
+            <li>
+              <h4>Solution : </h4>
+              <p>
+                API를 문서화 하기위해 Spring Rest Docs를 사용하도록 하였습니다. spring-restdocs-asciidoctor을 통해 생성된 snippets을 이용해 문서를 만들어내는 API 문서화를 통해 API를 정리하여 각각의 API에 대하여 Request, Response를 확인할 수 있도록 구현하였습니다. <a href="https://yunhalee05.github.io/walkerholicRestDocs.github.io/"><strong> API 문서 확인하기 </strong></a>
               </p>
             </li>
           </ul>       
@@ -213,33 +245,32 @@
 </div>
     <br/>
     <br/>
-    <br/><div>
+    <br/>
+<div>
+    <h2 id="infrastructure">🔦 Product Infrastructure</h2>
+        <img src="https://user-images.githubusercontent.com/63947424/175251162-cba720e7-b073-4ca9-aaa8-26a8d76212eb.png">
+</div>
+<br/>
+<br/>
+<br/>
+<div>
     <h2 id="tech">🛠 Tech Stack Used</h2>
     <ul>
       <li>
         <h4>Frontend</h4> 
-        <img src="https://img.shields.io/badge/react-6cc1d9?style=for-the-badge&logo=react&logoColor=white">
-        <img src="https://img.shields.io/badge/redux-bb93e6?style=for-the-badge&logo=redux&logoColor=white">
-        <img src="https://img.shields.io/badge/fontawesome-26324f?style=for-the-badge&logo=fontawesome&logoColor=white">
-        <img src="https://img.shields.io/badge/bootstrap-574370?style=for-the-badge&logo=bootstrap&logoColor=white">
+        <img src="https://user-images.githubusercontent.com/63947424/175251577-673b9c64-4b8a-489e-9eec-204328210ee0.png"  width="67%">
       </li>
       <li>
         <h4>Backend</h4> 
-        <img src="https://img.shields.io/badge/springboot-67a155?style=for-the-badge&logo=springboot&logoColor=white">
-        <img src="https://img.shields.io/badge/springsecurity-6aa667?style=for-the-badge&logo=springsecurity&logoColor=white">
-        <br/>
-        <img src="https://img.shields.io/badge/springsecurity-oauth2-6aa667?style=for-the-badge&logo=springsecurity&logoColor=white">
-        <img src="https://img.shields.io/badge/springboot-test-6aa667?style=for-the-badge&logo=springboot&logoColor=white">
-        <img src="https://img.shields.io/badge/springboot-mail-6aa667?style=for-the-badge&logo=springboot&logoColor=white">
-        <img src="https://img.shields.io/badge/springData-JPA-6aa667?style=for-the-badge&logo=springboot&logoColor=white">
-        <img src="https://img.shields.io/badge/lombok-d15232?style=for-the-badge&logo=springboot&logoColor=white">
-        <br/>
-        <img src="https://img.shields.io/badge/mysql-e3ba68?style=for-the-badge&logo=mysql&logoColor=black">
-        <img src="https://img.shields.io/badge/jwt-2b2b2b?style=for-the-badge&logo=jsonwebtokens&logoColor=white">
+        <img src="https://user-images.githubusercontent.com/63947424/175251960-c465fbeb-0ae2-42a0-87b1-e98bccee2227.png">
       </li>
       <li>
         <h4>Deploy</h4> 
-        <img src="https://img.shields.io/badge/heroku-ad7dac?style=for-the-badge&logo=heroku&logoColor=white">
+        <img src="https://user-images.githubusercontent.com/63947424/175252058-e0a8d1c6-8a49-435b-81ea-09c109cf8d46.png" width="67%">
+      </li>
+      <li>
+        <h4>Testing & Monitoring</h4> 
+        <img src="https://user-images.githubusercontent.com/63947424/175252320-1be5a2a1-4e51-4d2e-887d-cef5a8581846.png" width="50%">
       </li>
     </ul>
 </div>
