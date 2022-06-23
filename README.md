@@ -30,7 +30,6 @@
 - [__Implementation__](#implementation)
 - [__Features__](#feature)
 - [__Entity Relationship Diagram__](#erd)
-- [__Structure__](#structure)
 
 </div>
     <br/>
