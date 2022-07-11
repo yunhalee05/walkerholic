@@ -14,9 +14,9 @@
     <br/>
     <br/>
     <!-- <a href="https://walkerholic-with-you.herokuapp.com/"><strong>walkerholic-with-you</strong></a> -->
-    <a href="https://walkerholic.n-e.kr"><strong>walkerholic 사이트로 이동</strong></a>
+    <!-- <a href="https://walkerholic.n-e.kr"><strong>walkerholic 사이트로 이동</strong></a>
     <div>Test ID: <strong>user1@example.com</strong></div>
-    <div>Test PASSWORD: <strong>123456</strong></div>
+    <div>Test PASSWORD: <strong>123456</strong></div> -->
 </div>
     <br/>
     <br/>
